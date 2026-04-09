@@ -1,0 +1,6 @@
+{
+  "title": "Dodge Robin",
+  "author": "Jonathan",
+  "description": "Blocks are falling! Move Robin left and right to survive as long as you can.",
+  "main_scene": "res://games/jonathan_dodge_robin/DodgeRobin.tscn"
+}
