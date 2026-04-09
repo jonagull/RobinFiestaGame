@@ -1,0 +1,6 @@
+{
+  "title": "Tap Robin",
+  "author": "Jonathan",
+  "description": "Robin keeps running away. Tap him as many times as you can in 15 seconds!",
+  "main_scene": "res://games/jonathan_tap_robin/TapRobin.tscn"
+}

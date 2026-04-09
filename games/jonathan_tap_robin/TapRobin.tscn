@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://games/jonathan_tap_robin/TapRobin.cs" id="1"]
+
+[node name="TapRobin" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1")
+
+[node name="ScoreLabel" type="Label" parent="."]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 220.0
+offset_bottom = 44.0
+text = "Score: 0"
+theme_override_font_sizes/font_size = 24
+
+[node name="TimerLabel" type="Label" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -160.0
+offset_top = 12.0
+offset_right = -12.0
+offset_bottom = 44.0
+text = "Time: 15"
+horizontal_alignment = 2
+theme_override_font_sizes/font_size = 24
+
+[node name="RobinButton" type="Button" parent="."]
+offset_left = 400.0
+offset_top = 300.0
+offset_right = 520.0
+offset_bottom = 364.0
+custom_minimum_size = Vector2(120, 64)
+text = "(^‿^)
+  Robin!"
+theme_override_font_sizes/font_size = 18
+
+[node name="ResultLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -240.0
+offset_top = -80.0
+offset_right = 240.0
+offset_bottom = 80.0
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 32
+visible = false
+
+[node name="BackButton" type="Button" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -52.0
+offset_right = 100.0
+offset_bottom = -12.0
+text = "Back to Menu"
+visible = false
