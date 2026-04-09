@@ -1,0 +1,6 @@
+{
+  "title": "My Robin Game",
+  "author": "Your Name",
+  "description": "A short description of what Robin does in this game.",
+  "main_scene": "res://games/_template/Game.tscn"
+}

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://games/_template/Game.cs" id="1"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="BackButton" type="Button" parent="UI"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 120.0
+offset_bottom = 40.0
+text = "Back to Menu"
