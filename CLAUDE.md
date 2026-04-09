@@ -34,6 +34,28 @@ games/your_game/   ← your game lives here, entirely
 - Scene switching: `GetTree().ChangeSceneToFile("res://path/to/Scene.tscn")`
 - Godot built-in types: `Vector2`, `GD.Print()`, `Input.IsActionPressed()`, etc.
 
+## Saving a score
+
+At the end of your game, save a result to `user://scores/yourname_gameidea.json`:
+
+```csharp
+private void SaveScore(int score)
+{
+    var data = new Godot.Collections.Dictionary
+    {
+        { "game", "yourname_gameidea" },  // match your folder name
+        { "player", "Your Name" },
+        { "score", score }
+    };
+
+    DirAccess.MakeDirRecursiveAbsolute("user://scores");
+    using var file = FileAccess.Open("user://scores/yourname_gameidea.json", FileAccess.ModeFlags.Write);
+    file.StoreString(Json.Stringify(data));
+}
+```
+
+Call this before `ReturnToLauncher()`. Each run overwrites the previous score — only the best counts toward the leaderboard.
+
 ## What Robin looks like
 
 Robin is the main character. Any shared sprites or animations for Robin live in
