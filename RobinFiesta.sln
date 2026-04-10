@@ -2,11 +2,17 @@
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobinFiesta", "RobinFiesta.csproj", "{178FB074-2CB7-4037-8AC9-3EC4F7F61DBF}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "games", "games", "{06ED143A-B372-4795-9410-0FC8CDB35C01}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nmf_migrations", "nmf_migrations", "{23ADEF09-4B41-472B-A582-6BE40FEB453C}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "Sim", "games\nmf_migrations\Sim\Sim.fsproj", "{A045625E-A975-4C1B-A99A-992C90F04BB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-	Debug|Any CPU = Debug|Any CPU
-	ExportDebug|Any CPU = ExportDebug|Any CPU
-	ExportRelease|Any CPU = ExportRelease|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		ExportDebug|Any CPU = ExportDebug|Any CPU
+		ExportRelease|Any CPU = ExportRelease|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{178FB074-2CB7-4037-8AC9-3EC4F7F61DBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -15,5 +21,15 @@ Global
 		{178FB074-2CB7-4037-8AC9-3EC4F7F61DBF}.ExportDebug|Any CPU.Build.0 = ExportDebug|Any CPU
 		{178FB074-2CB7-4037-8AC9-3EC4F7F61DBF}.ExportRelease|Any CPU.ActiveCfg = ExportRelease|Any CPU
 		{178FB074-2CB7-4037-8AC9-3EC4F7F61DBF}.ExportRelease|Any CPU.Build.0 = ExportRelease|Any CPU
+		{A045625E-A975-4C1B-A99A-992C90F04BB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A045625E-A975-4C1B-A99A-992C90F04BB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A045625E-A975-4C1B-A99A-992C90F04BB2}.ExportDebug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A045625E-A975-4C1B-A99A-992C90F04BB2}.ExportDebug|Any CPU.Build.0 = Debug|Any CPU
+		{A045625E-A975-4C1B-A99A-992C90F04BB2}.ExportRelease|Any CPU.ActiveCfg = Debug|Any CPU
+		{A045625E-A975-4C1B-A99A-992C90F04BB2}.ExportRelease|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{23ADEF09-4B41-472B-A582-6BE40FEB453C} = {06ED143A-B372-4795-9410-0FC8CDB35C01}
+		{A045625E-A975-4C1B-A99A-992C90F04BB2} = {23ADEF09-4B41-472B-A582-6BE40FEB453C}
 	EndGlobalSection
 EndGlobal
