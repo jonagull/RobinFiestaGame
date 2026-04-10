@@ -1,0 +1,6 @@
+{
+  "title": "Migration Managament",
+  "author": "Nils",
+  "description": "Manage migrations from customers with complicated systems",
+  "main_scene": "res://games/nmf_migrations/Game.tscn"
+}
