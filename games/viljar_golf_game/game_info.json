@@ -1,0 +1,6 @@
+{
+  "title": "Robin Golf",
+  "author": "Viljar",
+  "description": "Old-school back-view golf starring Robin.",
+  "main_scene": "res://games/viljar_golf_game/GolfGame.tscn"
+}
