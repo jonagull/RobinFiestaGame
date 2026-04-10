@@ -7,4 +7,4 @@
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net9.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
   </PropertyGroup>
-</Project>
+<ItemGroup><Compile Include="games/nmf_migrations/Sim/Shape.fs" /></ItemGroup></Project>
