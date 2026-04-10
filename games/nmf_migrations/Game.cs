@@ -1,5 +1,7 @@
 using Godot;
 
+namespace RobinFiesta.games.nmf_migrations;
+
 /// <summary>
 /// Entry point for your mini-game.
 /// Rename this class to match your game folder name (e.g. RobinChef, RobinAstronaut).

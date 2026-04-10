@@ -11,9 +11,9 @@ config_version=5
 [application]
 
 config/name="RobinFiesta"
-config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://icon.svg"
 run/main_scene="res://launcher/Launcher.tscn"
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
+config/icon="res://icon.svg"
 
 [dotnet]
 
