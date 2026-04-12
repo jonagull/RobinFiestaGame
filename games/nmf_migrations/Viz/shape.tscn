@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cl0pkgx48q7dd"]
+
+[ext_resource type="Script" uid="uid://kjq6sv26rwrp" path="res://games/nmf_migrations/Viz/ShapeViz.cs" id="1_h65sy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h65sy"]
+size = Vector2(1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r3kem"]
+
+[node name="Shape" type="StaticBody2D" unique_id=317689315]
+script = ExtResource("1_h65sy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=254719729]
+shape = SubResource("RectangleShape2D_h65sy")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=320084209 groups=["ShapeGroup"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=516762514]
+shape = SubResource("RectangleShape2D_r3kem")

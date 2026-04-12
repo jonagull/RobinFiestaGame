@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://dy05aqn132bnv"]
+
+[ext_resource type="Script" uid="uid://ru1f8wmdxvih" path="res://games/nmf_migrations/Levels/Output.cs" id="1_mby0m"]
+[ext_resource type="PackedScene" uid="uid://jr3ls5cwhp27" path="res://games/nmf_migrations/Viz/transformator.tscn" id="5_q6yau"]
+
+[node name="1" type="Node2D" unique_id=1812457835]
+
+[node name="Output" type="Node2D" parent="." unique_id=1561421796]
+position = Vector2(1, -299)
+script = ExtResource("1_mby0m")
+_rawShapeTypes = PackedStringArray("twobytwo")
+_started = true
+_shapeDeltaTime = 1.0
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=846702458]
+position = Vector2(0, -1)
+
+[node name="Transformator" parent="." unique_id=734555830 instance=ExtResource("5_q6yau")]
+position = Vector2(14, -57)
+_transformation = "r"

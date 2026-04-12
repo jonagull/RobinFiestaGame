@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://jr3ls5cwhp27"]
+
+[ext_resource type="Script" uid="uid://cysgtmntmf732" path="res://games/nmf_migrations/Viz/TransformatorViz.cs" id="1_n285r"]
+[ext_resource type="Texture2D" uid="uid://n036d7s6e267" path="res://icon.svg" id="2_0w17v"]
+[ext_resource type="Script" uid="uid://d27f521eyibjd" path="res://games/nmf_migrations/Viz/ScaleCollsion.cs" id="2_xd3dt"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xd3dt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0w17v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n285r"]
+
+[node name="Transformator" type="Node2D" unique_id=734555830]
+script = ExtResource("1_n285r")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=595366687]
+sprite_frames = SubResource("SpriteFrames_xd3dt")
+
+[node name="InputArea" type="Area2D" parent="." unique_id=891656202 node_paths=PackedStringArray("_sprite2D") groups=["ShapeGroup"]]
+script = ExtResource("2_xd3dt")
+_sprite2D = NodePath("../AnimatedSprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InputArea" unique_id=1313737275]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_n285r")
+debug_color = Color(0.69406873, 0.37072518, 0.8395367, 0.41960785)

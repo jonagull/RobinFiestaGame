@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://cnnc72bwr5exn"]
+
+[ext_resource type="TileSet" uid="uid://c7a1pt63ysb87" path="res://games/nmf_migrations/Assets/TempTileSet.tres" id="1_n7bs5"]
+
+[node name="Tri" type="TileMapLayer" unique_id=782966600]
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+tile_set = ExtResource("1_n7bs5")
+use_kinematic_bodies = true
