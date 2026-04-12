@@ -1,0 +1,6 @@
+{
+  "title": "Robin's Great Escape",
+  "author": "Viljar",
+  "description": "Robin bikes to his new office 3km away while being chased by ex-colleagues. Dodge them, hit the water — grab a canoe.",
+  "main_scene": "res://games/viljar_bike_escape/BikeEscape.tscn"
+}

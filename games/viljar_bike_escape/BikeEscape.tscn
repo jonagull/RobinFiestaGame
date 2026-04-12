@@ -1,0 +1,369 @@
+[gd_scene format=3 uid="uid://ur2k2xdew8wh"]
+
+[ext_resource type="Script" uid="uid://deuoi1cfxo5vs" path="res://games/viljar_bike_escape/BikeEscape.cs" id="1"]
+[ext_resource type="Script" uid="uid://bhicn13ww4wn3" path="res://games/viljar_bike_escape/Robin.cs" id="2"]
+[ext_resource type="Script" uid="uid://c8wsvnp1sn65x" path="res://games/viljar_bike_escape/Chaser.cs" id="3"]
+[ext_resource type="Texture2D" uid="uid://dly356xqi43cn" path="res://games/viljar_bike_escape/assets/map.png" id="4"]
+[ext_resource type="Script" uid="uid://h1fubyxaqnvp" path="res://games/viljar_bike_escape/DialogueBox.cs" id="5"]
+[ext_resource type="Texture2D" uid="uid://bfy15j2n15ufc" path="res://games/viljar_bike_escape/assets/portraits/placeholder.png" id="5_sx37x"]
+[ext_resource type="Texture2D" uid="uid://dyk2kmegwivw" path="res://games/viljar_bike_escape/assets/tm_car.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://cq8bpytnvrke1" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Man Blue/manBlue_stand.png" id="7"]
+[ext_resource type="Texture2D" uid="uid://cvy2d5qqi8ydn" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Man Blue/manBlue_hold.png" id="8"]
+[ext_resource type="Texture2D" uid="uid://brrt08vk4ndn0" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Man Brown/manBrown_stand.png" id="9"]
+[ext_resource type="Texture2D" uid="uid://dpk33yq824jge" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Man Brown/manBrown_hold.png" id="10"]
+[ext_resource type="Texture2D" uid="uid://dn3rossm8vyq7" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Man Old/manOld_stand.png" id="11"]
+[ext_resource type="Texture2D" uid="uid://drijmf3t56owr" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Man Old/manOld_hold.png" id="12"]
+[ext_resource type="Texture2D" uid="uid://d3wflwrpob2jq" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Survivor 1/survivor1_stand.png" id="13"]
+[ext_resource type="Texture2D" uid="uid://cjoi8nm3abd1l" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Survivor 1/survivor1_hold.png" id="14"]
+[ext_resource type="Texture2D" uid="uid://cvx11ddmoglub" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Woman Green/womanGreen_stand.png" id="15"]
+[ext_resource type="Texture2D" uid="uid://kfsvv5urr5ng" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Woman Green/womanGreen_hold.png" id="16"]
+[ext_resource type="Script" uid="uid://18xsbtdxckwi" path="res://games/viljar_bike_escape/EnergyDrink.cs" id="17"]
+[ext_resource type="Texture2D" uid="uid://6sbcctqpp1uh" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Hitman 1/hitman1_stand.png" id="18"]
+[ext_resource type="Texture2D" uid="uid://m5gpoguwxko6" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Hitman 1/hitman1_hold.png" id="19"]
+[ext_resource type="Texture2D" uid="uid://dys5t2wthx6gr" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Soldier 1/soldier1_stand.png" id="20"]
+[ext_resource type="Texture2D" uid="uid://351hf3qgs76p" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Soldier 1/soldier1_hold.png" id="21"]
+[ext_resource type="Texture2D" uid="uid://bio53ism5xyci" path="res://games/viljar_bike_escape/assets/monster-can.png" id="22"]
+
+[sub_resource type="CircleShape2D" id="5"]
+radius = 16.0
+
+[sub_resource type="CircleShape2D" id="6"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="7"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="8"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="9"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="10"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="11"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="14"]
+radius = 40.0
+
+[sub_resource type="CircleShape2D" id="12"]
+radius = 14.0
+
+[sub_resource type="CircleShape2D" id="13"]
+radius = 14.0
+
+[node name="BikeEscape" type="Node2D" unique_id=1365844215]
+script = ExtResource("1")
+
+[node name="MapSprite" type="Sprite2D" parent="." unique_id=484854931]
+z_index = -1
+texture = ExtResource("4")
+
+[node name="Robin" type="CharacterBody2D" parent="." unique_id=1276975165]
+position = Vector2(546, -1011)
+script = ExtResource("2")
+AltFrame = ExtResource("14")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Robin" unique_id=170062848]
+shape = SubResource("5")
+
+[node name="Sprite2D" type="Sprite2D" parent="Robin" unique_id=312948765]
+rotation = -1.5708
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("13")
+
+[node name="Camera2D" type="Camera2D" parent="Robin" unique_id=1264285740]
+zoom = Vector2(1.5, 1.5)
+
+[node name="Chasers" type="Node2D" parent="." unique_id=418842807]
+
+[node name="Trygve" type="CharacterBody2D" parent="Chasers" unique_id=80338939]
+position = Vector2(21, -258)
+script = ExtResource("3")
+Speed = 195.0
+TurnSpeed = 1.8
+CharacterName = "Trygve"
+Portrait = ExtResource("5_sx37x")
+IsVehicle = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Trygve" unique_id=1356844177]
+position = Vector2(-332, 2669)
+shape = SubResource("6")
+
+[node name="Are" type="CharacterBody2D" parent="Chasers" unique_id=993455411]
+position = Vector2(585, -752)
+script = ExtResource("3")
+StartDelay = 3.5
+CharacterName = "Are"
+Portrait = ExtResource("5_sx37x")
+HasThrow = true
+AltFrame = ExtResource("16")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Are" unique_id=712038229]
+shape = SubResource("7")
+
+[node name="Sprite2D" type="Sprite2D" parent="Chasers/Are" unique_id=312948766]
+rotation = -1.5708
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("15")
+
+[node name="Viljar" type="CharacterBody2D" parent="Chasers" unique_id=1028865728]
+position = Vector2(809, 2316)
+script = ExtResource("3")
+StartDelay = 4.0
+CharacterName = "Viljar"
+Portrait = ExtResource("5_sx37x")
+AltFrame = ExtResource("8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Viljar" unique_id=1640892821]
+shape = SubResource("8")
+
+[node name="Sprite2D" type="Sprite2D" parent="Chasers/Viljar" unique_id=312948762]
+rotation = -1.5708
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("7")
+
+[node name="Yuval" type="CharacterBody2D" parent="Chasers" unique_id=200338940]
+position = Vector2(306, -1077)
+script = ExtResource("3")
+StartDelay = 4.5
+CharacterName = "Yuval"
+Portrait = ExtResource("5_sx37x")
+HasBugslide = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Yuval" unique_id=200338941]
+shape = SubResource("9")
+
+[node name="Sprite2D" type="Sprite2D" parent="Chasers/Yuval" unique_id=200338946]
+rotation = 1.5708
+scale = Vector2(0.065, 0.065)
+texture = ExtResource("6")
+
+[node name="Guy" type="CharacterBody2D" parent="Chasers" unique_id=200338942]
+position = Vector2(188, -1733)
+script = ExtResource("3")
+StartDelay = 5.0
+CharacterName = "Guy"
+Portrait = ExtResource("5_sx37x")
+AltFrame = ExtResource("10")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Guy" unique_id=200338943]
+shape = SubResource("10")
+
+[node name="Sprite2D" type="Sprite2D" parent="Chasers/Guy" unique_id=312948763]
+rotation = -1.5708
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("9")
+
+[node name="Dag" type="CharacterBody2D" parent="Chasers" unique_id=200338944]
+position = Vector2(487, -521)
+script = ExtResource("3")
+StartDelay = 5.5
+CharacterName = "Dag"
+Portrait = ExtResource("5_sx37x")
+WaterSpeedMult = 1.2
+WaterEntryLine = "Swimming time!"
+AltFrame = ExtResource("12")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Dag" unique_id=200338945]
+shape = SubResource("11")
+
+[node name="Sprite2D" type="Sprite2D" parent="Chasers/Dag" unique_id=312948764]
+rotation = -1.5708
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("11")
+
+[node name="Bybanen" type="CharacterBody2D" parent="Chasers" unique_id=800338940]
+position = Vector2(888.99994, 2254)
+rotation = 2.5808601
+script = ExtResource("3")
+Speed = 160.0
+StartDelay = 0.0
+CharacterName = "Bybanen"
+Portrait = ExtResource("5_sx37x")
+IsBybane = true
+Lines = PackedStringArray("Ding ding!", "Ding ding ding!", "DING!", "Neste stopp: Robin")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Bybanen" unique_id=800338941]
+shape = SubResource("14")
+
+[node name="Jonathan" type="CharacterBody2D" parent="Chasers" unique_id=600338940]
+position = Vector2(450, -950)
+script = ExtResource("3")
+StartDelay = 6.0
+CharacterName = "Jonathan"
+Portrait = ExtResource("5_sx37x")
+HasEnergyDrink = true
+AltFrame = ExtResource("19")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Jonathan" unique_id=600338941]
+shape = SubResource("12")
+
+[node name="Sprite2D" type="Sprite2D" parent="Chasers/Jonathan" unique_id=600338942]
+rotation = -1.5708
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("18")
+
+[node name="Nils" type="CharacterBody2D" parent="Chasers" unique_id=700338940]
+position = Vector2(350, -1050)
+script = ExtResource("3")
+StartDelay = 6.5
+CharacterName = "Nils"
+Portrait = ExtResource("5_sx37x")
+HasEnergyDrink = true
+AltFrame = ExtResource("21")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Nils" unique_id=700338941]
+shape = SubResource("13")
+
+[node name="Sprite2D" type="Sprite2D" parent="Chasers/Nils" unique_id=700338942]
+rotation = -1.5708
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("20")
+
+[node name="EnergyDrink1" type="Node2D" parent="." unique_id=500338940]
+position = Vector2(600, -700)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink2" type="Node2D" parent="." unique_id=500338941]
+position = Vector2(720, -370)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink3" type="Node2D" parent="." unique_id=500338942]
+position = Vector2(540, -1100)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="HUD" type="CanvasLayer" parent="." unique_id=675922133]
+
+[node name="ThrowButton" type="Button" parent="HUD" unique_id=312948767]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -110.0
+offset_right = 150.0
+offset_bottom = -10.0
+grow_vertical = 2
+text = "[1] THROW
+(Are)"
+
+[node name="BugslideButton" type="Button" parent="HUD" unique_id=312948761]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 150.0
+offset_bottom = 110.0
+grow_vertical = 2
+text = "[2] BUGSLIDE
+(Yuval)"
+
+[node name="NicoButton" type="Button" parent="HUD" unique_id=312948768]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = 130.0
+offset_right = 150.0
+offset_bottom = 230.0
+grow_vertical = 2
+text = "[3] NICO
+(5s...)"
+
+[node name="TimerLabel" type="Label" parent="HUD" unique_id=450158777]
+offset_right = 160.0
+offset_bottom = 36.0
+text = "Time: 00:00"
+
+[node name="DistanceLabel" type="Label" parent="HUD" unique_id=1732500171]
+offset_left = 170.0
+offset_right = 360.0
+offset_bottom = 36.0
+text = "Dist: ..."
+
+[node name="StatusLabel" type="Label" parent="HUD" unique_id=1374787332]
+offset_left = 370.0
+offset_right = 500.0
+offset_bottom = 36.0
+text = "BIKE"
+
+[node name="DialogueBox" type="Control" parent="HUD" unique_id=1279467350]
+visible = false
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -140.0
+offset_right = 390.0
+offset_bottom = -10.0
+grow_vertical = 0
+script = ExtResource("5")
+
+[node name="Panel" type="Panel" parent="HUD/DialogueBox" unique_id=1511921775]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="PortraitRect" type="TextureRect" parent="HUD/DialogueBox/Panel" unique_id=1478466062]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 108.0
+offset_bottom = 108.0
+expand_mode = 1
+stretch_mode = 6
+
+[node name="NameLabel" type="Label" parent="HUD/DialogueBox/Panel" unique_id=163619882]
+layout_mode = 0
+offset_left = 118.0
+offset_top = 8.0
+offset_right = 375.0
+offset_bottom = 36.0
+text = "Name"
+
+[node name="TextLabel" type="Label" parent="HUD/DialogueBox/Panel" unique_id=756527]
+layout_mode = 0
+offset_left = 118.0
+offset_top = 40.0
+offset_right = 375.0
+offset_bottom = 120.0
+text = "..."
+autowrap_mode = 2
+
+[node name="GameOverPanel" type="Panel" parent="HUD" unique_id=273062993]
+visible = false
+offset_left = 560.0
+offset_top = 290.0
+offset_right = 1360.0
+offset_bottom = 690.0
+
+[node name="GameOverLabel" type="Label" parent="HUD/GameOverPanel" unique_id=1484171660]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 50.0
+offset_right = 760.0
+offset_bottom = 180.0
+text = "Game Over"
+
+[node name="RestartButton" type="Button" parent="HUD/GameOverPanel" unique_id=245132381]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 230.0
+offset_right = 540.0
+offset_bottom = 290.0
+text = "Restart"
+
+[node name="BackButton" type="Button" parent="HUD/GameOverPanel" unique_id=1651796648]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 310.0
+offset_right = 540.0
+offset_bottom = 370.0
+text = "Back to Menu"
