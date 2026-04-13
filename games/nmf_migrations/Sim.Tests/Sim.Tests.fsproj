@@ -17,6 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="TestShapes.fs" />
+    <Compile Include="Transformations/TestFlip.fs" />
     <Compile Include="Transformations/TestVerticalCut.fs" />
     <Compile Include="Transformations/TestHorizontalCut.fs" />
     <Compile Include="Transformations/TestRotateLeft.fs" />
