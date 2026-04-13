@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://d1fx3jfdo7xk5"]
+
+[ext_resource type="Texture2D" uid="uid://drr6cw4c25aoc" path="res://games/nmf_migrations/Assets/Sprites/Cutter.png" id="1_vlldq"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_27j8h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_vlldq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vlldq"]
+size = Vector2(44, 9)
+
+[node name="Cutter" type="AnimatedSprite2D" unique_id=1614148043]
+sprite_frames = SubResource("SpriteFrames_27j8h")
+frame_progress = 0.034722224
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=460819560]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1039898410]
+position = Vector2(0, -38)
+shape = SubResource("RectangleShape2D_vlldq")
+
+[node name="OutputPoint" type="Node2D" parent="." unique_id=2036156791]
+position = Vector2(0, 32)

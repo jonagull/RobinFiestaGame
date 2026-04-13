@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://c2vec4hecx5rl"]
+
+[ext_resource type="Script" uid="uid://cp4rts7k3kh14" path="res://games/nmf_migrations/Levels/Input.cs" id="1_ggaa0"]
+[ext_resource type="Texture2D" uid="uid://n036d7s6e267" path="res://icon.svg" id="2_yx3as"]
+[ext_resource type="Script" uid="uid://meb1slokcrsq" path="res://games/nmf_migrations/Levels/KillSelfAtStart.cs" id="3_3l0ym"]
+
+[node name="Input" type="Node2D" unique_id=676658581]
+script = ExtResource("1_ggaa0")
+
+[node name="DebugNode" type="Sprite2D" parent="." unique_id=915631950]
+scale = Vector2(0.125, 0.125)
+texture = ExtResource("2_yx3as")
+script = ExtResource("3_3l0ym")
