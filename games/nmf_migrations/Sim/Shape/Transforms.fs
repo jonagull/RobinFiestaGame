@@ -15,10 +15,10 @@ let rec rotateRight (xs : 'a list list) : 'a list list =
   | [], [] -> []
   | hs, ys -> hs :: rotateRight ys
 
-let flipVertical : 'a list list -> 'a list list =
+let flipHorizontalAxis : 'a list list -> 'a list list =
   List.rev
 
-let flipHorizontal (xs : 'a list list) : 'a list list =
+let flipVerticalAxis (xs : 'a list list) : 'a list list =
   List.map List.rev xs
 
 let rotateLeft (xs : 'a list list) : 'a list list =

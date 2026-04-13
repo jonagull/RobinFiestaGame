@@ -1,8 +1,15 @@
 module Sim.Shapes 
 
+open Sim.Shape.Transforms
+open Sim.Shape.Cuts
+
 type Rotation
   = Left
   | Right
+
+type Cut =
+  | Horizontal
+  | Vertical
 
 type Transformation
   = RotateLeft
@@ -77,7 +84,10 @@ type Shape(bricks: Brick Option list list) =
   member _.GetBricks =
     bricks
     |> List.map (
-      fun xs -> xs |> List.map Option.toNullable |> List.toArray
+      fun xs ->
+        xs
+        |> List.map Option.toNullable
+        |> List.toArray
     )
     |> List.toArray
 
@@ -87,21 +97,20 @@ type Shape(bricks: Brick Option list list) =
     let newBricks =
       match trans with
       | RotateRight ->
-        List.transpose this.Bricks
+        rotateRight this.Bricks
       | RotateLeft ->
-        this.Bricks
-        |> List.transpose
-        |> List.transpose
-        |> List.transpose
+        rotateLeft this.Bricks
       | FlipHorizontal ->
-        this.Bricks
-        |> List.map List.rev
+        flipHorizontalAxis this.Bricks
       | FlipVertical ->
-        this.Bricks
-        |> List.rev
-    Godot.GD.Print "Hello from F#"
-    printXs this.Bricks
-    Godot.GD.Print ""
-    printXs newBricks
+        flipVerticalAxis this.Bricks
     setBricks newBricks
+  
+  member this.Cut (cut : Cut) =
+    let f, s =
+      match cut with
+      | Horizontal -> cutHorizontal this.Bricks
+      | Vertical -> cutVertical this.Bricks
+    setBricks f
+    Shape s
   

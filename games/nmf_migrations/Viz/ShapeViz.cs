@@ -8,13 +8,14 @@ public partial class ShapeViz : StaticBody2D
 {
     private const int TileSize = 32;
 
-    private TileMapLayer _bricks;
+    public TileMapLayer Bricks  { get; set; }
 
     private CollisionShape2D _collisionShape2D;
 
     private float _speed = 1;
+    
     public Shapes.Shape Shape { get; private set; }
-
+    
     private static List<List<Shapes.Brick?>> FromTileMap(TileMapLayer tileMap)
     {
         var xs = new List<List<Shapes.Brick?>>();
@@ -45,22 +46,27 @@ public partial class ShapeViz : StaticBody2D
         return xs;
     }
 
+    public void SetShape(Shapes.Shape shape)
+    {
+        Shape = shape;
+        OnShapeChange();
+    }
+
     public override void _Ready()
     {
-        _bricks = GetNodeOrNull<TileMapLayer>("TileMapLayer")
+        Bricks = GetNodeOrNull<TileMapLayer>("TileMapLayer")
+                  ?? GetNodeOrNull<TileMapLayer>("FallBack")
                   ?? throw new Exception("No TileMapLayer found");
         _collisionShape2D = GetNodeOrNull<CollisionShape2D>("Area2D/CollisionShape2D")
                             ?? throw new Exception("No collision shape found");
-        Shape = Shapes.Shape.createShape(FromTileMap(_bricks));
-        var targetSize = _bricks.GetUsedRect().Size * TileSize;
-        _collisionShape2D.Shape = new RectangleShape2D { Size = targetSize };
-        _collisionShape2D.Position = targetSize / 2;
+        Shape = Shapes.Shape.createShape(FromTileMap(Bricks));
         OnShapeChange();
+        CallDeferred("PostOnChangeShape");
     }
 
     public void OnShapeChange()
     {
-        _bricks.Clear();
+        Bricks.Clear();
         const int sourceId = 0;
         var bricks = Shape.GetBricks;
         for (var i = 0; i < bricks.Length; i++)
@@ -68,22 +74,22 @@ public partial class ShapeViz : StaticBody2D
         {
             var brick = bricks[i][j];
             if (brick != null)
-                _bricks.SetCell(new Vector2I(i, j), sourceId, TileFromColor(brick.Value.color));
+                Bricks.SetCell(new Vector2I(i, j), sourceId, TileFromColor(brick.Value.color));
             else
-                _bricks.SetCell(new Vector2I(i, j));
+                Bricks.SetCell(new Vector2I(i, j));
         }
+    }
+
+    public void PostOnChangeShape()
+    {
+        var targetSize = Bricks.GetUsedRect().Size * TileSize;
+        _collisionShape2D.Shape = new RectangleShape2D { Size = targetSize };
+        _collisionShape2D.Position = targetSize / 2;
     }
 
     public override void _Process(double delta)
     {
-        //MoveAndCollide(new Vector2(0, _speed));
-        if (!Input.IsActionJustPressed("nmf_escape")) return;
-        GD.Print("Rotating");
-        Machine.Machine m = new Transformator.Transformator(Shapes.Transformation.FlipHorizontal);
-        GD.Print(Shape.GetBricks.Select(x => x.Select(y => y.HasValue ? y.Value.color : "null").Aggregate("", (acc, c) => acc + $"{c},")).Aggregate("", (acc, c) => acc + $"{c}\n"));
-        m.WorkShape(Shape);
-        GD.Print("Post work");
-        GD.Print(Shape.GetBricks.Select(x => x.Select(y => y.HasValue ? y.Value.color : "null").Aggregate("", (acc, c) => acc + $"{c},")).Aggregate("", (acc, c) => acc + $"{c}\n"));
+        MoveAndCollide(new Vector2(0, _speed));
     }
 
     public static Vector2I TileFromColor(string color)

@@ -8,7 +8,7 @@ open Sim.Shape
 type RotateRight () =
 
   [<TestMethod>]
-  member this.RotateRightOn2x2 () =
+  member _.RotateRightOn2x2 () =
     let input = [
       [1; 2]
       [3; 4]
@@ -21,7 +21,7 @@ type RotateRight () =
     Assert.AreEqual(expected, actual)
 
   [<TestMethod>]
-  member this.RotateRightOn2x3 () =
+  member _.RotateRightOn2x3 () =
     let input = [
       [1; 2]
       [3; 4]
@@ -35,7 +35,7 @@ type RotateRight () =
     Assert.AreEqual(expected, actual)
 
   [<TestMethod>]
-  member this.RotateRightOn3x3 () =
+  member _.RotateRightOn3x3 () =
     let input = [
       [1; 2; 3]
       [4; 5; 6]

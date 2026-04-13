@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://dy05aqn132bnv"]
 
 [ext_resource type="Script" uid="uid://ru1f8wmdxvih" path="res://games/nmf_migrations/Levels/Output.cs" id="1_mby0m"]
+[ext_resource type="PackedScene" uid="uid://b6n2ko4jr08sa" path="res://games/nmf_migrations/Viz/Cutter.tscn" id="3_k87b1"]
 [ext_resource type="PackedScene" uid="uid://jr3ls5cwhp27" path="res://games/nmf_migrations/Viz/transformator.tscn" id="5_q6yau"]
 
 [node name="1" type="Node2D" unique_id=1812457835]
 
 [node name="Output" type="Node2D" parent="." unique_id=1561421796]
-position = Vector2(1, -299)
+position = Vector2(-121, -566)
 script = ExtResource("1_mby0m")
 _rawShapeTypes = PackedStringArray("twobytwo")
 _started = true
@@ -14,7 +15,12 @@ _shapeDeltaTime = 1.0
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=846702458]
 position = Vector2(0, -1)
+zoom = Vector2(0.5, 0.5)
 
 [node name="Transformator" parent="." unique_id=734555830 instance=ExtResource("5_q6yau")]
-position = Vector2(14, -57)
-_transformation = "r"
+position = Vector2(-137, -145)
+_transformation = "l"
+
+[node name="Cutter" parent="." unique_id=1259016309 instance=ExtResource("3_k87b1")]
+position = Vector2(-137, 189)
+_cutDirection = "h"

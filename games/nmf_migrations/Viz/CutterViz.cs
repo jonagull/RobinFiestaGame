@@ -4,12 +4,15 @@ using Sim;
 
 namespace RobinFiesta.games.nmf_migrations.Viz;
 
-public partial class TransformatorViz : Node2D
+public partial class CutterViz : Node2D
 {
-    private Machine.Machine _machine;
+    private Cutter.Cutter _machine;
+    
+    private readonly PackedScene _shapeViz =
+        GD.Load<PackedScene>("res://games/nmf_migrations/Viz/shape.tscn");
 
     [Export]
-    private string _transformation = "";
+    private string _cutDirection = "";
 
     private Area2D _inputArea;
 
@@ -17,15 +20,13 @@ public partial class TransformatorViz : Node2D
 
     public override void _EnterTree()
     {
-        var trans = _transformation.ToLower() switch
+        var trans = _cutDirection.ToLower() switch
         {
-            "l" => Shapes.Transformation.RotateLeft,
-            "r" => Shapes.Transformation.RotateRight,
-            "h" => Shapes.Transformation.FlipHorizontal,
-            "v" => Shapes.Transformation.FlipVertical,
+            "h" => Shapes.Cut.Horizontal,
+            "v" => Shapes.Cut.Vertical,
             _ => throw new ArgumentOutOfRangeException()
         };
-        _machine = new Transformator.Transformator(trans);
+        _machine = new Cutter.Cutter(trans);
     }
 
     public override void _Ready()
@@ -39,7 +40,7 @@ public partial class TransformatorViz : Node2D
             GD.Print("!!!");
             var shapeViz = area.GetParentOrNull<ShapeViz>()
                            ?? throw new NullReferenceException($"Expected Area2D parent to be ShapeViz since its in group: {Group}");
-            RotateShape(shapeViz);
+            CallDeferred("CutShape", shapeViz);
         };
         
         _inputArea.AreaExited += area =>
@@ -54,14 +55,22 @@ public partial class TransformatorViz : Node2D
         };
     }
 
-    private void RotateShape(ShapeViz shapeViz)
+    private void CutShape(ShapeViz shapeViz)
     {
         if (!shapeViz.Visible)
         {
-            throw new Exception("ShapeViz not visible, but should be");
+            return;
         }
-        _machine.WorkShape(shapeViz.Shape);
+        var shape = _machine.CutShape(shapeViz.Shape);
         shapeViz.Hide();
         shapeViz.OnShapeChange();
+        var shapeVizNode = _shapeViz.Instantiate<ShapeViz>();
+        var tml = shapeVizNode.GetNodeOrNull<TileMapLayer>("FallBack");
+        tml.Name = "TileMapLayer";
+        shapeVizNode.Bricks = tml;
+        shapeVizNode.SetShape(shape);
+        var size = shapeVizNode.Bricks.GetUsedRect().Size;
+        AddChild(shapeVizNode);
+        shapeVizNode.GlobalPosition = shapeViz.GlobalPosition + size;
     }
 }

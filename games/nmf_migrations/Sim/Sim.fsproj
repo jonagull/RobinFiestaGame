@@ -12,6 +12,7 @@
     <Compile Include="Shape.fs" />
     <Compile Include="Machine\Machine.fs" />
     <Compile Include="Machine\Transformator.fs" />
+    <Compile Include="Machine\Cutter.fs" />
     <Compile Include="Library.fs" />
   </ItemGroup>
 

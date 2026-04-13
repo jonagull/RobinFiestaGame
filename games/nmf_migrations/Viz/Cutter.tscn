@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://b6n2ko4jr08sa"]
+
+[ext_resource type="Script" uid="uid://cfkdcgmx2my6y" path="res://games/nmf_migrations/Viz/CutterViz.cs" id="1_v8whv"]
+[ext_resource type="SpriteFrames" uid="uid://dyeyms87mcc2j" path="res://games/nmf_migrations/Assets/temp_cutter.tres" id="1_xd3w5"]
+[ext_resource type="Script" uid="uid://d27f521eyibjd" path="res://games/nmf_migrations/Viz/ScaleCollsion.cs" id="2_gg26g"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v8whv"]
+
+[node name="Cutter" type="Node2D" unique_id=1259016309]
+script = ExtResource("1_v8whv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2039103225]
+sprite_frames = ExtResource("1_xd3w5")
+
+[node name="InputArea" type="Area2D" parent="." unique_id=2064132344 node_paths=PackedStringArray("_sprite2D") groups=["ShapeGroup"]]
+script = ExtResource("2_gg26g")
+_sprite2D = NodePath("../AnimatedSprite2D")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InputArea" unique_id=1516659400]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_v8whv")
+debug_color = Color(0.69406873, 0.37072518, 0.8395367, 0.41960785)

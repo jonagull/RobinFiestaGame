@@ -6,29 +6,55 @@ module T2x2 =
     [3; 4]
   ]
 
-  let flipVertical = [
+  let flipVerticalAxis = [
     [2; 1]
     [4; 3]
   ]
 
-  let flipHorizontal = [
+  let flipHorizontalAxis = [
     [3; 4]
     [1; 2]
   ]
-(*
-module foo = 
-  let _2x3 = [
+
+module T2x3 = 
+  let input = [
     [1; 2]
     [3; 4]
     [5; 6]
   ]
 
-  let _3x3 = [
+  let flipVerticalAxis = [
+    [2; 1]
+    [4; 3]
+    [6; 5]
+  ]
+
+  let flipHorizontalAxis = [
+    [5; 6]
+    [3; 4]
+    [1; 2]
+  ]
+
+module T3x3 =
+  let input = [
     [1; 2; 3]
     [4; 5; 6]
     [7; 8; 9]
   ]
 
+  let flipVerticalAxis = [
+    [3; 2; 1]
+    [6; 5; 4]
+    [9; 8; 7]
+  ]
+
+  let flipHorizontalAxis = [
+    [7; 8; 9]
+    [4; 5; 6]
+    [1; 2; 3]
+  ]
+
+module Shapes =
   let L: string option list list = [
     [None; Some "A"];
     [None; Some "B"];
@@ -48,4 +74,3 @@ module foo =
     [None; Some "B"; None];
     [Some "C"; Some "D"; Some "E"]
   ]
-*)
