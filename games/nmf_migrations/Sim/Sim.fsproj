@@ -6,6 +6,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Shape/Combines.fs" />
+    <Compile Include="Shape/Cuts.fs" />
+    <Compile Include="Shape/Transforms.fs" />
     <Compile Include="Shape.fs" />
     <Compile Include="Machine\Machine.fs" />
     <Compile Include="Machine\Transformator.fs" />
