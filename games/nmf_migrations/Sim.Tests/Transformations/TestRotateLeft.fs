@@ -1,38 +1,21 @@
 namespace Sim.Tests.Transformations.TestRotateLeft
 
-open System
 open Microsoft.VisualStudio.TestTools.UnitTesting
 open Sim.Shape
+open Sim.Tests
 
 [<TestClass>]
 type RotateLeft () =
 
   [<TestMethod>]
   member _.RotateLeftOn2x2 () =
-    let input = [
-      [1; 2]
-      [3; 4]
-    ]
-    let expected = [
-      [2; 4]
-      [1; 3]
-    ]
-    let actual = Transforms.rotateLeft input
-    Assert.AreEqual(expected, actual)
+    let actual = Transforms.rotateLeft TestShapes.T2x2.input
+    Assert.AreEqual(TestShapes.T2x2.rotateLeft, actual)
 
   [<TestMethod>]
   member _.RotateLeftOn2x3 () =
-    let input = [
-      [1; 2]
-      [3; 4]
-      [5; 6]
-    ]
-    let expected = [
-      [2; 4; 6]
-      [1; 3; 5]
-    ]
-    let actual = Transforms.rotateLeft input
-    Assert.AreEqual(expected, actual)
+    let actual = Transforms.rotateLeft TestShapes.T2x3.input
+    Assert.AreEqual(TestShapes.T2x3.rotateLeft, actual)
 
   [<TestMethod>]
   member _.RotateLeftOn3x3 () =

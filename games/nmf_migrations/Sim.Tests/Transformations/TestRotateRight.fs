@@ -1,53 +1,26 @@
 namespace Sim.Tests.Transformations.TestRotateRight
 
-open System
 open Microsoft.VisualStudio.TestTools.UnitTesting
 open Sim.Shape
+open Sim.Tests
 
 [<TestClass>]
 type RotateRight () =
 
   [<TestMethod>]
   member _.RotateRightOn2x2 () =
-    let input = [
-      [1; 2]
-      [3; 4]
-    ]
-    let expected = [
-      [3; 1]
-      [4; 2]
-    ]
-    let actual = Transforms.rotateRight input
-    Assert.AreEqual(expected, actual)
+    let actual = Transforms.rotateRight TestShapes.T2x2.input
+    Assert.AreEqual(TestShapes.T2x2.rotateRight, actual)
 
   [<TestMethod>]
   member _.RotateRightOn2x3 () =
-    let input = [
-      [1; 2]
-      [3; 4]
-      [5; 6]
-    ]
-    let expected = [
-      [5; 3; 1]
-      [6; 4; 2]
-    ]
-    let actual = Transforms.rotateRight input
-    Assert.AreEqual(expected, actual)
+    let actual = Transforms.rotateRight TestShapes.T2x3.input
+    Assert.AreEqual(TestShapes.T2x3.rotateRight, actual)
 
   [<TestMethod>]
   member _.RotateRightOn3x3 () =
-    let input = [
-      [1; 2; 3]
-      [4; 5; 6]
-      [7; 8; 9]
-    ]
-    let expected = [
-      [7; 4; 1]
-      [8; 5; 2]
-      [9; 6; 3]
-    ]
-    let actual = Transforms.rotateRight input
-    Assert.AreEqual(expected, actual)
+    let actual = Transforms.rotateRight TestShapes.T3x3.input
+    Assert.AreEqual(TestShapes.T3x3.rotateRight, actual)
     
   [<TestMethod>]
   member _.TestHeadRows () =
@@ -55,22 +28,20 @@ type RotateRight () =
       [1; 2]
       [3; 4]
     ]
-    let expected = (
+    let expected =
       [3; 1],      
       [
         [2];
         [4]
       ]
-    )
     let actual = Transforms.headRows input
     Assert.AreEqual(expected, actual)
   
   [<TestMethod>]
   member _.TestHeadRowsOnEmptyInput () =
     let input: int list list = []
-    let expected = (
+    let expected = 
       [],      
       []
-    )
     let actual = Transforms.headRows input
     Assert.AreEqual(expected, actual)

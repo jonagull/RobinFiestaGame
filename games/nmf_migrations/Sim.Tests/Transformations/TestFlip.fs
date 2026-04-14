@@ -1,6 +1,5 @@
 namespace Sim.Tests.Transformations.TestFlip
 
-open System
 open Microsoft.VisualStudio.TestTools.UnitTesting
 open Sim.Shape
 open Sim.Tests
