@@ -34,9 +34,7 @@ public partial class TransformatorViz : Node2D
                      ?? throw new NullReferenceException("Missing InputArea");
         _inputArea.AreaEntered += area =>
         {
-            GD.Print("Enter");
             if (!area.GetGroups().Contains(Group)) return;
-            GD.Print("!!!");
             var shapeViz = area.GetParentOrNull<ShapeViz>()
                            ?? throw new NullReferenceException($"Expected Area2D parent to be ShapeViz since its in group: {Group}");
             RotateShape(shapeViz);
@@ -44,9 +42,7 @@ public partial class TransformatorViz : Node2D
         
         _inputArea.AreaExited += area =>
         {
-            GD.Print("EXIT");
             if (!area.GetGroups().Contains(Group)) return;
-            GD.Print("EXIT!!");
             var shapeViz = area.GetParentOrNull<ShapeViz>()
                            ?? throw new NullReferenceException($"Expected Area2D parent to be ShapeViz since its in group: {Group}");
             shapeViz.Show();
@@ -63,5 +59,6 @@ public partial class TransformatorViz : Node2D
         _machine.WorkShape(shapeViz.Shape);
         shapeViz.Hide();
         shapeViz.OnShapeChange();
+        shapeViz.GlobalPosition = GlobalPosition;
     }
 }

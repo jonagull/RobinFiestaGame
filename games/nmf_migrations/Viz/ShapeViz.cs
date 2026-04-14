@@ -13,8 +13,24 @@ public partial class ShapeViz : StaticBody2D
     private CollisionShape2D _collisionShape2D;
 
     private float _speed = 1;
+
+    public bool IsCuttable { get; set; }
     
-    public Shapes.Shape Shape { get; private set; }
+    public Shapes.Shape Shape { get; set; }
+
+    public Direction CurrentDirection { get; private set; } = Direction.Down;
+
+    public enum Direction
+    {
+        Up,
+        Down,
+        Left,
+        Right
+    }
+    
+    public bool Debugging { get; set; }
+    
+    public Area2D Area { get; private set; }
     
     private static List<List<Shapes.Brick?>> FromTileMap(TileMapLayer tileMap)
     {
@@ -41,25 +57,23 @@ public partial class ShapeViz : StaticBody2D
             xs.Add(row);
         }
         
-        GD.Print(xs.Select(x => x.Select(y => y.HasValue ? y.Value.color : "null").Aggregate("", (acc, c) => acc + $"{c},")).Aggregate("", (acc, c) => acc + $"{c}\n"));
-
         return xs;
     }
-
-    public void SetShape(Shapes.Shape shape)
-    {
-        Shape = shape;
-        OnShapeChange();
-    }
-
+    
     public override void _Ready()
     {
-        Bricks = GetNodeOrNull<TileMapLayer>("TileMapLayer")
-                  ?? GetNodeOrNull<TileMapLayer>("FallBack")
-                  ?? throw new Exception("No TileMapLayer found");
+        Bricks = GetNodeOrNull<TileMapLayer>("TileMapLayer");
+        if (Bricks == null)
+        {
+            var tml = new TileMapLayer();
+            AddChild(tml);
+            Bricks = tml;
+        }
         _collisionShape2D = GetNodeOrNull<CollisionShape2D>("Area2D/CollisionShape2D")
                             ?? throw new Exception("No collision shape found");
-        Shape = Shapes.Shape.createShape(FromTileMap(Bricks));
+        Area = GetNodeOrNull<Area2D>("Area2D")
+               ?? throw new Exception("No Area2d found");
+        Shape ??= Shapes.Shape.createShape(FromTileMap(Bricks));
         OnShapeChange();
         CallDeferred("PostOnChangeShape");
     }
@@ -87,9 +101,28 @@ public partial class ShapeViz : StaticBody2D
         _collisionShape2D.Position = targetSize / 2;
     }
 
-    public override void _Process(double delta)
+    public override void _Process(double _)
     {
-        MoveAndCollide(new Vector2(0, _speed));
+        switch (CurrentDirection)
+        {
+            case Direction.Up:
+                MoveAndCollide(new Vector2(0, _speed * -1));
+                break;
+            case Direction.Down:
+                MoveAndCollide(new Vector2(0, _speed));
+                break;
+            case Direction.Left:
+                MoveAndCollide(new Vector2(_speed * -1, 0));
+                break;
+            case Direction.Right:
+                MoveAndCollide(new Vector2(_speed, 0));
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(CurrentDirection), CurrentDirection, null);
+        }
+
+        if (!Debugging) return;
+        GD.Print($"{Name}-{NativeInstance} Pos: ", GlobalPosition);
     }
 
     public static Vector2I TileFromColor(string color)

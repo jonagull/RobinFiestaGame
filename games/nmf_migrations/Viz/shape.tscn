@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://cl0pkgx48q7dd"]
 
 [ext_resource type="Script" uid="uid://kjq6sv26rwrp" path="res://games/nmf_migrations/Viz/ShapeViz.cs" id="1_h65sy"]
-[ext_resource type="TileSet" uid="uid://c7a1pt63ysb87" path="res://games/nmf_migrations/Assets/TempTileSet.tres" id="2_r3kem"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_h65sy"]
 size = Vector2(1, 1)
@@ -18,6 +17,3 @@ shape = SubResource("RectangleShape2D_h65sy")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=516762514]
 shape = SubResource("RectangleShape2D_r3kem")
-
-[node name="FallBack" type="TileMapLayer" parent="." unique_id=1947176370]
-tile_set = ExtResource("2_r3kem")

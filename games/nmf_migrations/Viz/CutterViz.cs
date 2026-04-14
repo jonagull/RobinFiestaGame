@@ -35,21 +35,21 @@ public partial class CutterViz : Node2D
                      ?? throw new NullReferenceException("Missing InputArea");
         _inputArea.AreaEntered += area =>
         {
-            GD.Print("Enter");
             if (!area.GetGroups().Contains(Group)) return;
-            GD.Print("!!!");
             var shapeViz = area.GetParentOrNull<ShapeViz>()
                            ?? throw new NullReferenceException($"Expected Area2D parent to be ShapeViz since its in group: {Group}");
+            if (!shapeViz.IsCuttable) return;
+            GD.Print($"Enter: {shapeViz.NativeInstance}");
             CallDeferred("CutShape", shapeViz);
         };
         
         _inputArea.AreaExited += area =>
         {
-            GD.Print("EXIT");
             if (!area.GetGroups().Contains(Group)) return;
-            GD.Print("EXIT!!");
             var shapeViz = area.GetParentOrNull<ShapeViz>()
                            ?? throw new NullReferenceException($"Expected Area2D parent to be ShapeViz since its in group: {Group}");
+            if (!shapeViz.IsCuttable) return;
+            GD.Print($"Exit: {shapeViz.NativeInstance}");
             shapeViz.Show();
             shapeViz.CallDeferred("PostOnChangeShape");
         };
@@ -64,13 +64,16 @@ public partial class CutterViz : Node2D
         var shape = _machine.CutShape(shapeViz.Shape);
         shapeViz.Hide();
         shapeViz.OnShapeChange();
+        var pos = GlobalPosition;
         var shapeVizNode = _shapeViz.Instantiate<ShapeViz>();
-        var tml = shapeVizNode.GetNodeOrNull<TileMapLayer>("FallBack");
-        tml.Name = "TileMapLayer";
-        shapeVizNode.Bricks = tml;
-        shapeVizNode.SetShape(shape);
-        var size = shapeVizNode.Bricks.GetUsedRect().Size;
+        shapeVizNode.IsCuttable = false;
+        shapeVizNode.Shape = shape;
+        //pos.X -= shapeViz.Bricks.GetUsedRect().Size.X / 2f ;
+        shapeVizNode.GlobalPosition = pos;
+        //shapeViz.Debugging = true;
+        //shapeVizNode.Debugging = true;
+        GD.Print(shapeVizNode.Bricks);
+        shapeVizNode.OnShapeChange();
         AddChild(shapeVizNode);
-        shapeVizNode.GlobalPosition = shapeViz.GlobalPosition + size;
     }
 }

@@ -78,6 +78,7 @@ public partial class Output : Node2D
         var tileMapNode = tileMapShape.Instantiate<TileMapLayer>();
         tileMapNode.Name = "TileMapLayer";
         var shapeVizNode = _shapeViz.Instantiate<ShapeViz>();
+        shapeVizNode.IsCuttable = true;
         shapeVizNode.AddChild(tileMapNode);
         AddChild(shapeVizNode);
         shapeVizNode.GlobalPosition = GlobalPosition + _spawnPoint;
