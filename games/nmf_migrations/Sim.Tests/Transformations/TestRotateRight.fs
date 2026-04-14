@@ -21,6 +21,21 @@ type RotateRight () =
   member _.RotateRightOn3x3 () =
     let actual = Transforms.rotateRight TestShapes.T3x3.input
     Assert.AreEqual(TestShapes.T3x3.rotateRight, actual)
+
+  [<TestMethod>]
+  member _.RotateRightOnL () =
+    let actual = Transforms.rotateRight TestShapes.TL.input
+    Assert.AreEqual(TestShapes.TL.rotateRight, actual)
+
+  [<TestMethod>]
+  member _.RotateRightOnLine () =
+    let actual = Transforms.rotateRight TestShapes.TLine.input
+    Assert.AreEqual(TestShapes.TLine.rotateRight, actual)
+
+  [<TestMethod>]
+  member _.RotateRightOnTri () =
+    let actual = Transforms.rotateRight TestShapes.TTri.input
+    Assert.AreEqual(TestShapes.TTri.rotateRight, actual)
     
   [<TestMethod>]
   member _.TestHeadRows () =

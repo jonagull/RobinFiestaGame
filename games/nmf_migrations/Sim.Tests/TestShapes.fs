@@ -93,6 +93,16 @@ module TL =
     [Some "C"; Some "D"]
   ]
 
+  let rotateLeft = [
+    [Some "A"; Some "B"; Some "D"]
+    [None; None; Some "C"]
+  ]
+
+  let rotateRight = [
+    [Some "C"; None; None]
+    [Some "D"; Some "B"; Some "A"]
+  ]
+
   let flipVerticalAxis = [
     [Some "A"; None]
     [Some "B"; None]
@@ -111,6 +121,16 @@ module TLine =
     [None; Some "B"]
     [None; Some "C"]
     [None; Some "D"]
+  ]
+
+  let rotateLeft = [
+    [Some "A"; Some "B"; Some "C"; Some "D"]
+    [None; None; None; None]
+  ]
+
+  let rotateRight = [
+    [None; None; None; None]
+    [Some "D"; Some "C"; Some "B"; Some "A"]
   ]
 
   let flipVerticalAxis = [
