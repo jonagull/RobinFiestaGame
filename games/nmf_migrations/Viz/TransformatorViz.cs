@@ -6,14 +6,12 @@ namespace RobinFiesta.games.nmf_migrations.Viz;
 
 public partial class TransformatorViz : Node2D
 {
-    private Machine.Machine _machine;
-
-    [Export]
-    private string _transformation = "";
+    private const string Group = "ShapeGroup";
 
     private Area2D _inputArea;
+    private Machine.Machine _machine;
 
-    private const string Group = "ShapeGroup";
+    [Export] private string _transformation = "";
 
     public override void _EnterTree()
     {
@@ -30,21 +28,23 @@ public partial class TransformatorViz : Node2D
 
     public override void _Ready()
     {
-        _inputArea = GetNodeOrNull<Area2D>("InputArea") 
+        _inputArea = GetNodeOrNull<Area2D>("InputArea")
                      ?? throw new NullReferenceException("Missing InputArea");
         _inputArea.AreaEntered += area =>
         {
             if (!area.GetGroups().Contains(Group)) return;
             var shapeViz = area.GetParentOrNull<ShapeViz>()
-                           ?? throw new NullReferenceException($"Expected Area2D parent to be ShapeViz since its in group: {Group}");
+                           ?? throw new NullReferenceException(
+                               $"Expected Area2D parent to be ShapeViz since its in group: {Group}");
             RotateShape(shapeViz);
         };
-        
+
         _inputArea.AreaExited += area =>
         {
             if (!area.GetGroups().Contains(Group)) return;
             var shapeViz = area.GetParentOrNull<ShapeViz>()
-                           ?? throw new NullReferenceException($"Expected Area2D parent to be ShapeViz since its in group: {Group}");
+                           ?? throw new NullReferenceException(
+                               $"Expected Area2D parent to be ShapeViz since its in group: {Group}");
             shapeViz.Show();
             shapeViz.CallDeferred("PostOnChangeShape");
         };
@@ -52,10 +52,7 @@ public partial class TransformatorViz : Node2D
 
     private void RotateShape(ShapeViz shapeViz)
     {
-        if (!shapeViz.Visible)
-        {
-            throw new Exception("ShapeViz not visible, but should be");
-        }
+        if (!shapeViz.Visible) throw new Exception("ShapeViz not visible, but should be");
         _machine.WorkShape(shapeViz.Shape);
         shapeViz.Hide();
         shapeViz.OnShapeChange();

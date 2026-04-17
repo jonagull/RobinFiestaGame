@@ -8,20 +8,41 @@ type Rotation
   | Right
 
 type Cut =
-  | Horizontal
-  | Vertical
+  | Horizontal = 0
+  | Vertical = 1
 
+#nowarn "104"
 type Transformation
-  = RotateLeft
-  | RotateRight
-  | FlipHorizontal
-  | FlipVertical
+  = RotateLeft = 0
+  | RotateRight = 1
+  | FlipHorizontal = 2
+  | FlipVertical = 3
 
 type ShapeType =
   | TwoByTwo = 0
   | L = 1
   | Line = 2
   | Tri = 3
+
+let StringToTransformationType (s : string) : Transformation option =
+  match s.ToLower() with
+  | "l" | "rl" | "left" -> Some Transformation.RotateLeft
+  | "r" | "rr" | "right" -> Some Transformation.RotateRight
+  | "h" | "fh" | "fliph" -> Some Transformation.FlipHorizontal
+  | "v" | "fv" | "flipv" -> Some Transformation.FlipVertical
+  | _ -> None
+
+
+let StringToCutType (s : string) : Cut option =
+  match s.ToLower() with
+  | "h" | "horizontal" -> Some Cut.Horizontal
+  | "v" | "vertical" -> Some Cut.Vertical
+  | _ -> None
+
+let getOrThrow (o : 'a option) (msg : string) : 'a =
+  match o with
+  | Some v -> v
+  | None -> raise (new System.Exception (msg))
 
 let StringToShapeType (s: string) : ShapeType Option =
   match s.ToLower() with
@@ -93,24 +114,22 @@ type Shape(bricks: Brick Option list list) =
 
   member _.Bricks = bricks
 
-  member this.Rotate (trans: Transformation) =
+  member this.Rotate (trans: Transformation) : Shape =
     let newBricks =
       match trans with
-      | RotateRight ->
+      | Transformation.RotateRight ->
         rotateRight this.Bricks
-      | RotateLeft ->
+      | Transformation.RotateLeft ->
         rotateLeft this.Bricks
-      | FlipHorizontal ->
+      | Transformation.FlipHorizontal ->
         flipHorizontalAxis this.Bricks
-      | FlipVertical ->
+      | Transformation.FlipVertical ->
         flipVerticalAxis this.Bricks
-    setBricks newBricks
+    Shape newBricks
   
   member this.Cut (cut : Cut) =
-    let f, s =
-      match cut with
-      | Horizontal -> cutHorizontal this.Bricks
-      | Vertical -> cutVertical this.Bricks
-    setBricks f
-    Shape s
+    match cut with
+    | Cut.Horizontal -> cutHorizontal this.Bricks
+    | Cut.Vertical -> cutVertical this.Bricks
+    |> List.map Shape
   

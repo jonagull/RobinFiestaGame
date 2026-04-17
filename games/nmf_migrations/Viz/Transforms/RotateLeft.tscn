@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://cnaeucui0hcmy"]
+
+[ext_resource type="Script" uid="uid://cnqucm0nxd1s0" path="res://games/nmf_migrations/Viz/Transforms/Cut.cs" id="1_qj4wu"]
+[ext_resource type="Texture2D" uid="uid://n036d7s6e267" path="res://icon.svg" id="2_2sjd8"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c3c6c"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_2sjd8")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w2m47"]
+size = Vector2(125, 20)
+
+[node name="CutVertical" type="Node2D" unique_id=516555019]
+script = ExtResource("1_qj4wu")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=159082715]
+sprite_frames = SubResource("SpriteFrames_c3c6c")
+
+[node name="WorkArea" type="Area2D" parent="." unique_id=1943981449 groups=["ShapeGroup"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WorkArea" unique_id=306229948]
+position = Vector2(0.5, -64)
+shape = SubResource("RectangleShape2D_w2m47")
+debug_color = Color(0.69406873, 0.37072518, 0.8395367, 0.41960785)

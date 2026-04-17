@@ -6,32 +6,33 @@ using Sim;
 
 public partial class ShapeViz : StaticBody2D
 {
-    private const int TileSize = 32;
-
-    public TileMapLayer Bricks  { get; set; }
-
-    private CollisionShape2D _collisionShape2D;
-
-    private float _speed = 1;
-
-    public bool IsCuttable { get; set; }
-    
-    public Shapes.Shape Shape { get; set; }
-
-    public Direction CurrentDirection { get; private set; } = Direction.Down;
-
     public enum Direction
     {
+        None,
         Up,
         Down,
         Left,
         Right
     }
-    
+
+    public static int TileSize = 32;
+
+    private CollisionShape2D _collisionShape2D;
+
+    private float _speed = 1;
+
+    public TileMapLayer Bricks { get; set; }
+
+    public bool IsCuttable { get; set; }
+
+    public Shapes.Shape Shape { get; set; }
+
+    public Direction CurrentDirection { get; set; } = Direction.Down;
+
     public bool Debugging { get; set; }
-    
+
     public Area2D Area { get; private set; }
-    
+
     private static List<List<Shapes.Brick?>> FromTileMap(TileMapLayer tileMap)
     {
         var xs = new List<List<Shapes.Brick?>>();
@@ -56,10 +57,10 @@ public partial class ShapeViz : StaticBody2D
 
             xs.Add(row);
         }
-        
+
         return xs;
     }
-    
+
     public override void _Ready()
     {
         Bricks = GetNodeOrNull<TileMapLayer>("TileMapLayer");
@@ -69,6 +70,7 @@ public partial class ShapeViz : StaticBody2D
             AddChild(tml);
             Bricks = tml;
         }
+
         _collisionShape2D = GetNodeOrNull<CollisionShape2D>("Area2D/CollisionShape2D")
                             ?? throw new Exception("No collision shape found");
         Area = GetNodeOrNull<Area2D>("Area2D")
@@ -116,6 +118,8 @@ public partial class ShapeViz : StaticBody2D
                 break;
             case Direction.Right:
                 MoveAndCollide(new Vector2(_speed, 0));
+                break;
+            case Direction.None:
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(CurrentDirection), CurrentDirection, null);

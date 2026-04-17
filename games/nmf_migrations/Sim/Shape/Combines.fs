@@ -6,5 +6,6 @@ let combineHorizontal (xs : 'a list list) (ys : 'a list list) : 'a list list =
 let rec combineVertical (xs : 'a list list) (ys : 'a list list) : 'a list list =
   match xs, ys with
   | [], [] -> []
+  | x :: xs, [] -> x :: combineVertical [] xs
+  | [], y :: ys -> y :: combineVertical [] ys
   | x :: xs, y :: ys -> List.concat [x; y] :: combineVertical xs ys
-  | _, _ -> raise (new System.Exception "Missmatch length on xs and ys")

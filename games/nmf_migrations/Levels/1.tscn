@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dy05aqn132bnv"]
 
 [ext_resource type="Script" uid="uid://ru1f8wmdxvih" path="res://games/nmf_migrations/Levels/Output.cs" id="1_mby0m"]
-[ext_resource type="PackedScene" uid="uid://b6n2ko4jr08sa" path="res://games/nmf_migrations/Viz/Cutter.tscn" id="3_k87b1"]
-[ext_resource type="PackedScene" uid="uid://jr3ls5cwhp27" path="res://games/nmf_migrations/Viz/transformator.tscn" id="5_q6yau"]
+[ext_resource type="PackedScene" uid="uid://cnaeucui0hcmy" path="res://games/nmf_migrations/Viz/Transforms/RotateLeft.tscn" id="2_dnxal"]
+[ext_resource type="PackedScene" uid="uid://jt2yhwuiabwl" path="res://games/nmf_migrations/Viz/Transforms/CutVertical.tscn" id="3_k87b1"]
 
 [node name="1" type="Node2D" unique_id=1812457835]
 
@@ -13,14 +13,19 @@ _rawShapeTypes = PackedStringArray("twobytwo")
 _started = true
 _shapeDeltaTime = 1.0
 
+[node name="RotateLeft" parent="." unique_id=516555019 instance=ExtResource("2_dnxal")]
+position = Vector2(-489, -343)
+
 [node name="Camera2D" type="Camera2D" parent="." unique_id=846702458]
 position = Vector2(0, -1)
 zoom = Vector2(0.5, 0.5)
 
-[node name="Transformator" parent="." unique_id=734555830 instance=ExtResource("5_q6yau")]
-position = Vector2(-137, -145)
-_transformation = "l"
+[node name="Output2" type="Node2D" parent="." unique_id=647367268]
+position = Vector2(-213, -574)
+script = ExtResource("1_mby0m")
+_rawShapeTypes = PackedStringArray("twobytwo")
+_started = true
+_shapeDeltaTime = 1.0
 
-[node name="Cutter" parent="." unique_id=1259016309 instance=ExtResource("3_k87b1")]
-position = Vector2(-137, 189)
-_cutDirection = "h"
+[node name="CutVertical" parent="." unique_id=1528203351 instance=ExtResource("3_k87b1")]
+position = Vector2(-168, -330)
