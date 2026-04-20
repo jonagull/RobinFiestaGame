@@ -19,7 +19,7 @@ type Transformation
   | FlipVertical = 3
 
 type ShapeType =
-  | TwoByTwo = 0
+  | Square = 0
   | L = 1
   | Line = 2
   | Tri = 3
@@ -46,7 +46,7 @@ let getOrThrow (o : 'a option) (msg : string) : 'a =
 
 let StringToShapeType (s: string) : ShapeType Option =
   match s.ToLower() with
-  | "2x2" | "twobytwo" -> Some ShapeType.TwoByTwo
+  | "2x2" | "twobytwo" -> Some ShapeType.Square
   | "l" -> Some ShapeType.L
   | "line" -> Some ShapeType.Line
   | "tri" -> Some ShapeType.Tri

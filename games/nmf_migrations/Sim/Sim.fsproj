@@ -14,6 +14,7 @@
     <Compile Include="Machine\Transformator.fs" />
     <Compile Include="Machine\Cutter.fs" />
     <Compile Include="Library.fs" />
+    <Compile Include="Compute/Generate.fs" />
   </ItemGroup>
 
 </Project>
