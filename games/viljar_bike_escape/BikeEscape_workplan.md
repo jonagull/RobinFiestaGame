@@ -175,6 +175,64 @@ private void SaveScore(int seconds)
 
 ---
 
+## Game Modes
+
+### Mode 1 — Story Mode (main)
+Robin starts at home. The game plays out as a linear narrative:
+- **Full-screen dialog boxes** (cover the whole viewport, similar to current talk boxes but bigger)
+- Robin moves between locations, dialog plays at each checkpoint
+- Checkpoints: Home → Old Office → (event) → New Office → Tidsbanken
+- Story ends when Robin completes the full journey
+
+**What this needs:**
+- DialogManager: a CanvasLayer with a full-screen Panel + RichTextLabel + "Next" button
+- `story_script.json` or GDScript array: ordered list of `{ speaker, text, trigger }` entries
+- Checkpoint Areas: Area2D nodes at each story beat — entering one fires the next dialog
+- Objective arrow (see Shared Needs below)
+- Larger map (see Shared Needs below)
+
+### Mode 2 — Eternal Mode
+Endless survival: collect as many Cola X bottles as possible, avoid chasers forever.
+- No goal, no story — just survival + score
+- Cola X bottles spawn randomly on the map at intervals
+- Score = number of bottles collected
+- Chasers speed up gradually over time
+- Game ends only when Robin is caught
+
+**What this needs:**
+- Bottle spawner: timer-based, places `ColaBotlle` Area2D nodes at random valid (land) positions
+- Score counter in HUD (bottles collected)
+- Difficulty ramp: increase chaser speed every 30s or every N bottles
+
+---
+
+## Shared Needs (both modes)
+
+### Objective Arrow
+- A UI arrow pinned to the edge of the screen pointing toward the next objective
+- Stays visible when the target is off-screen, disappears when on-screen
+- Implementation: CanvasLayer arrow sprite, rotate toward `(target_world_pos - screen_center)`, hide when target is within viewport bounds
+
+### Bigger Map
+- Current map is too small for story mode checkpoints to feel meaningful
+- Extend bounding box to include Robin's home (north or west of old office) and Tidsbanken
+- Re-export OSM image at the new bounding box, update `assets/map.png`
+- Re-calibrate sprite start positions and GoalPosition after swap
+
+### Powerups (both modes, Mario Kart-style)
+- Pickups spawn randomly on the map (like Cola X in Eternal, but separate)
+- On pickup: player is assigned a random powerup from a pool
+- Powerup is held until activated (one button, e.g. Space)
+- **Candidate powerups:**
+  - Speed boost (bike turbo for 5s)
+  - Shield (next catch attempt is blocked)
+  - Smoke screen (nearby chasers lose target for 3s)
+  - Magnet (pulls Cola X bottles toward Robin — Eternal mode)
+  - Time freeze (all chasers stop for 2s)
+- Implementation: `Powerup.cs` on Area2D nodes, `PowerupManager.cs` on BikeEscape root handles activation
+
+---
+
 ## Open questions
 
 - Do we want Robin to follow roads only, or free movement?
@@ -215,6 +273,7 @@ private void SaveScore(int seconds)
   - Use a separate `Powerup.cs` script on Area2D nodes placed on the map
 
 ### Map
+- [ ] (Optional) Chunk streaming — split map into 2×2 tiles (~6000×6000px each), load/unload based on player position via `MapChunkManager.cs`. Keeps max ~2 tiles in VRAM at once, giving a 4× bigger logical map without memory problems. Use `ResourceLoader.LoadThreadedRequest()` to avoid load hitches; preload next tile ~1000px before boundary.
 - [ ] Replace temp_map with a proper OSM tile-stitched export
   - Use zoom 15–16, bounding box from workplan
   - After replacing: re-tune Robin/chaser start positions and GoalPosition

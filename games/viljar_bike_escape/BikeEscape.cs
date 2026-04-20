@@ -2,8 +2,8 @@ using Godot;
 
 public partial class BikeEscape : Node2D
 {
-	[Export] public Vector2 GoalPosition  = new Vector2(845f, -1f);
-	[Export] public Vector2 HomePosition  = new Vector2(-735f, 1482f);
+	[Export] public Vector2 GoalPosition  = new Vector2(-563f, 2175f);
+	[Export] public Vector2 HomePosition  = new Vector2(-2143f, 3658f);
 
 	private const float CatchDistance    = 35f;
 	private const float GoalDistance     = 60f;
@@ -21,11 +21,17 @@ public partial class BikeEscape : Node2D
 	private Button      _bugslideButton;
 	private Button      _throwButton;
 	private Button      _nicoButton;
+	private Button      _debugCarButton;
 	private Chaser      _yuval;
 	private Chaser      _are;
+	private Chaser      _trygve;
+	private Chaser      _viljar;
+
+	private const float TrygveViljarUnlockDelay = 15f; // seconds before collision can trigger
 
 	private float _elapsed         = 0f;
 	private bool  _gameOver        = false;
+	private bool  _debugImmune     = false;
 	private float _nicoUnlockTimer = NicoUnlockDelay;
 	private float _nicoSlowTimer   = 0f;
 	private bool  _nicoUsed        = false;
@@ -46,6 +52,15 @@ public partial class BikeEscape : Node2D
 
 		_yuval          = _chasers.GetNodeOrNull<Chaser>("Yuval");
 		_are            = _chasers.GetNodeOrNull<Chaser>("Are");
+		_trygve         = _chasers.GetNodeOrNull<Chaser>("Trygve");
+		_viljar         = _chasers.GetNodeOrNull<Chaser>("Viljar");
+		if (_trygve != null)
+			_trygve.HomePath = GetNodeOrNull<Path2D>("HomePath");
+
+		var bybane1 = _chasers.GetNodeOrNull<Chaser>("Bybanen");
+		var bybane2 = _chasers.GetNodeOrNull<Chaser>("Bybanen2");
+		if (bybane1 != null) bybane1.BybanePath = GetNodeOrNull<Path2D>("BybaneRoute1");
+		if (bybane2 != null) bybane2.BybanePath = GetNodeOrNull<Path2D>("BybaneRoute2");
 		_bugslideButton = GetNode<Button>("HUD/BugslideButton");
 		_throwButton    = GetNode<Button>("HUD/ThrowButton");
 		_nicoButton     = GetNode<Button>("HUD/NicoButton");
@@ -55,6 +70,38 @@ public partial class BikeEscape : Node2D
 		_nicoButton.Pressed     += ActivateNico;
 
 		_nicoButton.Disabled = true;
+
+		_debugCarButton = new Button();
+		_debugCarButton.Text = "[DBG] Car";
+		_debugCarButton.AnchorLeft   = 0f;
+		_debugCarButton.AnchorRight  = 0f;
+		_debugCarButton.AnchorTop    = 0.5f;
+		_debugCarButton.AnchorBottom = 0.5f;
+		_debugCarButton.OffsetLeft   = 10f;
+		_debugCarButton.OffsetRight  = 150f;
+		_debugCarButton.OffsetTop    = 250f;
+		_debugCarButton.OffsetBottom = 310f;
+		_debugCarButton.GrowVertical = Control.GrowDirection.Both;
+		_debugCarButton.Pressed += DebugTriggerCar;
+		GetNode<CanvasLayer>("HUD").AddChild(_debugCarButton);
+
+		var debugImmuneButton = new Button();
+		debugImmuneButton.Text = "[DBG] Immune: OFF";
+		debugImmuneButton.AnchorLeft   = 0f;
+		debugImmuneButton.AnchorRight  = 0f;
+		debugImmuneButton.AnchorTop    = 0.5f;
+		debugImmuneButton.AnchorBottom = 0.5f;
+		debugImmuneButton.OffsetLeft   = 10f;
+		debugImmuneButton.OffsetRight  = 150f;
+		debugImmuneButton.OffsetTop    = 320f;
+		debugImmuneButton.OffsetBottom = 380f;
+		debugImmuneButton.GrowVertical = Control.GrowDirection.Both;
+		debugImmuneButton.Pressed += () => {
+			_debugImmune = !_debugImmune;
+			debugImmuneButton.Text = _debugImmune ? "[DBG] Immune: ON" : "[DBG] Immune: OFF";
+		};
+		GetNode<CanvasLayer>("HUD").AddChild(debugImmuneButton);
+
 		_gameOverPanel.Visible = false;
 		QueueRedraw();
 	}
@@ -141,14 +188,26 @@ public partial class BikeEscape : Node2D
 			return;
 		}
 
-		foreach (Node child in _chasers.GetChildren())
+		// Trygve picks up Viljar (not in first 15 seconds)
+		if (_elapsed >= TrygveViljarUnlockDelay
+			&& _trygve != null && _viljar != null
+			&& _trygve.State == Chaser.ChaseState.Normal
+			&& _viljar.State == Chaser.ChaseState.Normal
+			&& _trygve.GlobalPosition.DistanceTo(_viljar.GlobalPosition) < 40f)
 		{
-			if (child is Chaser chaser && chaser.GlobalPosition.DistanceTo(_robin.GlobalPosition) < CatchDistance)
-			{
-				EndGame(false);
-				return;
-			}
+			_trygve.PickUpPassenger(_viljar);
+			ShowDialogue("Viljar", null, "Kjør meg hjem, Trygve!");
 		}
+
+		if (!_debugImmune)
+			foreach (Node child in _chasers.GetChildren())
+			{
+				if (child is Chaser chaser && chaser.GlobalPosition.DistanceTo(_robin.GlobalPosition) < CatchDistance)
+				{
+					EndGame(false);
+					return;
+				}
+			}
 	}
 
 	public override void _Draw()
@@ -189,6 +248,15 @@ public partial class BikeEscape : Node2D
 		DirAccess.MakeDirRecursiveAbsolute("user://scores");
 		using var file = FileAccess.Open("user://scores/viljar_bike_escape.json", FileAccess.ModeFlags.Write);
 		file.StoreString(Json.Stringify(data));
+	}
+
+	private void DebugTriggerCar()
+	{
+		if (_trygve == null || _viljar == null) return;
+		if (_trygve.State != Chaser.ChaseState.Normal || _viljar.State != Chaser.ChaseState.Normal) return;
+		_viljar.GlobalPosition = _trygve.GlobalPosition;
+		_trygve.PickUpPassenger(_viljar);
+		ShowDialogue("DEBUG", null, "Viljar in car — Trygve driving home");
 	}
 
 	public void ShowDialogue(string characterName, Texture2D portrait, string text)

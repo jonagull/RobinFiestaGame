@@ -15,6 +15,11 @@ run/main_scene="res://launcher/Launcher.tscn"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[display]
+
+window/size/viewport_width=1900
+window/size/viewport_height=1020
+
 [dotnet]
 
 project/assembly_name="RobinFiesta"

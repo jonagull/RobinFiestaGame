@@ -54,15 +54,35 @@ radius = 14.0
 [sub_resource type="CircleShape2D" id="13"]
 radius = 14.0
 
+[sub_resource type="Curve2D" id="Curve2D_home"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -2007, 3664, 0, 0, 0, 0, -1805, 3676, 0, 0, 0, 0, -1547, 3614, 0, 0, 0, 0, -1237, 3485, 0, 0, 0, 0, -1002, 3249, 0, 0, 0, 0, -911, 3025, 0, 0, 0, 0, -829, 2817, 0, 0, 0, 0, -767, 2692, 0, 0, 0, 0, -695, 2649, 0, 0, 0, 0, -666, 2891, 0, 0, 0, 0, -684, 3141, 0, 0, 0, 0, -668, 3446, 0, 0, 0, 0, -701, 3647, 0, 0, 0, 0, -693, 3869, 0, 0, 0, 0, -502, 4012, 0, 0, 0, 0, -284, 4131, 0, 0, 0, 0, -269, 4243, 0, 0, 0, 0, -387, 4367, 0, 0, 0, 0, -517, 4430)
+}
+point_count = 19
+
+[sub_resource type="Curve2D" id="Curve2D_bybane1"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -959, 516, 0, 0, 0, 0, -732, 656, 0, 0, 0, 0, -783, 727, 0, 0, 0, 0, -782, 774, 0, 0, 0, 0, -808, 786, 0, 0, 0, 0, -808, 816, 0, 0, 0, 0, -796, 974, 0, 0, 0, 0, -755, 1058, 0, 0, 0, 0, -599, 1359, 0, 0, 0, 0, -494, 1446, 0, 0, 0, 0, -428, 1538, 0, 0, 0, 0, -351, 1756, 0, 0, 0, 0, -353, 1892, 0, 0, 0, 0, -368, 2027, 0, 0, 0, 0, -323, 2069, 0, 0, 0, 0, -232, 2059, 0, 0, 0, 0, -177, 2096, 0, 0, 0, 0, -187, 2178, 0, 0, 0, 0, -200, 2363, 0, 0, 0, 0, -141, 2565, 0, 0, 0, 0, -185, 2629, 0, 0, 0, 0, -326, 2653, 0, 0, 0, 0, -328, 2898, 0, 0, 0, 0, -355, 2980, 0, 0, 0, 0, -448, 3083, 0, 0, 0, 0, -465, 3155, 0, 0, 0, 0, -447, 3335, 0, 0, 0, 0, -465, 3549, 0, 0, 0, 0, -461, 3689, 0, 0, 0, 0, -393, 3759, 0, 0, 0, 0, -305, 3996, 0, 0, 0, 0, -306, 4162, 0, 0, 0, 0, -286, 4264, 0, 0, 0, 0, -383, 4367, 0, 0, 0, 0, -621, 4492, 0, 0, 0, 0, -713, 4522, 0, 0, 0, 0, -774, 4621, 0, 0, 0, 0, -1097, 5117)
+}
+point_count = 38
+
+[sub_resource type="Curve2D" id="Curve2D_bybane2"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -909, 540, 0, 0, 0, 0, -731, 653, 0, 0, 0, 0, -714, 766, 0, 0, 0, 0, -587, 843, 0, 0, 0, 0, -393, 912, 0, 0, 0, 0, -317, 1056, 0, 0, 0, 0, -122, 1133, 0, 0, 0, 0, -170, 1274, 0, 0, 0, 0, -360, 1397, 0, 0, 0, 0, -399, 1487, 0, 0, 0, 0, -557, 1577, 0, 0, 0, 0, -477, 1909, 0, 0, 0, 0, -557, 2119, 0, 0, 0, 0, -780, 2108, 0, 0, 0, 0, -1612, 2645, 0, 0, 0, 0, -1801, 2571)
+}
+point_count = 16
+
 [node name="BikeEscape" type="Node2D" unique_id=1365844215]
 script = ExtResource("1")
+HomePosition = Vector2(-599, 4492)
 
 [node name="MapSprite" type="Sprite2D" parent="." unique_id=484854931]
 z_index = -1
 texture = ExtResource("4")
+metadata/_edit_lock_ = true
 
 [node name="Robin" type="CharacterBody2D" parent="." unique_id=1276975165]
-position = Vector2(546, -1011)
+position = Vector2(-862, 1165)
 script = ExtResource("2")
 AltFrame = ExtResource("14")
 
@@ -80,7 +100,7 @@ zoom = Vector2(1.5, 1.5)
 [node name="Chasers" type="Node2D" parent="." unique_id=418842807]
 
 [node name="Trygve" type="CharacterBody2D" parent="Chasers" unique_id=80338939]
-position = Vector2(21, -258)
+position = Vector2(-1387, 1918)
 script = ExtResource("3")
 Speed = 195.0
 TurnSpeed = 1.8
@@ -89,11 +109,11 @@ Portrait = ExtResource("5_sx37x")
 IsVehicle = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Trygve" unique_id=1356844177]
-position = Vector2(-332, 2669)
+position = Vector2(-1740, 4845)
 shape = SubResource("6")
 
 [node name="Are" type="CharacterBody2D" parent="Chasers" unique_id=993455411]
-position = Vector2(585, -752)
+position = Vector2(-823, 1424)
 script = ExtResource("3")
 StartDelay = 3.5
 CharacterName = "Are"
@@ -110,7 +130,7 @@ scale = Vector2(0.75, 0.75)
 texture = ExtResource("15")
 
 [node name="Viljar" type="CharacterBody2D" parent="Chasers" unique_id=1028865728]
-position = Vector2(809, 2316)
+position = Vector2(-599, 4492)
 script = ExtResource("3")
 StartDelay = 4.0
 CharacterName = "Viljar"
@@ -126,7 +146,7 @@ scale = Vector2(0.75, 0.75)
 texture = ExtResource("7")
 
 [node name="Yuval" type="CharacterBody2D" parent="Chasers" unique_id=200338940]
-position = Vector2(306, -1077)
+position = Vector2(-1102, 1099)
 script = ExtResource("3")
 StartDelay = 4.5
 CharacterName = "Yuval"
@@ -142,7 +162,7 @@ scale = Vector2(0.065, 0.065)
 texture = ExtResource("6")
 
 [node name="Guy" type="CharacterBody2D" parent="Chasers" unique_id=200338942]
-position = Vector2(188, -1733)
+position = Vector2(-1220, 443)
 script = ExtResource("3")
 StartDelay = 5.0
 CharacterName = "Guy"
@@ -158,7 +178,7 @@ scale = Vector2(0.75, 0.75)
 texture = ExtResource("9")
 
 [node name="Dag" type="CharacterBody2D" parent="Chasers" unique_id=200338944]
-position = Vector2(487, -521)
+position = Vector2(-921, 1655)
 script = ExtResource("3")
 StartDelay = 5.5
 CharacterName = "Dag"
@@ -176,21 +196,37 @@ scale = Vector2(0.75, 0.75)
 texture = ExtResource("11")
 
 [node name="Bybanen" type="CharacterBody2D" parent="Chasers" unique_id=800338940]
-position = Vector2(888.99994, 2254)
-rotation = 2.5808601
+position = Vector2(-2108, -324)
 script = ExtResource("3")
 Speed = 160.0
 StartDelay = 0.0
-CharacterName = "Bybanen"
+CharacterName = "Bybanen 1"
 Portrait = ExtResource("5_sx37x")
 IsBybane = true
+BybaneFrameOffset = 10
 Lines = PackedStringArray("Ding ding!", "Ding ding ding!", "DING!", "Neste stopp: Robin")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Bybanen" unique_id=800338941]
+position = Vector2(1158, 839)
+shape = SubResource("14")
+
+[node name="Bybanen2" type="CharacterBody2D" parent="Chasers" unique_id=800338950]
+position = Vector2(-1608, -224)
+script = ExtResource("3")
+Speed = 155.0
+StartDelay = 8.0
+CharacterName = "Bybanen 2"
+Portrait = ExtResource("5_sx37x")
+IsBybane = true
+BybaneFrameOffset = 10
+Lines = PackedStringArray("Ding ding!", "Ding ding ding!", "DING!", "Neste stopp: Robin")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Bybanen2" unique_id=800338951]
+position = Vector2(-205, 2799)
 shape = SubResource("14")
 
 [node name="Jonathan" type="CharacterBody2D" parent="Chasers" unique_id=600338940]
-position = Vector2(450, -950)
+position = Vector2(-958, 1226)
 script = ExtResource("3")
 StartDelay = 6.0
 CharacterName = "Jonathan"
@@ -207,7 +243,7 @@ scale = Vector2(0.75, 0.75)
 texture = ExtResource("18")
 
 [node name="Nils" type="CharacterBody2D" parent="Chasers" unique_id=700338940]
-position = Vector2(350, -1050)
+position = Vector2(-2361, 1303)
 script = ExtResource("3")
 StartDelay = 6.5
 CharacterName = "Nils"
@@ -224,17 +260,17 @@ scale = Vector2(0.75, 0.75)
 texture = ExtResource("20")
 
 [node name="EnergyDrink1" type="Node2D" parent="." unique_id=500338940]
-position = Vector2(600, -700)
+position = Vector2(-808, 1476)
 script = ExtResource("17")
 CanTexture = ExtResource("22")
 
 [node name="EnergyDrink2" type="Node2D" parent="." unique_id=500338941]
-position = Vector2(720, -370)
+position = Vector2(-688, 1806)
 script = ExtResource("17")
 CanTexture = ExtResource("22")
 
 [node name="EnergyDrink3" type="Node2D" parent="." unique_id=500338942]
-position = Vector2(540, -1100)
+position = Vector2(-868, 1076)
 script = ExtResource("17")
 CanTexture = ExtResource("22")
 
@@ -367,3 +403,15 @@ offset_top = 310.0
 offset_right = 540.0
 offset_bottom = 370.0
 text = "Back to Menu"
+
+[node name="HomePath" type="Path2D" parent="." unique_id=900000001]
+visible = false
+curve = SubResource("Curve2D_home")
+
+[node name="BybaneRoute1" type="Path2D" parent="." unique_id=900000002]
+curve = SubResource("Curve2D_bybane1")
+metadata/_edit_lock_ = true
+
+[node name="BybaneRoute2" type="Path2D" parent="." unique_id=900000003]
+curve = SubResource("Curve2D_bybane2")
+metadata/_edit_lock_ = true

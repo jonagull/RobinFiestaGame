@@ -15,10 +15,10 @@ def deg2tile(lat, lon, zoom):
     return x, y
 
 ZOOM    = 15
-LAT_MIN = 60.310   # ~1.7km south of Robin's home, plenty of room
-LAT_MAX = 60.405   # ~3km north of old office
-LON_MIN = 5.250    # ~3km west of old west edge, includes Robin's home (5.2749)
-LON_MAX = 5.370    # slight east padding
+LAT_MIN = 60.310   # south edge — same as before
+LAT_MAX = 60.500   # extended north (was 60.405, doubled the range)
+LON_MIN = 5.250    # west edge — same as before
+LON_MAX = 5.490    # extended east (was 5.370, doubled the range)
 
 x_min, y_min = deg2tile(LAT_MAX, LON_MIN, ZOOM)
 x_max, y_max = deg2tile(LAT_MIN, LON_MAX, ZOOM)

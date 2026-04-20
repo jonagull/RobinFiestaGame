@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python -c \"from PIL import Image; img = Image.open\\('assets/map.png'\\); print\\(img.size\\)\")"
+    ]
+  }
+}

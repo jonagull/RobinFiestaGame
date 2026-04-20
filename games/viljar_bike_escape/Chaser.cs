@@ -14,8 +14,9 @@ public partial class Chaser : CharacterBody2D
 	[Export] public bool      HasEnergyDrink   = false;
 	[Export] public float     WaterSpeedMult   = 0.45f; // override per chaser
 	[Export] public string    WaterEntryLine   = "";    // said once on entering water
-	[Export] public bool      IsBybane         = false;
+	[Export] public bool      IsBybane          = false;
 	[Export] public int       BybaneFrameOffset = 0;   // tune if frames point the wrong way
+	[Export] public Path2D    BybanePath        = null; // rail route — leave null to fall back to chasing Robin
 	[Export] public Texture2D AltFrame         = null; // second frame for running animation
 
 	[Export] public string[] Lines =
@@ -42,6 +43,9 @@ public partial class Chaser : CharacterBody2D
 
 	private enum BugslideState { None, Jump, Slide }
 	private BugslideState _bsState        = BugslideState.None;
+
+	public enum ChaseState { Normal, WaitingAtHome, InCar, DrivingHome }
+	public ChaseState State               = ChaseState.Normal;
 	private float         _bsTimer        = 0f;
 	private float         _jumpRotStart;
 	private float         _jumpRotTarget;
@@ -94,12 +98,25 @@ public partial class Chaser : CharacterBody2D
 	private bool       _wasOnWater  = false;
 	private const float AnimFps     = 8f;
 
+	// Trygve-carries-Viljar mechanic
+	public  Chaser    CarryingPassenger   = null;
+	public  Path2D    HomePath            = null;
+	private Chaser    _driver             = null;
+	private int       _waypointIndex      = 0;
+	private float     _homeWaitTimer      = 0f;
+	private const float WaypointReachDist  = 50f;
+	private const float HomeArrivalDist    = 60f;
+	private const float HomeWaitDuration   = 5f;
+
 	// Bybane momentum
-	private const float BybaneMaxSpeed  = 340f;
-	private const float BybaneAccel     = 55f;   // px/s² when going straight
-	private const float BybaneDecel     = 260f;  // px/s² when turning
-	private const float BybaneMinSpeed  = 40f;   // crawl speed mid-turn
-	private float       _bybaneSpeed    = 0f;
+	private const float BybaneMaxSpeed        = 340f;
+	private const float BybaneAccel           = 55f;   // px/s² when going straight
+	private const float BybaneDecel           = 260f;  // px/s² when turning
+	private const float BybaneMinSpeed        = 40f;   // crawl speed mid-turn
+	private const float BybaneWpReachDist     = 28f;   // waypoint snap distance
+	private float       _bybaneSpeed          = 0f;
+	private int         _bybaneWpIndex        = 0;
+	private int         _bybaneWpDir          = 1;     // +1 forward, -1 backward (ping-pong)
 
 	private const float SpeechBubbleDuration = 3.5f;
 	private const float SpeechBubbleFadeTime = 1.0f;
@@ -127,6 +144,8 @@ public partial class Chaser : CharacterBody2D
 				_bybaneFrames[i] = ResourceLoader.Load<Texture2D>(
 					$"res://games/viljar_bike_escape/assets/bybane/bybane_{n:D2}.png");
 			}
+			if (BybanePath != null)
+				FindNearestBybaneWaypoint();
 		}
 
 		var mapSprite = GetParent().GetParent().GetNodeOrNull<Sprite2D>("MapSprite");
@@ -138,6 +157,25 @@ public partial class Chaser : CharacterBody2D
 			if (tex != null)
 				_mapImage = tex.GetImage();
 		}
+
+		Portrait = LoadRandomPortrait() ?? Portrait;
+	}
+
+	private Texture2D LoadRandomPortrait()
+	{
+		string folder = $"res://games/viljar_bike_escape/assets/portraits/{CharacterName.ToLower()}";
+		var dir = DirAccess.Open(folder);
+		if (dir == null) return null;
+
+		var files = new Godot.Collections.Array<string>();
+		dir.ListDirBegin();
+		for (string f = dir.GetNext(); f != ""; f = dir.GetNext())
+			if (!dir.CurrentIsDir() && (f.EndsWith(".png") || f.EndsWith(".jpg") || f.EndsWith(".jpeg") || f.EndsWith(".webp")))
+				files.Add($"{folder}/{f}");
+		dir.ListDirEnd();
+
+		if (files.Count == 0) return null;
+		return ResourceLoader.Load<Texture2D>(files[(int)GD.RandRange(0, files.Count)]);
 	}
 
 	public void ActivateBugslide()
@@ -168,6 +206,8 @@ public partial class Chaser : CharacterBody2D
 	public override void _Process(double delta)
 	{
 		QueueRedraw();
+		if (_sprite != null)
+			_sprite.Visible = State != ChaseState.InCar;
 		UpdateSpriteScale();
 		UpdateRunAnimation(delta);
 
@@ -175,6 +215,13 @@ public partial class Chaser : CharacterBody2D
 		if (_slowTimer   > 0f) _slowTimer   -= (float)delta;
 		if (_energyTimer > 0f) _energyTimer -= (float)delta;
 		if (_bubbleTimer > 0f) _bubbleTimer -= (float)delta;
+
+		if (_homeWaitTimer > 0f)
+		{
+			_homeWaitTimer -= (float)delta;
+			if (_homeWaitTimer <= 0f)
+				State = ChaseState.Normal;
+		}
 
 		if (_delay > 0f || _robin == null) return;
 
@@ -189,6 +236,24 @@ public partial class Chaser : CharacterBody2D
 	public override void _PhysicsProcess(double delta)
 	{
 		if (_robin == null) return;
+
+		if (State == ChaseState.InCar)
+		{
+			if (_driver != null) GlobalPosition = _driver.GlobalPosition;
+			return;
+		}
+
+		if (State == ChaseState.DrivingHome)
+		{
+			TickDrivingHome((float)delta);
+			return;
+		}
+
+		if (State == ChaseState.WaitingAtHome)
+		{
+			Velocity = Vector2.Zero;
+			return;
+		}
 
 		_delay -= (float)delta;
 		if (_delay > 0f) return;
@@ -260,13 +325,36 @@ public partial class Chaser : CharacterBody2D
 
 		if (IsBybane)
 		{
-			float dt       = (float)delta;
-			var   toRobin  = (_robin.GlobalPosition - GlobalPosition).Normalized();
-			// alignment: 1 = straight ahead, 0 = 90° turn, negative = reversing
-			float alignment = Velocity.LengthSquared() > 1f
-				? Velocity.Normalized().Dot(toRobin)
-				: 1f;
+			float dt = (float)delta;
+			Vector2 toTarget;
 
+			if (BybanePath != null)
+			{
+				var pts = BybanePath.Curve.GetBakedPoints();
+				if (pts.Length > 1)
+				{
+					var worldTarget = BybanePath.ToGlobal(pts[_bybaneWpIndex]);
+					if (GlobalPosition.DistanceTo(worldTarget) < BybaneWpReachDist)
+					{
+						_bybaneWpIndex += _bybaneWpDir;
+						if (_bybaneWpIndex >= pts.Length) { _bybaneWpIndex = pts.Length - 2; _bybaneWpDir = -1; }
+						if (_bybaneWpIndex < 0)           { _bybaneWpIndex = 1;              _bybaneWpDir =  1; }
+						worldTarget = BybanePath.ToGlobal(pts[_bybaneWpIndex]);
+					}
+					toTarget = (worldTarget - GlobalPosition).Normalized();
+				}
+				else
+				{
+					toTarget = Vector2.Zero;
+				}
+			}
+			else
+			{
+				// Fallback: chase Robin directly if no path is assigned
+				toTarget = (_robin.GlobalPosition - GlobalPosition).Normalized();
+			}
+
+			float alignment = Velocity.LengthSquared() > 1f ? Velocity.Normalized().Dot(toTarget) : 1f;
 			if (alignment > 0.92f)
 				_bybaneSpeed = Mathf.Min(_bybaneSpeed + BybaneAccel * dt, BybaneMaxSpeed);
 			else
@@ -274,7 +362,7 @@ public partial class Chaser : CharacterBody2D
 
 			if (_slowTimer > 0f) _bybaneSpeed *= SlowMult;
 
-			Velocity = toRobin * _bybaneSpeed + separation * 2f;
+			Velocity = toTarget * _bybaneSpeed + separation * 2f;
 		}
 		else
 		{
@@ -557,5 +645,94 @@ public partial class Chaser : CharacterBody2D
 		string line = Lines[GD.RandRange(0, Lines.Length - 1)];
 		_game.ShowDialogue(CharacterName, Portrait, line);
 		ShowSpeechBubble(line);
+	}
+
+	public void PickUpPassenger(Chaser viljar)
+	{
+		viljar._driver = this;
+		viljar.State   = ChaseState.InCar;
+		viljar.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = true;
+		CarryingPassenger = viljar;
+		State             = ChaseState.DrivingHome;
+		FindNearestWaypoint();
+	}
+
+	private void ArriveHome()
+	{
+		var dropPos = _game?.HomePosition ?? GlobalPosition;
+		CarryingPassenger.GlobalPosition = dropPos;
+		CarryingPassenger.GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
+		CarryingPassenger._driver        = null;
+		CarryingPassenger.State          = ChaseState.WaitingAtHome;
+		CarryingPassenger._homeWaitTimer = HomeWaitDuration;
+		CarryingPassenger = null;
+
+		State = ChaseState.Normal;
+	}
+
+	private void TickDrivingHome(float delta)
+	{
+		Vector2 target;
+
+		if (HomePath != null)
+		{
+			var pts = HomePath.Curve.GetBakedPoints();
+			if (pts.Length > 0)
+			{
+				var worldPt = HomePath.ToGlobal(pts[_waypointIndex]);
+				if (_waypointIndex < pts.Length - 1 && GlobalPosition.DistanceTo(worldPt) < WaypointReachDist)
+					_waypointIndex++;
+				target = HomePath.ToGlobal(pts[_waypointIndex]);
+			}
+			else
+			{
+				target = _game?.HomePosition ?? GlobalPosition;
+			}
+		}
+		else
+		{
+			target = _game?.HomePosition ?? GlobalPosition;
+		}
+
+		Rotation = (target - GlobalPosition).Angle() + Mathf.Pi / 2f;
+
+		Velocity = Vector2.Up.Rotated(Rotation) * Speed;
+		MoveAndSlide();
+
+		var homePos = _game?.HomePosition ?? Vector2.Zero;
+		if (GlobalPosition.DistanceTo(homePos) < HomeArrivalDist)
+			ArriveHome();
+	}
+
+	private void FindNearestWaypoint()
+	{
+		if (HomePath == null) { _waypointIndex = 0; return; }
+		var pts  = HomePath.Curve.GetBakedPoints();
+		float best = float.MaxValue;
+		_waypointIndex = 0;
+		for (int i = 0; i < pts.Length; i++)
+		{
+			float d = GlobalPosition.DistanceTo(HomePath.ToGlobal(pts[i]));
+			if (d >= best) continue;
+			best           = d;
+			_waypointIndex = i;
+		}
+	}
+
+	private void FindNearestBybaneWaypoint()
+	{
+		if (BybanePath == null) { _bybaneWpIndex = 0; return; }
+		var pts = BybanePath.Curve.GetBakedPoints();
+		float best = float.MaxValue;
+		_bybaneWpIndex = 0;
+		for (int i = 0; i < pts.Length; i++)
+		{
+			float d = GlobalPosition.DistanceTo(BybanePath.ToGlobal(pts[i]));
+			if (d >= best) continue;
+			best           = d;
+			_bybaneWpIndex = i;
+		}
+		// Start going forward from wherever we snap to
+		_bybaneWpDir = _bybaneWpIndex < pts.Length - 1 ? 1 : -1;
 	}
 }
