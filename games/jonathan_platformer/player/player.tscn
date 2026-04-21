@@ -1,0 +1,168 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://games/jonathan_platformer/player/player.gd" id="1"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/state_machine/state_machine.gd" id="2"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/player/states/air_entry_state.gd" id="3"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/player/states/fall_state.gd" id="4"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/player/states/jump_state.gd" id="5"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/player/states/floor_entry_state.gd" id="6"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/player/states/idle_state.gd" id="7"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/player/states/run_state.gd" id="8"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/player/states/wall_slide_state.gd" id="9"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/player/states/wall_jump_state.gd" id="10"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/player/states/dash_state.gd" id="11"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1"]
+size = Vector3(48, 64, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_2"]
+size = Vector3(16, 16, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(44, 62)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1")
+max_speed = 450.0
+max_h_velocity_ratio = 3.0
+running_acc_time = 0.188
+running_dec_time = 0.171
+jumping_acc_time = 0.221
+jumping_dec_time = 0.234
+falling_acc_time = 0.234
+falling_dec_time = 0.25
+jump_not_held_gravity_ratio = 1.6
+down_held_gravity_ratio = 2.0
+gravity_limit = 1000.0
+down_held_gravity_limit_ratio = 1.2
+jump_height = 112.0
+jump_time_to_peak = 0.4
+jump_time_to_land = 0.3
+max_up_velocity_ratio = 3.0
+jump_peak_boost = 100.0
+jump_peak_gravity_ratio = 0.7
+corner_correction_distance = 8
+oneway_platform_assist_distance = 4
+max_wall_slide_speed = 200.0
+down_held_wall_slide_ratio = 2.0
+wall_slide_acc_time = 0.067
+wall_jump_v_velocity_ratio = 0.8
+wall_jump_h_velocity = 400.0
+wall_jumping_acc_time = 0.221
+wall_jumping_dec_time = 0.234
+wall_jumping_towards_wall_dec_time = 0.289
+dash_speed = 1200.0
+dash_distance = 125.0
+after_dash_speed = 300.0
+after_dash_gravity_ratio = 0.2
+max_move_skew = -6.0
+shape_rescale_weight = 0.2
+squash_width_scale_at_rest = 1.1
+squash_width_scale_at_max_fall = 1.4
+squash_height_scale_at_rest = 0.9
+squash_height_scale_at_max_fall = 0.6
+stretch_width_scale = 0.6
+stretch_height_scale = 1.2
+
+[node name="Shape" type="Node2D" parent="."]
+
+[node name="Body" type="MeshInstance2D" parent="Shape"]
+position = Vector2(0, -32)
+mesh = SubResource("BoxMesh_1")
+
+[node name="LeftEye" type="MeshInstance2D" parent="Shape"]
+self_modulate = Color(0, 0, 0, 1)
+position = Vector2(19, -44)
+mesh = SubResource("BoxMesh_2")
+
+[node name="RightEye" type="MeshInstance2D" parent="Shape"]
+self_modulate = Color(0, 0, 0, 1)
+position = Vector2(-5, -44)
+mesh = SubResource("BoxMesh_2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -31)
+shape = SubResource("RectangleShape2D_1")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_enabled = true
+position_smoothing_speed = 5.0
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("target_node", "default_state")]
+script = ExtResource("2")
+target_node = NodePath("..")
+default_state = NodePath("AirEntryState")
+
+[node name="AirEntryState" type="Node" parent="StateMachine"]
+script = ExtResource("3")
+
+[node name="FallState" type="Node" parent="StateMachine/AirEntryState"]
+script = ExtResource("4")
+
+[node name="JumpState" type="Node" parent="StateMachine/AirEntryState"]
+script = ExtResource("5")
+
+[node name="FloorEntryState" type="Node" parent="StateMachine"]
+script = ExtResource("6")
+
+[node name="IdleState" type="Node" parent="StateMachine/FloorEntryState"]
+script = ExtResource("7")
+
+[node name="RunState" type="Node" parent="StateMachine/FloorEntryState"]
+script = ExtResource("8")
+
+[node name="WallSlideState" type="Node" parent="StateMachine"]
+script = ExtResource("9")
+
+[node name="WallJumpState" type="Node" parent="StateMachine"]
+script = ExtResource("10")
+
+[node name="DashState" type="Node" parent="StateMachine"]
+script = ExtResource("11")
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="JumpPeakGravity" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 0.1
+one_shot = true
+
+[node name="JumpCoyote" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 0.1
+one_shot = true
+
+[node name="JumpBuffer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 0.1
+one_shot = true
+
+[node name="WallJumpCoyote" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 0.1
+one_shot = true
+
+[node name="WallJumpBuffer" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 0.1
+one_shot = true
+
+[node name="DashCooldown" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 0.2
+one_shot = true
+
+[node name="AfterDashGravity" type="Timer" parent="Timers"]
+unique_name_in_owner = true
+process_callback = 0
+wait_time = 0.1
+one_shot = true
+
+[connection signal="wall_entered" from="." to="." method="_on_wall_entered"]
+[connection signal="wall_exited" from="." to="." method="_on_wall_exited"]

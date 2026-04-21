@@ -1,0 +1,6 @@
+{
+    "title": "Platformer",
+    "author": "Jonathan",
+    "description": "A 2D platformer with wall jumps and dashes.",
+    "main_scene": "res://games/jonathan_platformer/Platformer.tscn"
+}
