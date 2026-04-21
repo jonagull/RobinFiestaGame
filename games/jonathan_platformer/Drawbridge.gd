@@ -8,14 +8,16 @@ extends StaticBody2D
 
 var _player_nearby := false
 var _locked_down := false
+var _prompt: Label = null
 
 func _ready() -> void:
 	_rebuild()
 	if Engine.is_editor_hint():
 		return
+	_prompt = get_node_or_null("PromptLabel")
 	rotation = _angle_up()
-	$Zone.body_entered.connect(func(b): if b.name == "Player": _player_nearby = true)
-	$Zone.body_exited.connect(func(b):  if b.name == "Player": _player_nearby = false)
+	$Zone.body_entered.connect(func(b): if b.name == "Player": _player_nearby = true; _update_prompt())
+	$Zone.body_exited.connect(func(b):  if b.name == "Player": _player_nearby = false; _update_prompt())
 
 func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint():
@@ -23,8 +25,16 @@ func _physics_process(delta: float) -> void:
 	var want_down := (_player_nearby and Input.is_key_pressed(KEY_E)) or _locked_down
 	if want_down and not _locked_down and stay_down and _is_fully_down():
 		_locked_down = true
+		_update_prompt()
 	var target := _angle_down() if want_down else _angle_up()
 	rotation = move_toward(rotation, target, rotation_speed * delta)
+	if _prompt and _prompt.visible:
+		_prompt.global_position = global_position + Vector2(-30, -80)
+
+func _update_prompt() -> void:
+	if _prompt == null:
+		return
+	_prompt.visible = _player_nearby and not _locked_down
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 

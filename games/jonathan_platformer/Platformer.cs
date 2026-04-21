@@ -13,6 +13,18 @@ public partial class Platformer : Node
         // Your game starts here!
         _backButton = GetNode<Button>("UI/BackButton");
         _backButton.Pressed += ReturnToLauncher;
+
+        var gameOverScreen = GetNode<Control>("UI/GameOverScreen");
+        gameOverScreen.AddToGroup("game_over");
+
+        GetNode<Button>("UI/GameOverScreen/RestartButton").Pressed += RestartGame;
+        GetNode<Button>("UI/GameOverScreen/MenuButton").Pressed += ReturnToLauncher;
+    }
+
+    private void RestartGame()
+    {
+        GetTree().Paused = false;
+        GetTree().ReloadCurrentScene();
     }
 
     /// <summary>
@@ -21,6 +33,7 @@ public partial class Platformer : Node
     /// </summary>
     protected void ReturnToLauncher()
     {
+        GetTree().Paused = false;
         GetTree().ChangeSceneToFile("res://launcher/Launcher.tscn");
     }
 }

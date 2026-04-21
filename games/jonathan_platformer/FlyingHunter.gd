@@ -32,6 +32,4 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	_game_over = true
 	_active = false
-	get_node("../../UI/GameOverLabel").visible = true
-	await get_tree().create_timer(2.0).timeout
-	get_tree().change_scene_to_file("res://launcher/Launcher.tscn")
+	PlayerDeath.trigger(get_tree())
