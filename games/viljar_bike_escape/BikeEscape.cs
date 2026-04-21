@@ -2,8 +2,11 @@ using Godot;
 
 public partial class BikeEscape : Node2D
 {
-	[Export] public Vector2 GoalPosition  = new Vector2(-563f, 2175f);
-	[Export] public Vector2 HomePosition  = new Vector2(-2143f, 3658f);
+	[Export] public Vector2 GoalPosition        = new Vector2(-563f, 2175f);  // Rubus office
+	[Export] public Vector2 HomePosition        = new Vector2(-2143f, 3658f);
+	[Export] public Vector2 TidsbankenPosition  = Vector2.Zero;
+	[Export] public Vector2 GolfCoursePosition  = Vector2.Zero;
+	[Export] public Vector2 TirilPosition       = Vector2.Zero;
 
 	private const float CatchDistance    = 35f;
 	private const float GoalDistance     = 60f;
@@ -17,7 +20,8 @@ public partial class BikeEscape : Node2D
 	private Label       _statusLabel;
 	private Control     _gameOverPanel;
 	private Label       _gameOverLabel;
-	private DialogueBox _dialogueBox;
+	private DialogueBox   _dialogueBox;
+	private StoryDialogue _storyDialogue;
 	private Button      _bugslideButton;
 	private Button      _throwButton;
 	private Button      _nicoButton;
@@ -31,6 +35,8 @@ public partial class BikeEscape : Node2D
 
 	private float _elapsed         = 0f;
 	private bool  _gameOver        = false;
+	private int   _storyStage      = 0;   // 0=intro, 1=heading to Tidsbanken, 2=golf, 3=Tiril
+	private bool  _transitioning   = false;
 	private bool  _debugImmune     = false;
 	private float _nicoUnlockTimer = NicoUnlockDelay;
 	private float _nicoSlowTimer   = 0f;
@@ -104,6 +110,46 @@ public partial class BikeEscape : Node2D
 
 		_gameOverPanel.Visible = false;
 		QueueRedraw();
+
+		var storyScene = GD.Load<PackedScene>("res://games/viljar_bike_escape/StoryDialogue.tscn");
+		_storyDialogue = storyScene.Instantiate<StoryDialogue>();
+		GetNode<CanvasLayer>("HUD").AddChild(_storyDialogue);
+		_transitioning = true;
+		_storyDialogue.ScriptFinished += OnDialogueFinished;
+		GetTree().Paused = true;
+		_storyDialogue.PlayScript("res://games/viljar_bike_escape/story/intro.json");
+	}
+
+	private void TriggerArrival()
+	{
+		_transitioning = true;
+		_storyStage++;
+
+		var (path, nextGoal) = _storyStage switch
+		{
+			1 => ("res://games/viljar_bike_escape/story/rubus_arrival.json",       TidsbankenPosition),
+			2 => ("res://games/viljar_bike_escape/story/tidsbanken_arrival.json",  GolfCoursePosition),
+			3 => ("res://games/viljar_bike_escape/story/golf_arrival.json",        TirilPosition),
+			_ => (null, Vector2.Zero)
+		};
+
+		if (path != null && FileAccess.FileExists(path))
+		{
+			GetTree().Paused = true;
+			_storyDialogue.PlayScript(path);
+			if (nextGoal != Vector2.Zero)
+				GoalPosition = nextGoal;
+		}
+		else
+		{
+			EndGame(true);
+		}
+	}
+
+	private void OnDialogueFinished()
+	{
+		_transitioning = false;
+		GetTree().Paused = false;
 	}
 
 	public override void _Input(InputEvent ev)
@@ -182,9 +228,9 @@ public partial class BikeEscape : Node2D
 				? $"[3] NICO\n🐌 {_nicoSlowTimer:F1}s"
 				: "[3] NICO\n(used)";
 
-		if (dist < GoalDistance)
+		if (dist < GoalDistance && !_transitioning)
 		{
-			EndGame(true);
+			TriggerArrival();
 			return;
 		}
 
