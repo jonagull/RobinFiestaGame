@@ -1,0 +1,109 @@
+[gd_scene format=3 uid="uid://ein7ex0fuvnt"]
+
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/LivesManager.tscn" id="1_3kop6"]
+[ext_resource type="Script" uid="uid://d3x6m3wshfsdw" path="res://games/jonathan_platformer/tools/SpawnPoint.gd" id="2_cvsnc"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/player/player.tscn" id="3_krnco"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_krnco"]
+size = Vector2(200, 20)
+
+[node name="Room3" type="Node2D" unique_id=2114482354]
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=1510306099]
+
+[node name="BackButton" type="Button" parent="UI" unique_id=1992613070]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 120.0
+offset_bottom = 40.0
+text = "Back to Menu"
+
+[node name="LivesManager" parent="UI" unique_id=888446299 instance=ExtResource("1_3kop6")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -52.0
+offset_right = 160.0
+offset_bottom = -12.0
+
+[node name="GameOverScreen" type="Control" parent="UI" unique_id=1146045934]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="UI/GameOverScreen" unique_id=593185031]
+process_mode = 3
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.72)
+
+[node name="GameOverLabel" type="Label" parent="UI/GameOverScreen" unique_id=687910935]
+process_mode = 3
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -110.0
+offset_right = 300.0
+offset_bottom = -20.0
+theme_override_font_sizes/font_size = 72
+text = "GAME OVER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartButton" type="Button" parent="UI/GameOverScreen" unique_id=488155485]
+process_mode = 3
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 10.0
+offset_right = 100.0
+offset_bottom = 50.0
+text = "Restart"
+
+[node name="MenuButton" type="Button" parent="UI/GameOverScreen" unique_id=1059230404]
+process_mode = 3
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 60.0
+offset_right = 100.0
+offset_bottom = 100.0
+text = "Back to Menu"
+
+[node name="spawn" type="Marker2D" parent="." unique_id=903321390]
+position = Vector2(939, 174)
+script = ExtResource("2_cvsnc")
+tag = "from_room3"
+
+[node name="Player" parent="." unique_id=1297805757 instance=ExtResource("3_krnco")]
+position = Vector2(183, 148)
+scale = Vector2(0.9990834, 1)
+
+[node name="Node2D" type="Node2D" parent="." unique_id=40960406]
+scale = Vector2(0.9990834, 1)
+
+[node name="Platform3" type="StaticBody2D" parent="Node2D" unique_id=1786934593]
+position = Vector2(924.8477, 841)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Platform3" unique_id=680922241]
+shape = SubResource("RectangleShape2D_krnco")
+
+[node name="Visual" type="Polygon2D" parent="Node2D/Platform3" unique_id=205274797]
+color = Color(0.2, 0.35, 0.45, 1)
+polygon = PackedVector2Array(-100, -10, 100, -10, 100, 10, -100, 10)

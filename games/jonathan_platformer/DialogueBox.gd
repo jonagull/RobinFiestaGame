@@ -2,21 +2,10 @@ extends Control
 
 signal finished
 
-# TODO: fill in your story lines here.
-# Format: "Speaker: Line of dialogue"  (speaker name is split off automatically)
-const LINES: Array[String] = [
-	"Stranger: Stop. Don't go any further.",
-	"Stranger: I've seen others try. They all thought they could make it.",
-	"Stranger: There's something beyond here. Something that hunts.",
-	"Stranger: It doesn't run. It just... drifts toward you. Slow at first.",
-	"Stranger: But it never stops. And it never loses you.",
-	"Stranger: The moment you cross that point — it will know.",
-	"Stranger: Turn back. Please.",
-]
-
 const CHARS_PER_SEC := 40.0   # typewriter speed
 const BAR_ANIM_TIME := 0.35   # seconds for bars to slide in/out
 
+var _lines: Array[String] = []
 var _active := false
 var _can_advance := false
 var _typing := false
@@ -45,7 +34,8 @@ func _unhandled_input(event: InputEvent) -> void:
 
 # ── Public ────────────────────────────────────────────────────────────────────
 
-func start() -> void:
+func start(lines: Array[String]) -> void:
+	_lines = lines
 	_current_line = 0
 	_active = true
 	_can_advance = false
@@ -66,7 +56,7 @@ func start() -> void:
 
 func _show_line() -> void:
 	_can_advance = false
-	var line: String = LINES[_current_line]
+	var line: String = _lines[_current_line]
 
 	# Split "Speaker: text" into name + body
 	var colon: int = line.find(": ")
@@ -97,7 +87,7 @@ func _show_line() -> void:
 
 func _advance() -> void:
 	_current_line += 1
-	if _current_line >= LINES.size():
+	if _current_line >= _lines.size():
 		_close()
 	else:
 		_show_line()

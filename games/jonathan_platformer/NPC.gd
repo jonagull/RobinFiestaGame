@@ -1,5 +1,20 @@
 extends Area2D
 
+# Format each line as "Speaker: Text" — the speaker name is shown separately.
+@export var lines: Array[String] = [
+	"Stranger: Stop. Don't go any further.",
+	"Stranger: I've seen others try. They all thought they could make it.",
+	"Stranger: There's something beyond here. Something that hunts.",
+	"Stranger: It doesn't run. It just... drifts toward you. Slow at first.",
+	"Stranger: But it never stops. And it never loses you.",
+	"Stranger: The moment you cross that point — it will know.",
+	"Stranger: Turn back. Please.",
+]
+
+## Optional: drag a Drawbridge (or anything with an open() method) here.
+## It will be opened automatically when this NPC's dialogue finishes.
+@export var opens_on_finish: NodePath
+
 var _player_nearby := false
 var _in_dialogue := false
 
@@ -17,7 +32,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.keycode == KEY_E and event.pressed and not event.echo:
 		_in_dialogue = true
 		prompt_label.visible = false
-		dialogue_box.start()
+		dialogue_box.start(lines)
 		get_viewport().set_input_as_handled()
 
 func _on_body_entered(body: Node2D) -> void:
@@ -34,3 +49,5 @@ func _on_dialogue_finished() -> void:
 	_in_dialogue = false
 	if _player_nearby:
 		prompt_label.visible = true
+	if opens_on_finish:
+		get_node(opens_on_finish).open()

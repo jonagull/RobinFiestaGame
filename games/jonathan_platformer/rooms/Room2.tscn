@@ -1,11 +1,13 @@
 [gd_scene format=3 uid="uid://bjyct2xrkranc"]
 
-[ext_resource type="Script" uid="uid://dpr2s3b70uivs" path="res://games/jonathan_platformer/Platformer.cs" id="1"]
+[ext_resource type="Script" uid="uid://dpr2s3b70uivs" path="res://games/nmf_migrations/Game.cs" id="1"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/player/player.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/SpawnPoint.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Drawbridge.tscn" id="3_fx3p5"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/RoomExit.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://ddnnpadw4hnw3" path="res://games/jonathan_platformer/tools/Spikes.tscn" id="5"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/MovingPlatform.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/LivesManager.tscn" id="7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(2000, 40)
@@ -33,6 +35,15 @@ offset_top = 8.0
 offset_right = 120.0
 offset_bottom = 40.0
 text = "Back to Menu"
+
+[node name="LivesManager" parent="UI" unique_id=132592381 instance=ExtResource("7")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -52.0
+offset_right = 160.0
+offset_bottom = -12.0
 
 [node name="GameOverScreen" type="Control" parent="UI" unique_id=403064685]
 process_mode = 3
@@ -105,6 +116,11 @@ shape = SubResource("RectangleShape2D_floor")
 color = Color(0.15, 0.2, 0.25, 1)
 polygon = PackedVector2Array(-1000, -20, 1000, -20, 1000, 20, -1000, 20)
 
+[node name="Drawbridge" parent="Level/Floor" unique_id=133542452 instance=ExtResource("3_fx3p5")]
+position = Vector2(963, -30)
+length = 408.0
+stay_down = true
+
 [node name="WallLeft" type="StaticBody2D" parent="Level" unique_id=1713586707]
 position = Vector2(-40, 540)
 
@@ -112,9 +128,12 @@ position = Vector2(-40, 540)
 shape = SubResource("RectangleShape2D_wall_left")
 
 [node name="WallRight" type="StaticBody2D" parent="Level" unique_id=2059827820]
+process_mode = 4
+visible = false
 position = Vector2(1960, 540)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/WallRight" unique_id=1681937858]
+visible = false
 shape = SubResource("RectangleShape2D_wall_right")
 
 [node name="Platform1" type="StaticBody2D" parent="Level" unique_id=898223402]
@@ -161,7 +180,7 @@ polygon = PackedVector2Array(-80, -10, 80, -10, 80, 10, -80, 10)
 position = Vector2(200, 980)
 
 [node name="SpawnPoint_FromRoom1" parent="Level" unique_id=1496110450 instance=ExtResource("3")]
-position = Vector2(150, 960)
+position = Vector2(1364, 1122)
 tag = "from_room1"
 
 [node name="ExitBackToRoom1" parent="Level" unique_id=817308973 instance=ExtResource("4")]
@@ -182,3 +201,14 @@ position = Vector2(960, 750)
 distance = 200.0
 direction = Vector2(0, -1)
 speed = 70.0
+
+[node name="Floor2" type="StaticBody2D" parent="Level" unique_id=804680736]
+position = Vector2(3269, 1059)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Floor2" unique_id=460832201]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="Visual" type="Polygon2D" parent="Level/Floor2" unique_id=1362003342]
+position = Vector2(1, 1)
+color = Color(0.15, 0.2, 0.25, 1)
+polygon = PackedVector2Array(-1000, -20, 1000, -20, 1000, 20, -1000, 20)

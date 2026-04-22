@@ -37,7 +37,7 @@ func _pickup() -> void:
 func _drop() -> void:
 	if _carrier != null:
 		var facing := -1.0 if _carrier.get("flip_h") else 1.0
-		global_position = _carrier.global_position + Vector2(facing * 48, -16)
+		global_position = _carrier.global_position + Vector2(facing * 40, 0)
 	$CollisionShape2D.set_deferred("disabled", false)
 	freeze = false
 	_carried = false
