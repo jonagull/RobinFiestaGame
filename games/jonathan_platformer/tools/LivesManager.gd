@@ -12,6 +12,7 @@ func _ready() -> void:
 
 func take_damage() -> void:
 	GameData.lives -= 1
+	GameData.deaths += 1
 	_update_display()
 	if GameData.lives <= 0:
 		GameData.lives = MAX_LIVES  # reset so restart starts fresh

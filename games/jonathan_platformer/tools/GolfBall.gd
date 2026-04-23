@@ -3,13 +3,15 @@ extends AnimatableBody2D
 @export var speed: float = 450.0
 @export var throw_key: Key = KEY_F
 
-enum State { HELD, FLYING }
-var state    := State.HELD
+enum State { HELD, FLYING, UNAVAILABLE }
+var state    := State.UNAVAILABLE
 var velocity := Vector2.ZERO
 var _player: CharacterBody2D = null
 
 func _ready() -> void:
 	process_physics_priority = -1
+	sync_to_physics = false
+	add_to_group("golf_ball")
 	visible = false
 	$CollisionShape2D.set_deferred("disabled", true)
 	var notifier := VisibleOnScreenNotifier2D.new()
@@ -22,7 +24,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if state != State.HELD:
 		return
-	if event is InputEventKey and event.keycode == throw_key and event.pressed and not event.echo:
+	if event is InputEventKey and event.physical_keycode == throw_key and event.pressed and not event.echo:
 		_throw()
 
 func _physics_process(delta: float) -> void:
@@ -52,6 +54,9 @@ func _on_player_entered(body: Node2D) -> void:
 func _on_screen_exited() -> void:
 	if state == State.FLYING:
 		_pickup()
+
+func unlock() -> void:
+	state = State.HELD
 
 func _pickup() -> void:
 	state    = State.HELD
