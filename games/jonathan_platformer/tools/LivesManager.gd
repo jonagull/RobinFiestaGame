@@ -8,17 +8,13 @@ func _ready() -> void:
 	var player := _find_player(get_tree().current_scene)
 	if player:
 		GameData.checkpoint_position = player.global_position
-	_update_display()
+	# Hearts hidden — no lives system active
+	for i in MAX_LIVES:
+		get_child(i).visible = false
 
 func take_damage() -> void:
-	GameData.lives -= 1
 	GameData.deaths += 1
-	_update_display()
-	if GameData.lives <= 0:
-		GameData.lives = MAX_LIVES  # reset so restart starts fresh
-		_show_game_over()
-	else:
-		_respawn()
+	_respawn()
 
 func _respawn() -> void:
 	var player := _find_player(get_tree().current_scene)
