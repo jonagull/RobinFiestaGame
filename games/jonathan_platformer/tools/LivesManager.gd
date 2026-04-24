@@ -14,8 +14,7 @@ func _ready() -> void:
 		GameData.checkpoint_position = player.global_position
 
 func take_damage() -> void:
-	GameData.deaths += 1
-	_respawn()
+	PlayerDeath.trigger(get_tree())
 
 func _respawn() -> void:
 	var player := _find_player(get_tree().current_scene)
@@ -23,6 +22,10 @@ func _respawn() -> void:
 		return
 	player.set("velocity", Vector2.ZERO)
 	player.global_position = GameData.checkpoint_position
+	# Force state machine back to idle so dash/timer state is fully cleaned up
+	var sm := player.get_node_or_null("StateMachine")
+	if sm:
+		sm.activate_state_by_name("IdleState")
 
 func _show_game_over() -> void:
 	var nodes := get_tree().get_nodes_in_group("game_over")

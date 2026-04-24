@@ -41,8 +41,11 @@ func _throw() -> void:
 	global_position = _player.global_position + Vector2(facing * 24, -20)
 	velocity = Vector2(facing * speed, 0)
 	$CollisionShape2D.set_deferred("disabled", false)
+	$PlayerZone/CollisionShape2D.set_deferred("disabled", true)
 	state   = State.FLYING
 	visible = true
+	await get_tree().create_timer(0.15).timeout
+	$PlayerZone/CollisionShape2D.set_deferred("disabled", false)
 
 func _on_player_entered(body: Node2D) -> void:
 	if body.name != "Player" or state != State.FLYING:

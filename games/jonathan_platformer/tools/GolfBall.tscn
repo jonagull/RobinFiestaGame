@@ -1,27 +1,33 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://df4tnjx4647xj"]
 
-[ext_resource type="Script" path="res://games/jonathan_platformer/tools/GolfBall.gd" id="1"]
+[ext_resource type="Script" uid="uid://dh5sl4cftg3uh" path="res://games/jonathan_platformer/tools/GolfBall.gd" id="1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0xhax"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ball"]
-radius = 10.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_zone"]
 radius = 14.0
 
-[node name="GolfBall" type="AnimatableBody2D"]
+[node name="GolfBall" type="AnimatableBody2D" unique_id=1707099994]
 script = ExtResource("1")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1404322600]
+scale = Vector2(1.320003, 1)
+shape = SubResource("RectangleShape2D_0xhax")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="." unique_id=2117098900]
+process_mode = 4
+visible = false
 shape = SubResource("CircleShape2D_ball")
 
-[node name="Visual" type="Polygon2D" parent="."]
+[node name="Visual" type="Polygon2D" parent="." unique_id=131206416]
 color = Color(0.95, 0.95, 0.95, 1)
 polygon = PackedVector2Array(10, 0, 7, 7, 0, 10, -7, 7, -10, 0, -7, -7, 0, -10, 7, -7)
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1827301187]
 
-[node name="PlayerZone" type="Area2D" parent="."]
-collision_mask = 1
+[node name="PlayerZone" type="Area2D" parent="." unique_id=1308993554]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerZone" unique_id=96908044]
 shape = SubResource("CircleShape2D_zone")
