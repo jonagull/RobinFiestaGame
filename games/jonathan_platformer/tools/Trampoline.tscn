@@ -2,15 +2,24 @@
 
 [ext_resource type="Script" path="res://games/jonathan_platformer/tools/Trampoline.gd" id="1"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_platform"]
 size = Vector2(120, 12)
 
-[node name="Trampoline" type="Area2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_zone"]
+size = Vector2(120, 8)
+
+[node name="Trampoline" type="StaticBody2D"]
 script = ExtResource("1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -6)
-shape = SubResource("RectangleShape2D_1")
+shape = SubResource("RectangleShape2D_platform")
+
+[node name="BounceZone" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BounceZone"]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_zone")
 
 [node name="LegLeft" type="Polygon2D" parent="."]
 color = Color(0.3, 0.3, 0.3, 1)
