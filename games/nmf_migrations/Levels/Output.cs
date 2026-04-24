@@ -18,8 +18,8 @@ public partial class Output : Node2D
     private readonly Dictionary<Shapes.ShapeType, PackedScene> _shapes = new()
     {
         {
-            Shapes.ShapeType.TwoByTwo,
-            GD.Load<PackedScene>($"res://games/nmf_migrations/Shapes/{Shapes.ShapeType.TwoByTwo}.tscn")
+            Shapes.ShapeType.Square,
+            GD.Load<PackedScene>($"res://games/nmf_migrations/Shapes/{Shapes.ShapeType.Square}.tscn")
         },
         {
             Shapes.ShapeType.L,

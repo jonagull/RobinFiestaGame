@@ -1,5 +1,4 @@
 using Godot;
-using System;
 using Sim;
 
 public partial class Cut : MachineViz
@@ -24,12 +23,20 @@ public partial class Cut : MachineViz
     protected override void TransformShape(ShapeViz shapeViz)
     {
         var shape = shapeViz.Shape;
-        var newShape = _cutter.CutShape(shape);
-        shapeViz.SetShape(newShape.Item1);
-        AddOutput(shapeViz);
-        var dup = shapeViz.Duplicate();
-        var dupShapeViz = dup.GetNode<ShapeViz>(".");
-        dupShapeViz.SetFirstShape(newShape.Item2);
-        AddOutput(dupShapeViz);
+        var firstIter = true;
+        foreach (var newShape in _cutter.CutShape(shape))
+        {
+            if (firstIter)
+            {
+                firstIter = false;
+                shapeViz.SetShape(newShape);
+                AddOutput(shapeViz);
+                continue;
+            }
+            var dup = shapeViz.Duplicate();
+            var dupShapeViz = dup.GetNode<ShapeViz>(".");
+            dupShapeViz.SetFirstShape(newShape);
+            AddOutput(dupShapeViz);
+        }
     }
 }
