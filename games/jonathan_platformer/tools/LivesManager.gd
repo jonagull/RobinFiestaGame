@@ -4,13 +4,14 @@ const MAX_LIVES := 3
 
 func _ready() -> void:
 	add_to_group("lives_manager")
-	# Capture initial player position as the first checkpoint
-	var player := _find_player(get_tree().current_scene)
-	if player:
-		GameData.checkpoint_position = player.global_position
 	# Hearts hidden — no lives system active
 	for i in MAX_LIVES:
 		get_child(i).visible = false
+	# Wait a frame so the player scene is fully ready before capturing position
+	await get_tree().process_frame
+	var player := _find_player(get_tree().current_scene)
+	if player:
+		GameData.checkpoint_position = player.global_position
 
 func take_damage() -> void:
 	GameData.deaths += 1

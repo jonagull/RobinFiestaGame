@@ -1,7 +1,7 @@
 extends AnimatableBody2D
 
 @export var speed: float = 450.0
-@export var throw_key: Key = KEY_F
+@export var throw_action: String = "throw"
 
 enum State { HELD, FLYING, UNAVAILABLE }
 var state    := State.UNAVAILABLE
@@ -24,7 +24,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if state != State.HELD:
 		return
-	if event is InputEventKey and event.physical_keycode == throw_key and event.pressed and not event.echo:
+	if event.is_action_pressed(throw_action):
 		_throw()
 
 func _physics_process(delta: float) -> void:

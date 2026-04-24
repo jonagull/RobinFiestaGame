@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/LivesManager.tscn" id="10"]
 [ext_resource type="Script" uid="uid://dnljeci7ek8oj" path="res://games/jonathan_platformer/tools/Trapdoor.gd" id="12_wppi4"]
 [ext_resource type="Script" uid="uid://cy38eqchoohlt" path="res://games/jonathan_platformer/tools/InventoryBar.gd" id="13_inv"]
-[ext_resource type="Script" path="res://games/jonathan_platformer/tools/DeathCounter.gd" id="14_dc"]
+[ext_resource type="Script" uid="uid://dx6tca3k0fvdk" path="res://games/jonathan_platformer/tools/DeathCounter.gd" id="14_dc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hunter"]
 size = Vector2(40, 40)
@@ -40,12 +40,12 @@ size = Vector2(200, 20)
 script = ExtResource("1")
 
 [node name="Player" parent="." unique_id=379000123 instance=ExtResource("2")]
-position = Vector2(2635, -110)
+position = Vector2(254, 1005)
 scale = Vector2(1, 1.0012925)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=893961244]
 
-[node name="DeathCounter" type="Label" parent="UI"]
+[node name="DeathCounter" type="Label" parent="UI" unique_id=881226282]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -264,7 +264,7 @@ position = Vector2(700, 1050)
 stay_down = true
 
 [node name="CarryBox" parent="Level" unique_id=1101218815 instance=ExtResource("8_bv4dq")]
-position = Vector2(1105, 980)
+position = Vector2(1083, 831)
 
 [node name="SpawnPoint_FromRoom2" parent="Level" unique_id=410798494 instance=ExtResource("8")]
 position = Vector2(1860, 1020)

@@ -13,7 +13,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not _player_nearby or _picked_up:
 		return
-	if event is InputEventKey and event.physical_keycode == KEY_E and event.pressed and not event.echo:
+	if event.is_action_pressed("interact"):
 		_collect()
 		get_viewport().set_input_as_handled()
 

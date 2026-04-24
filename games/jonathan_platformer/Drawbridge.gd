@@ -22,7 +22,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
-	var want_down := (_player_nearby and Input.is_key_pressed(KEY_E)) or _locked_down
+	var want_down := (_player_nearby and Input.is_action_pressed("interact")) or _locked_down
 	if want_down and not _locked_down and stay_down and _is_fully_down():
 		_locked_down = true
 		_update_prompt()

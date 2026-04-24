@@ -12,7 +12,7 @@ func _ready() -> void:
 	$Zone.body_exited.connect(_on_zone_exited)
 
 func _unhandled_input(event: InputEvent) -> void:
-	if not (event is InputEventKey and event.keycode == KEY_E and event.pressed and not event.echo):
+	if not event.is_action_pressed("interact"):
 		return
 	if _carried:
 		_drop()

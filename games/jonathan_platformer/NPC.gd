@@ -29,7 +29,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not _player_nearby or _in_dialogue:
 		return
-	if event is InputEventKey and event.keycode == KEY_E and event.pressed and not event.echo:
+	if event.is_action_pressed("interact"):
 		_in_dialogue = true
 		prompt_label.visible = false
 		dialogue_box.start(lines)

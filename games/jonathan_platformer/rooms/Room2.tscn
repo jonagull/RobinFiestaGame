@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Drawbridge.tscn" id="3_fx3p5"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/RoomExit.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://ddnnpadw4hnw3" path="res://games/jonathan_platformer/tools/Spikes.tscn" id="5"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/MovingPlatform.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://srui22pdkx8a" path="res://games/jonathan_platformer/tools/MovingPlatform.tscn" id="6"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/LivesManager.tscn" id="7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
@@ -180,7 +180,7 @@ polygon = PackedVector2Array(-80, -10, 80, -10, 80, 10, -80, 10)
 position = Vector2(200, 980)
 
 [node name="SpawnPoint_FromRoom1" parent="Level" unique_id=1496110450 instance=ExtResource("3")]
-position = Vector2(1364, 1122)
+position = Vector2(116, 990)
 tag = "from_room1"
 
 [node name="ExitBackToRoom1" parent="Level" unique_id=817308973 instance=ExtResource("4")]

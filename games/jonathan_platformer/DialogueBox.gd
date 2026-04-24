@@ -25,7 +25,7 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if not _active or not _can_advance:
 		return
-	if event is InputEventKey and event.keycode == KEY_E and event.pressed and not event.echo:
+	if event.is_action_pressed("interact"):
 		if _typing:
 			_skip_typing = true
 		else:
