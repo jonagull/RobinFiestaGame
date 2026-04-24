@@ -14,6 +14,7 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	if _player == null:
 		return
+	var bounce_dir: Vector2 = (-global_transform.y).normalized()
 	var vel: Vector2 = _player.get("velocity")
-	if vel.y >= 0:
-		_player.set("velocity", Vector2(vel.x, -bounce_force))
+	if vel.dot(bounce_dir) <= 0:
+		_player.set("velocity", bounce_dir * bounce_force)
