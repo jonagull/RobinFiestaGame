@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3]
+[gd_scene load_steps=16 format=3]
 
 [ext_resource type="Script" path="res://games/jonathan_platformer/player/player.gd" id="1"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/tools/Noclip.gd" id="noclip"]
 [ext_resource type="Script" path="res://games/jonathan_platformer/state_machine/state_machine.gd" id="2"]
 [ext_resource type="Script" path="res://games/jonathan_platformer/player/states/air_entry_state.gd" id="3"]
 [ext_resource type="Script" path="res://games/jonathan_platformer/player/states/fall_state.gd" id="4"]
@@ -163,6 +164,9 @@ unique_name_in_owner = true
 process_callback = 0
 wait_time = 0.1
 one_shot = true
+
+[node name="Noclip" type="Node" parent="."]
+script = ExtResource("noclip")
 
 [connection signal="wall_entered" from="." to="." method="_on_wall_entered"]
 [connection signal="wall_exited" from="." to="." method="_on_wall_exited"]

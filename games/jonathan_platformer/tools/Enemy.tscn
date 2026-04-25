@@ -1,12 +1,84 @@
 [gd_scene format=3 uid="uid://dagrhqmhoomro"]
 
 [ext_resource type="Script" uid="uid://c33yjgot2eobv" path="res://games/jonathan_platformer/tools/Enemy.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://ctyu08b75ulsi" path="res://games/jonathan_platformer/assets/walkingSpritesheet.png" id="2_hheff"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
 size = Vector2(32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hit"]
 size = Vector2(32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fqb11"]
+atlas = ExtResource("2_hheff")
+region = Rect2(0, 0, 220, 344)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rqv84"]
+atlas = ExtResource("2_hheff")
+region = Rect2(220, 0, 220, 344)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ak022"]
+atlas = ExtResource("2_hheff")
+region = Rect2(440, 0, 220, 344)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ad48i"]
+atlas = ExtResource("2_hheff")
+region = Rect2(660, 0, 220, 344)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lhspg"]
+atlas = ExtResource("2_hheff")
+region = Rect2(880, 0, 220, 344)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vqlkg"]
+atlas = ExtResource("2_hheff")
+region = Rect2(0, 344, 220, 344)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nftvo"]
+atlas = ExtResource("2_hheff")
+region = Rect2(220, 344, 220, 344)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i361b"]
+atlas = ExtResource("2_hheff")
+region = Rect2(440, 344, 220, 344)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_28cwy"]
+atlas = ExtResource("2_hheff")
+region = Rect2(660, 344, 220, 344)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nxkkw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fqb11")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rqv84")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ak022")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ad48i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lhspg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vqlkg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nftvo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i361b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_28cwy")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
 
 [node name="Enemy" type="AnimatableBody2D" unique_id=1931408700]
 script = ExtResource("1")
@@ -15,13 +87,16 @@ script = ExtResource("1")
 shape = SubResource("RectangleShape2D_body")
 
 [node name="Visual" type="Polygon2D" parent="." unique_id=2004527333]
+visible = false
 color = Color(0.85, 0.15, 0.15, 1)
 polygon = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
 
 [node name="EyeLeft" type="Polygon2D" parent="." unique_id=459075497]
+visible = false
 polygon = PackedVector2Array(-8, -8, -2, -8, -2, -2, -8, -2)
 
 [node name="EyeRight" type="Polygon2D" parent="." unique_id=157707539]
+visible = false
 polygon = PackedVector2Array(2, -8, 8, -8, 8, -2, 2, -2)
 
 [node name="HitZone" type="Area2D" parent="." unique_id=1229118683]
@@ -35,3 +110,9 @@ position = Vector2(0, -100)
 
 [node name="PointB" type="Marker2D" parent="." unique_id=1154472590]
 position = Vector2(0, 100)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1626107995]
+position = Vector2(1.0000153, -4.000001)
+scale = Vector2(0.13520136, 0.13520136)
+sprite_frames = SubResource("SpriteFrames_nxkkw")
+frame_progress = 0.75163496

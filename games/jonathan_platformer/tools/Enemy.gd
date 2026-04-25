@@ -8,6 +8,7 @@ var _index: int = 0
 var _dir:   int = 1
 
 func _ready() -> void:
+	$AnimatedSprite2D.play("default")
 	sync_to_physics = false
 	for child in get_children():
 		if child is Marker2D:
