@@ -1,15 +1,17 @@
 [gd_scene format=3 uid="uid://dciju2sr0p0y7"]
 
-[ext_resource type="Script" path="res://games/jonathan_platformer/rooms/DarkRoom.gd" id="0_dr"]
+[ext_resource type="Script" uid="uid://cf8aehwm0cf4t" path="res://games/jonathan_platformer/rooms/DarkRoom.gd" id="0_dr"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/LivesManager.tscn" id="1_lm"]
-[ext_resource type="Script" path="res://games/jonathan_platformer/tools/SpawnPoint.gd" id="2_sp"]
-[ext_resource type="Script" path="res://games/jonathan_platformer/tools/InventoryBar.gd" id="3_inv"]
-[ext_resource type="Script" path="res://games/jonathan_platformer/tools/DeathCounter.gd" id="4_dc"]
+[ext_resource type="Script" uid="uid://d3x6m3wshfsdw" path="res://games/jonathan_platformer/tools/SpawnPoint.gd" id="2_sp"]
+[ext_resource type="Script" uid="uid://cy38eqchoohlt" path="res://games/jonathan_platformer/tools/InventoryBar.gd" id="3_inv"]
+[ext_resource type="Script" uid="uid://dx6tca3k0fvdk" path="res://games/jonathan_platformer/tools/DeathCounter.gd" id="4_dc"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/player/player.tscn" id="5_pl"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfBall.tscn" id="6_gb"]
+[ext_resource type="PackedScene" uid="uid://df4tnjx4647xj" path="res://games/jonathan_platformer/tools/GolfBall.tscn" id="6_gb"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/RoomExit.tscn" id="7_re"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Candle.tscn" id="8_cd"]
-[ext_resource type="Script" path="res://games/jonathan_platformer/tools/DeathZone.gd" id="9_dz"]
+[ext_resource type="Script" uid="uid://jun3s2fa1pch" path="res://games/jonathan_platformer/tools/DeathZone.gd" id="9_dz"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/TorchPickup.tscn" id="10_tp"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Brazier.tscn" id="11_br"]
+[ext_resource type="Script" uid="uid://db1h77x4amc4i" path="res://games/jonathan_platformer/tools/TorchBar.gd" id="12_tb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(3000, 40)
@@ -20,19 +22,19 @@ size = Vector2(4000, 40)
 [node name="DarkRoom" type="Node2D" unique_id=1359469055]
 script = ExtResource("0_dr")
 
-[node name="CanvasModulate" type="CanvasModulate" parent="."]
+[node name="CanvasModulate" type="CanvasModulate" parent="." unique_id=92570250]
 color = Color(0, 0, 0, 1)
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1081873243]
 
-[node name="BackButton" type="Button" parent="UI"]
+[node name="BackButton" type="Button" parent="UI" unique_id=125769851]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 120.0
 offset_bottom = 40.0
 text = "Back to Menu"
 
-[node name="DeathCounter" type="Label" parent="UI"]
+[node name="DeathCounter" type="Label" parent="UI" unique_id=340511998]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -43,7 +45,7 @@ offset_bottom = 36.0
 horizontal_alignment = 1
 script = ExtResource("4_dc")
 
-[node name="LivesManager" parent="UI" instance=ExtResource("1_lm")]
+[node name="LivesManager" parent="UI" unique_id=379552357 instance=ExtResource("1_lm")]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -52,7 +54,7 @@ offset_top = -52.0
 offset_right = 160.0
 offset_bottom = -12.0
 
-[node name="InventoryBar" type="HBoxContainer" parent="UI"]
+[node name="InventoryBar" type="HBoxContainer" parent="UI" unique_id=1590481965]
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
@@ -62,7 +64,15 @@ offset_right = 128.0
 offset_bottom = -52.0
 script = ExtResource("3_inv")
 
-[node name="GameOverScreen" type="Control" parent="UI"]
+[node name="TorchBar" type="Control" parent="UI" unique_id=1436359654]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource("12_tb")
+
+[node name="GameOverScreen" type="Control" parent="UI" unique_id=182948367]
 process_mode = 3
 visible = false
 layout_mode = 3
@@ -72,14 +82,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="ColorRect" parent="UI/GameOverScreen"]
+[node name="Background" type="ColorRect" parent="UI/GameOverScreen" unique_id=316684720]
 process_mode = 3
 layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 color = Color(0, 0, 0, 0.72)
 
-[node name="GameOverLabel" type="Label" parent="UI/GameOverScreen"]
+[node name="GameOverLabel" type="Label" parent="UI/GameOverScreen" unique_id=1036526254]
 process_mode = 3
 layout_mode = 0
 anchor_left = 0.5
@@ -94,7 +104,7 @@ theme_override_font_sizes/font_size = 72
 text = "YOU LOST"
 horizontal_alignment = 1
 
-[node name="RestartButton" type="Button" parent="UI/GameOverScreen"]
+[node name="RestartButton" type="Button" parent="UI/GameOverScreen" unique_id=1284644199]
 process_mode = 3
 layout_mode = 0
 anchor_left = 0.5
@@ -107,7 +117,7 @@ offset_right = 100.0
 offset_bottom = 50.0
 text = "Restart"
 
-[node name="MenuButton" type="Button" parent="UI/GameOverScreen"]
+[node name="MenuButton" type="Button" parent="UI/GameOverScreen" unique_id=1250910648]
 process_mode = 3
 layout_mode = 0
 anchor_left = 0.5
@@ -120,43 +130,46 @@ offset_right = 100.0
 offset_bottom = 100.0
 text = "Back to Menu"
 
-[node name="SpawnFromRoom3" type="Marker2D" parent="."]
+[node name="SpawnFromRoom3" type="Marker2D" parent="." unique_id=1451800112]
 position = Vector2(200, 900)
 script = ExtResource("2_sp")
 tag = "from_room3_dark"
 
-[node name="Player" parent="." instance=ExtResource("5_pl")]
+[node name="Player" parent="." unique_id=1430747893 instance=ExtResource("5_pl")]
 position = Vector2(200, 900)
 
-[node name="GolfBall" parent="." instance=ExtResource("6_gb")]
+[node name="GolfBall" parent="." unique_id=1741090641 instance=ExtResource("6_gb")]
 
-[node name="Floor" type="StaticBody2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="." unique_id=1438021318]
 position = Vector2(1000, 960)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor" unique_id=981940098]
 shape = SubResource("RectangleShape2D_floor")
 
-[node name="Visual" type="Polygon2D" parent="Floor"]
+[node name="Visual" type="Polygon2D" parent="Floor" unique_id=1622460]
 color = Color(0.12, 0.12, 0.16, 1)
 polygon = PackedVector2Array(-1500, -20, 1500, -20, 1500, 20, -1500, 20)
 
-[node name="Candle1" parent="." instance=ExtResource("8_cd")]
-position = Vector2(400, 930)
-
-[node name="Candle2" parent="." instance=ExtResource("8_cd")]
-position = Vector2(900, 930)
-
-[node name="Candle3" parent="." instance=ExtResource("8_cd")]
-position = Vector2(1500, 930)
-
-[node name="ExitBackToRoom3" parent="." instance=ExtResource("7_re")]
+[node name="ExitBackToRoom3" parent="." unique_id=1559581097 instance=ExtResource("7_re")]
 position = Vector2(80, 910)
 target_scene = "res://games/jonathan_platformer/rooms/Room3.tscn"
 spawn_tag = "from_dark_room"
 
-[node name="DeathZone" type="Area2D" parent="."]
+[node name="TorchPickup" parent="." unique_id=300617904 instance=ExtResource("10_tp")]
+position = Vector2(350, 920)
+
+[node name="Brazier1" parent="." unique_id=1416828670 instance=ExtResource("11_br")]
+position = Vector2(200, 930)
+
+[node name="Brazier2" parent="." unique_id=437291542 instance=ExtResource("11_br")]
+position = Vector2(800, 930)
+
+[node name="Brazier3" parent="." unique_id=786263900 instance=ExtResource("11_br")]
+position = Vector2(1400, 930)
+
+[node name="DeathZone" type="Area2D" parent="." unique_id=1822059412]
 position = Vector2(1000, 1060)
 script = ExtResource("9_dz")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone" unique_id=452275919]
 shape = SubResource("RectangleShape2D_dz")
