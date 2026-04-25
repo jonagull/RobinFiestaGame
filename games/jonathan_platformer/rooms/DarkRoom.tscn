@@ -1,3 +1,162 @@
 [gd_scene format=3 uid="uid://dciju2sr0p0y7"]
 
+[ext_resource type="Script" path="res://games/jonathan_platformer/rooms/DarkRoom.gd" id="0_dr"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/LivesManager.tscn" id="1_lm"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/tools/SpawnPoint.gd" id="2_sp"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/tools/InventoryBar.gd" id="3_inv"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/tools/DeathCounter.gd" id="4_dc"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/player/player.tscn" id="5_pl"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfBall.tscn" id="6_gb"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/RoomExit.tscn" id="7_re"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Candle.tscn" id="8_cd"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/tools/DeathZone.gd" id="9_dz"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
+size = Vector2(3000, 40)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dz"]
+size = Vector2(4000, 40)
+
 [node name="DarkRoom" type="Node2D" unique_id=1359469055]
+script = ExtResource("0_dr")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+color = Color(0, 0, 0, 1)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="BackButton" type="Button" parent="UI"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 120.0
+offset_bottom = 40.0
+text = "Back to Menu"
+
+[node name="DeathCounter" type="Label" parent="UI"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_top = 8.0
+offset_right = 80.0
+offset_bottom = 36.0
+horizontal_alignment = 1
+script = ExtResource("4_dc")
+
+[node name="LivesManager" parent="UI" instance=ExtResource("1_lm")]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -52.0
+offset_right = 160.0
+offset_bottom = -12.0
+
+[node name="InventoryBar" type="HBoxContainer" parent="UI"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = -88.0
+offset_right = 128.0
+offset_bottom = -52.0
+script = ExtResource("3_inv")
+
+[node name="GameOverScreen" type="Control" parent="UI"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="ColorRect" parent="UI/GameOverScreen"]
+process_mode = 3
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.72)
+
+[node name="GameOverLabel" type="Label" parent="UI/GameOverScreen"]
+process_mode = 3
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -300.0
+offset_top = -110.0
+offset_right = 300.0
+offset_bottom = -20.0
+theme_override_font_sizes/font_size = 72
+text = "YOU LOST"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="UI/GameOverScreen"]
+process_mode = 3
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 10.0
+offset_right = 100.0
+offset_bottom = 50.0
+text = "Restart"
+
+[node name="MenuButton" type="Button" parent="UI/GameOverScreen"]
+process_mode = 3
+layout_mode = 0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 60.0
+offset_right = 100.0
+offset_bottom = 100.0
+text = "Back to Menu"
+
+[node name="SpawnFromRoom3" type="Marker2D" parent="."]
+position = Vector2(200, 900)
+script = ExtResource("2_sp")
+tag = "from_room3_dark"
+
+[node name="Player" parent="." instance=ExtResource("5_pl")]
+position = Vector2(200, 900)
+
+[node name="GolfBall" parent="." instance=ExtResource("6_gb")]
+
+[node name="Floor" type="StaticBody2D" parent="."]
+position = Vector2(1000, 960)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
+shape = SubResource("RectangleShape2D_floor")
+
+[node name="Visual" type="Polygon2D" parent="Floor"]
+color = Color(0.12, 0.12, 0.16, 1)
+polygon = PackedVector2Array(-1500, -20, 1500, -20, 1500, 20, -1500, 20)
+
+[node name="Candle1" parent="." instance=ExtResource("8_cd")]
+position = Vector2(400, 930)
+
+[node name="Candle2" parent="." instance=ExtResource("8_cd")]
+position = Vector2(900, 930)
+
+[node name="Candle3" parent="." instance=ExtResource("8_cd")]
+position = Vector2(1500, 930)
+
+[node name="ExitBackToRoom3" parent="." instance=ExtResource("7_re")]
+position = Vector2(80, 910)
+target_scene = "res://games/jonathan_platformer/rooms/Room3.tscn"
+spawn_tag = "from_dark_room"
+
+[node name="DeathZone" type="Area2D" parent="."]
+position = Vector2(1000, 1060)
+script = ExtResource("9_dz")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DeathZone"]
+shape = SubResource("RectangleShape2D_dz")
