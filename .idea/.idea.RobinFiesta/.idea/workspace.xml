@@ -6,10 +6,13 @@
   <component name="ChangeListManager">
     <list default="true" id="364e7123-9c70-46d9-a115-5d6fe70afad7" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.RobinFiesta/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.RobinFiesta/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/nmf_migrations/Levels/Output.cs" beforeDir="false" afterPath="$PROJECT_DIR$/games/nmf_migrations/Levels/Output.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/nmf_migrations/Shapes/TwoByTwo.tscn" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/games/nmf_migrations/Sim/Compute/Generate.fs" beforeDir="false" afterPath="$PROJECT_DIR$/games/nmf_migrations/Sim/Compute/Generate.fs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/games/nmf_migrations/Levels/1.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/games/nmf_migrations/Levels/1.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/games/nmf_migrations/Sim/Shape.fs" beforeDir="false" afterPath="$PROJECT_DIR$/games/nmf_migrations/Sim/Shape.fs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/games/nmf_migrations/Sim/Shape/Cuts.fs" beforeDir="false" afterPath="$PROJECT_DIR$/games/nmf_migrations/Sim/Shape/Cuts.fs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/games/nmf_migrations/Viz/Transforms/Cut.cs" beforeDir="false" afterPath="$PROJECT_DIR$/games/nmf_migrations/Viz/Transforms/Cut.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/games/nmf_migrations/Viz/Transforms/Rotate.cs" beforeDir="false" afterPath="$PROJECT_DIR$/games/nmf_migrations/Viz/Transforms/Rotate.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/games/nmf_migrations/Viz/Transforms/RotateLeft.tscn" beforeDir="false" afterPath="$PROJECT_DIR$/games/nmf_migrations/Viz/Transforms/RotateLeft.tscn" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project.godot" beforeDir="false" afterPath="$PROJECT_DIR$/project.godot" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -15,6 +15,7 @@ public partial class Rotate : MachineViz
         var trans =
             Shapes.getOrThrow(Shapes.StringToTransformationType(_rotation), $"Invalid rotation: {_rotation}");
         _machine = new Transformator.Transformator(trans);
+        GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D")?.Play();
     }
 
     protected override void TransformShape(ShapeViz shapeViz)

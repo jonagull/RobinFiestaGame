@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://cnaeucui0hcmy"]
 
-[ext_resource type="Script" uid="uid://cnqucm0nxd1s0" path="res://games/nmf_migrations/Viz/Transforms/Cut.cs" id="1_qj4wu"]
+[ext_resource type="Script" uid="uid://k4fviutv77wn" path="res://games/nmf_migrations/Viz/Transforms/Rotate.cs" id="1_qj4wu"]
 [ext_resource type="SpriteFrames" uid="uid://dskcjudhpgcu4" path="res://games/nmf_migrations/Assets/rotation.tres" id="2_qj4wu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w2m47"]
 size = Vector2(36.25, 20)
 
-[node name="CutVertical" type="Node2D" unique_id=516555019]
+[node name="RotateLeft" type="Node2D" unique_id=516555019]
 script = ExtResource("1_qj4wu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=159082715]

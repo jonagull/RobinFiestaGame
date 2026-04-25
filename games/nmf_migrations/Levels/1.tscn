@@ -7,25 +7,18 @@
 [node name="1" type="Node2D" unique_id=1812457835]
 
 [node name="Output" type="Node2D" parent="." unique_id=1561421796]
-position = Vector2(-121, -566)
+position = Vector2(-124, -792)
 script = ExtResource("1_mby0m")
 _rawShapeTypes = PackedStringArray("twobytwo")
 _started = true
 _shapeDeltaTime = 1.0
 
 [node name="RotateLeft" parent="." unique_id=516555019 instance=ExtResource("2_dnxal")]
-position = Vector2(-489, -343)
+position = Vector2(-128, -435)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=846702458]
-position = Vector2(0, -1)
+position = Vector2(-191, -249)
 zoom = Vector2(0.5, 0.5)
 
-[node name="Output2" type="Node2D" parent="." unique_id=647367268]
-position = Vector2(-213, -574)
-script = ExtResource("1_mby0m")
-_rawShapeTypes = PackedStringArray("twobytwo")
-_started = true
-_shapeDeltaTime = 1.0
-
 [node name="CutVertical" parent="." unique_id=1528203351 instance=ExtResource("3_k87b1")]
-position = Vector2(-168, -330)
+position = Vector2(-130, -205)

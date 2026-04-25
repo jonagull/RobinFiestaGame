@@ -60,12 +60,10 @@ let separate (xs : 'a option list list) : 'a option list list list =
 let cutHorizontal (xs : 'a option list list) : 'a option list list list =
   xs
   |> List.take (xs.Length / 2)
-  |> separate
   |> fun ys ->
     xs
     |> List.skip (xs.Length / 2)
-    |> separate
-    |> fun zs -> List.concat [ys; zs]
+    |> fun zs -> [ys; zs]
 
 let cutVertical (xs : 'a option list list) : 'a option list list list =
   let halfWidth = xs.Head.Length / 2
@@ -73,5 +71,3 @@ let cutVertical (xs : 'a option list list) : 'a option list list list =
   |> List.map (List.take halfWidth);
   xs
   |> List.map (List.skip halfWidth)]
-  |> List.map separate
-  |> List.concat

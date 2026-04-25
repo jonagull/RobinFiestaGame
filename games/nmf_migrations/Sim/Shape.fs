@@ -26,8 +26,8 @@ type ShapeType =
 
 let StringToTransformationType (s : string) : Transformation option =
   match s.ToLower() with
-  | "l" | "rl" | "left" -> Some Transformation.RotateLeft
-  | "r" | "rr" | "right" -> Some Transformation.RotateRight
+  | "l" | "rl" | "left" -> Some Transformation.RotateRight
+  | "r" | "rr" | "right" -> Some Transformation.RotateLeft
   | "h" | "fh" | "fliph" -> Some Transformation.FlipHorizontal
   | "v" | "fv" | "flipv" -> Some Transformation.FlipVertical
   | _ -> None

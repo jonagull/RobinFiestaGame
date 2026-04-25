@@ -14,17 +14,19 @@ public partial class Cut : MachineViz
         _cutter = new Cutter.Cutter(cut);
     }
 
-    public override void _Process(double delta)
+    public override void _Ready()
     {
-        GD.Print(OutputShapes.Count);
-        base._Process(delta);
+        GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D")?.Play();
+        base._Ready();
     }
 
     protected override void TransformShape(ShapeViz shapeViz)
     {
         var shape = shapeViz.Shape;
         var firstIter = true;
-        foreach (var newShape in _cutter.CutShape(shape))
+        var ys = _cutter.CutShape(shape);
+        GD.Print(ys.Length);
+        foreach (var newShape in ys)
         {
             if (firstIter)
             {
