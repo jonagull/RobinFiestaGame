@@ -1,7 +1,10 @@
 extends Area2D
 
+@export var lit: bool = true
+
 @onready var _light: PointLight2D = $Light
 @onready var _prompt: Label = $PromptLabel
+@onready var _flame: Polygon2D = $Flame
 
 var _player_nearby := false
 
@@ -10,15 +13,21 @@ func _ready() -> void:
 	body_exited.connect(_on_body_exited)
 	_prompt.visible = false
 	_build_light()
+	if not lit:
+		_flame.visible = false
+		_light.energy = 0.0
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not _player_nearby:
 		return
 	if event.is_action_pressed("interact"):
-		_light_torch()
+		if lit:
+			_refuel_player()
+		else:
+			_try_light_brazier()
 		get_viewport().set_input_as_handled()
 
-func _light_torch() -> void:
+func _refuel_player() -> void:
 	var player := _get_nearby_player()
 	if player == null:
 		return
@@ -30,11 +39,33 @@ func _light_torch() -> void:
 	else:
 		light.refuel()
 
+func _try_light_brazier() -> void:
+	var player := _get_nearby_player()
+	if player == null:
+		return
+	var light := player.get_node_or_null("PlayerLight")
+	if light == null or not light._has_torch or light._fuel <= 0.0:
+		return
+	# Spend 15% of max fuel to ignite the brazier
+	light._fuel = maxf(0.0, light._fuel - light.torch_duration * 0.15)
+	lit = true
+	_flame.visible = true
+	_light.energy = 1.2
+	_prompt.visible = false
+	# Save checkpoint at player position
+	GameData.checkpoint_position = player.global_position
+
 func _on_body_entered(body: Node2D) -> void:
 	var light := body.get_node_or_null("PlayerLight")
-	if light != null:
-		_player_nearby = true
+	if light == null:
+		return
+	_player_nearby = true
+	if lit:
+		_prompt.text = "E  light torch"
 		_prompt.visible = light._has_torch
+	else:
+		_prompt.text = "E  light brazier"
+		_prompt.visible = light._has_torch and light._fuel > 0.0
 
 func _on_body_exited(body: Node2D) -> void:
 	if body.get_node_or_null("PlayerLight") != null:

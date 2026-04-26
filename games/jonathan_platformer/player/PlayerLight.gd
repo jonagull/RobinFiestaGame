@@ -1,9 +1,9 @@
 extends PointLight2D
 
-@export var max_radius: float = 420.0
-@export var min_radius: float = 40.0
-@export var max_energy: float = 3.0
-@export var min_energy: float = 0.15
+@export var max_radius: float = 240.0
+@export var min_radius: float = 30.0
+@export var max_energy: float = 1.4
+@export var min_energy: float = 0.08
 @export var torch_duration: float = 18.0
 
 var _fuel: float = 0.0
@@ -39,14 +39,14 @@ func light_torch() -> void:
 	if not _has_torch:
 		return
 	_fuel = torch_duration
-	_flare = 2.5
+	_flare = 0.6
 	energy = max_energy
 
 func refuel() -> void:
 	if not _has_torch:
 		return
 	_fuel = torch_duration
-	_flare = 2.5
+	_flare = 0.6
 	energy = max_energy
 
 func _build_torch_visual() -> void:

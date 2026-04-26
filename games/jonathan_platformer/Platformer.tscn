@@ -14,12 +14,11 @@
 [ext_resource type="Script" uid="uid://dnljeci7ek8oj" path="res://games/jonathan_platformer/tools/Trapdoor.gd" id="12_wppi4"]
 [ext_resource type="Script" uid="uid://cy38eqchoohlt" path="res://games/jonathan_platformer/tools/InventoryBar.gd" id="13_inv"]
 [ext_resource type="Script" uid="uid://dx6tca3k0fvdk" path="res://games/jonathan_platformer/tools/DeathCounter.gd" id="14_dc"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/NPC.tscn" id="15_npc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hunter"]
 size = Vector2(40, 40)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_npc_zone"]
-size = Vector2(120, 100)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(2000, 40)
@@ -238,28 +237,12 @@ shape = SubResource("RectangleShape2D_hunter")
 color = Color(0.85, 0.1, 0.1, 1)
 polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
 
-[node name="NPC" type="Area2D" parent="Level" unique_id=444444441]
+[node name="NPC" parent="Level" instance=ExtResource("15_npc")]
 position = Vector2(450, 815)
-script = ExtResource("6")
-
-[node name="Visual" type="Polygon2D" parent="Level/NPC" unique_id=444444442]
-color = Color(0.35, 0.55, 0.85, 1)
-polygon = PackedVector2Array(-14, -52, 14, -52, 14, 0, -14, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/NPC" unique_id=444444443]
-position = Vector2(0, -26)
-shape = SubResource("RectangleShape2D_npc_zone")
-
-[node name="PromptLabel" type="Label" parent="Level/NPC" unique_id=444444444]
-visible = false
-offset_left = -28.0
-offset_top = -80.0
-offset_right = -28.0
-offset_bottom = -80.0
-theme_override_font_sizes/font_size = 22
-text = "[E]"
 
 [node name="Drawbridge" parent="Level" unique_id=555555551 instance=ExtResource("5")]
+process_mode = 4
+visible = false
 position = Vector2(700, 1050)
 stay_down = true
 
@@ -459,28 +442,10 @@ shape = SubResource("RectangleShape2D_platform")
 color = Color(0.45, 0.3, 0.18, 1)
 polygon = PackedVector2Array(-150, -10, 150, -10, 150, 10, -150, 10)
 
-[node name="NPC2" type="Area2D" parent="Node2D" unique_id=904443660]
+[node name="NPC2" parent="Node2D" instance=ExtResource("15_npc")]
 position = Vector2(3365, -139)
-script = ExtResource("6")
-lines = Array[String](["Stranger: I am trying to warn you here, but if you won't listen.", "Go ahead.q"])
+lines = Array[String](["Stranger: I am trying to warn you here, but if you won't listen.", "Go ahead."])
 opens_on_finish = NodePath("../Trapdoor")
-
-[node name="Visual" type="Polygon2D" parent="Node2D/NPC2" unique_id=6396736]
-color = Color(0.35, 0.55, 0.85, 1)
-polygon = PackedVector2Array(-14, -52, 14, -52, 14, 0, -14, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/NPC2" unique_id=975025034]
-position = Vector2(0, -26)
-shape = SubResource("RectangleShape2D_npc_zone")
-
-[node name="PromptLabel" type="Label" parent="Node2D/NPC2" unique_id=684763167]
-visible = false
-offset_left = -28.0
-offset_top = -80.0
-offset_right = -28.0
-offset_bottom = -80.0
-theme_override_font_sizes/font_size = 22
-text = "[E]"
 
 [node name="Platform7" type="StaticBody2D" parent="Node2D" unique_id=759244056]
 position = Vector2(3102.9998, 367)
