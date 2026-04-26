@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cucocwk2odagp"]
+
+[ext_resource type="Script" uid="uid://baabo0ybdy0pe" path="res://games/jonathan_platformer/rooms/CatRoomLight.gd" id="1_suy54"]
+
+[node name="CatRoomLight" type="Node2D" unique_id=1260742667]
+script = ExtResource("1_suy54")
