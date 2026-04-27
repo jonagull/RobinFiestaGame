@@ -16,6 +16,9 @@ var _wake_t   := 0.0
 var _player: Node2D = null
 var _velocity := Vector2.ZERO
 
+var _hp      := 10
+var _stunned := false
+
 var _breath_t := 0.0
 var _tail_t   := 0.0
 var _eye_t    := 0.0
@@ -39,6 +42,7 @@ func _ready() -> void:
 	_wake_t = wake_delay
 	_player = get_tree().current_scene.get_node_or_null("Player")
 	_build_kill()
+	add_to_group("hittable")
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
@@ -52,7 +56,7 @@ func _process(delta: float) -> void:
 	_tail_t   += delta * tail_mult
 	_eye_t    += delta * 1.7
 	_animate()
-	if _awake:
+	if _awake and not _stunned:
 		_chase(delta)
 
 func _on_wake() -> void:
@@ -89,7 +93,8 @@ func _chase(delta: float) -> void:
 	var is_charging := spd > STALK_SPEED * 1.4
 	var steer: float       = STEER_CHARGE if is_charging else STEER_STALK
 
-	var target_speed: float = CHARGE_SPEED if dist < CHARGE_DIST else STALK_SPEED
+	var rage: float         = 1.0 + float(10 - _hp) * 0.12
+	var target_speed: float = (CHARGE_SPEED if dist < CHARGE_DIST else STALK_SPEED) * rage
 
 	# Torch slows the cat in dark rooms
 	var pl := _player.get_node_or_null("PlayerLight")
@@ -213,6 +218,30 @@ func _oval(cx: float, cy: float, rx: float, ry: float, n: int = 14) -> PackedVec
 		var a := TAU * i / n
 		arr.append(Vector2(cx + cos(a) * rx, cy + sin(a) * ry))
 	return arr
+
+func take_hit(from_pos: Vector2) -> void:
+	if _hp <= 0 or _stunned:
+		return
+	_hp -= 1
+	_stunned = true
+	_velocity = (global_position - from_pos).normalized() * 340.0
+	modulate = Color(1.0, 0.28, 0.28)
+	get_tree().create_timer(0.14).timeout.connect(func() -> void:
+		if is_instance_valid(self):
+			modulate = Color.WHITE
+	)
+	if _hp <= 0:
+		_die()
+		return
+	get_tree().create_timer(0.6).timeout.connect(func() -> void:
+		if is_instance_valid(self):
+			_stunned = false
+	)
+
+func _die() -> void:
+	var tween := create_tween()
+	tween.tween_property(self, "modulate:a", 0.0, 0.9)
+	tween.tween_callback(queue_free)
 
 func _radial_tex() -> GradientTexture2D:
 	var g := Gradient.new()
