@@ -10,6 +10,7 @@ const TORCH_DIST    := 300.0
 const TORCH_SLOW    := 18.0
 const KILL_R        := 58.0
 @export var wake_delay: float = 5.5
+@export var auto_wake: bool   = true
 
 var _awake    := false
 var _wake_t   := 0.0
@@ -43,11 +44,12 @@ func _ready() -> void:
 	_player = get_tree().current_scene.get_node_or_null("Player")
 	_build_kill()
 	add_to_group("hittable")
+	add_to_group("boss_cat")
 
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
-	if not _awake:
+	if not _awake and auto_wake:
 		_wake_t -= delta
 		if _wake_t <= 0.0:
 			_on_wake()
@@ -218,6 +220,23 @@ func _oval(cx: float, cy: float, rx: float, ry: float, n: int = 14) -> PackedVec
 		var a := TAU * i / n
 		arr.append(Vector2(cx + cos(a) * rx, cy + sin(a) * ry))
 	return arr
+
+func pre_wake() -> void:
+	_stunned = true
+	# Pulse aura 4 times over 2 seconds
+	var tween := create_tween()
+	tween.set_loops(4)
+	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(_aura, "energy", 2.2, 0.25)
+	tween.tween_property(_aura, "energy", 0.06, 0.25)
+	# Flash eyes in sync
+	tween.parallel().tween_property(_glow_l, "energy", 2.5, 0.25)
+	tween.parallel().tween_property(_glow_r, "energy", 2.5, 0.25)
+	get_tree().create_timer(2.1).timeout.connect(func() -> void:
+		if is_instance_valid(self):
+			_stunned = false
+			_on_wake()
+	)
 
 func take_hit(from_pos: Vector2) -> void:
 	if _hp <= 0 or _stunned:
