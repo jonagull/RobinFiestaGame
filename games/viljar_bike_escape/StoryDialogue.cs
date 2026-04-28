@@ -120,7 +120,7 @@ public partial class StoryDialogue : Control
             dir.ListDirEnd();
 
             if (files.Count == 0) return null;
-            string chosen = files[(int)GD.RandRange(0, files.Count)];
+            string chosen = files[(int)GD.RandRange(0, files.Count - 1)];
             GD.Print($"[StoryDialogue] Loading portrait: {chosen}");
             return ResourceLoader.Load<Texture2D>(chosen);
         }

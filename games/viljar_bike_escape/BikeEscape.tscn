@@ -15,8 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://drijmf3t56owr" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Man Old/manOld_hold.png" id="12"]
 [ext_resource type="Texture2D" uid="uid://d3wflwrpob2jq" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Survivor 1/survivor1_stand.png" id="13"]
 [ext_resource type="Texture2D" uid="uid://cjoi8nm3abd1l" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Survivor 1/survivor1_hold.png" id="14"]
-[ext_resource type="Texture2D" uid="uid://cvx11ddmoglub" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Woman Green/womanGreen_stand.png" id="15"]
-[ext_resource type="Texture2D" uid="uid://kfsvv5urr5ng" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Woman Green/womanGreen_hold.png" id="16"]
 [ext_resource type="Script" uid="uid://18xsbtdxckwi" path="res://games/viljar_bike_escape/EnergyDrink.cs" id="17"]
 [ext_resource type="Texture2D" uid="uid://6sbcctqpp1uh" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Hitman 1/hitman1_stand.png" id="18"]
 [ext_resource type="Texture2D" uid="uid://m5gpoguwxko6" path="res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Hitman 1/hitman1_hold.png" id="19"]
@@ -29,6 +27,9 @@ radius = 16.0
 
 [sub_resource type="CircleShape2D" id="6"]
 radius = 14.0
+
+[sub_resource type="Resource" id="Resource_ke0yk"]
+metadata/__load_path__ = "res://games/viljar_bike_escape/assets/kenney_top-down-shooter/PNG/Woman Green/womanGreen_hold.png"
 
 [sub_resource type="CircleShape2D" id="7"]
 radius = 14.0
@@ -54,11 +55,14 @@ radius = 14.0
 [sub_resource type="CircleShape2D" id="13"]
 radius = 14.0
 
+[sub_resource type="CircleShape2D" id="15"]
+radius = 14.0
+
 [sub_resource type="Curve2D" id="Curve2D_home"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -2007, 3664, 0, 0, 0, 0, -1805, 3676, 0, 0, 0, 0, -1547, 3614, 0, 0, 0, 0, -1237, 3485, 0, 0, 0, 0, -1002, 3249, 0, 0, 0, 0, -911, 3025, 0, 0, 0, 0, -829, 2817, 0, 0, 0, 0, -767, 2692, 0, 0, 0, 0, -695, 2649, 0, 0, 0, 0, -666, 2891, 0, 0, 0, 0, -684, 3141, 0, 0, 0, 0, -668, 3446, 0, 0, 0, 0, -701, 3647, 0, 0, 0, 0, -693, 3869, 0, 0, 0, 0, -502, 4012, 0, 0, 0, 0, -284, 4131, 0, 0, 0, 0, -269, 4243, 0, 0, 0, 0, -387, 4367, 0, 0, 0, 0, -517, 4430)
+"points": PackedVector2Array(0, 0, 0, 0, -2007, 3664, 0, 0, 0, 0, -1805, 3676, 0, 0, 0, 0, -1547, 3614, 0, 0, 0, 0, -1237, 3485, 0, 0, 0, 0, -1002, 3249, 0, 0, 0, 0, -911, 3025, 0, 0, 0, 0, -829, 2817, 0, 0, 0, 0, -767, 2692, 0, 0, 0, 0, -695, 2649, 0, 0, 0, 0, -663, 2711, 0, 0, 0, 0, -645, 2861, 0, 0, 0, 0, -695, 3019, 0, 0, 0, 0, -665, 3241, 0, 0, 0, 0, -668, 3446, 0, 0, 0, 0, -701, 3647, 0, 0, 0, 0, -710, 3758, 0, 0, 0, 0, -693, 3869, 0, 0, 0, 0, -644, 3942, 0, 0, 0, 0, -502, 4012, 0, 0, 0, 0, -414, 4093, 0, 0, 0, 0, -284, 4131, 0, 0, 0, 0, -269, 4243, 0, 0, 0, 0, -387, 4367, 0, 0, 0, 0, -600, 4493)
 }
-point_count = 19
+point_count = 24
 
 [sub_resource type="Curve2D" id="Curve2D_bybane1"]
 _data = {
@@ -76,13 +80,25 @@ point_count = 16
 script = ExtResource("1")
 HomePosition = Vector2(-599, 4492)
 
+[node name="RubusMarker" type="Marker2D" parent="." unique_id=312948783]
+position = Vector2(-901, 1147)
+
+[node name="TidsbankenMarker" type="Marker2D" parent="." unique_id=312948780]
+position = Vector2(-638, 2559)
+
+[node name="GolfCourseMarker" type="Marker2D" parent="." unique_id=312948781]
+position = Vector2(-1126, -1926)
+
+[node name="TirilMarker" type="Marker2D" parent="." unique_id=312948782]
+position = Vector2(-2094, 3637)
+
 [node name="MapSprite" type="Sprite2D" parent="." unique_id=484854931]
 z_index = -1
 texture = ExtResource("4")
 metadata/_edit_lock_ = true
 
 [node name="Robin" type="CharacterBody2D" parent="." unique_id=1276975165]
-position = Vector2(-862, 1165)
+position = Vector2(-2069, 3625)
 script = ExtResource("2")
 AltFrame = ExtResource("14")
 
@@ -102,7 +118,6 @@ zoom = Vector2(1.5, 1.5)
 [node name="Trygve" type="CharacterBody2D" parent="Chasers" unique_id=80338939]
 position = Vector2(-1387, 1918)
 script = ExtResource("3")
-Speed = 195.0
 TurnSpeed = 1.8
 CharacterName = "Trygve"
 Portrait = ExtResource("5_sx37x")
@@ -113,13 +128,13 @@ position = Vector2(-1740, 4845)
 shape = SubResource("6")
 
 [node name="Are" type="CharacterBody2D" parent="Chasers" unique_id=993455411]
-position = Vector2(-823, 1424)
+position = Vector2(-1910, 3496)
 script = ExtResource("3")
 StartDelay = 3.5
 CharacterName = "Are"
 Portrait = ExtResource("5_sx37x")
 HasThrow = true
-AltFrame = ExtResource("16")
+AltFrame = SubResource("Resource_ke0yk")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Are" unique_id=712038229]
 shape = SubResource("7")
@@ -127,7 +142,7 @@ shape = SubResource("7")
 [node name="Sprite2D" type="Sprite2D" parent="Chasers/Are" unique_id=312948766]
 rotation = -1.5708
 scale = Vector2(0.75, 0.75)
-texture = ExtResource("15")
+texture = ExtResource("9")
 
 [node name="Viljar" type="CharacterBody2D" parent="Chasers" unique_id=1028865728]
 position = Vector2(-599, 4492)
@@ -162,12 +177,13 @@ scale = Vector2(0.065, 0.065)
 texture = ExtResource("6")
 
 [node name="Guy" type="CharacterBody2D" parent="Chasers" unique_id=200338942]
-position = Vector2(-1220, 443)
+position = Vector2(-1804, 3438)
 script = ExtResource("3")
 StartDelay = 5.0
 CharacterName = "Guy"
 Portrait = ExtResource("5_sx37x")
 AltFrame = ExtResource("10")
+Lines = PackedStringArray("Robin, kom igjen!", "Vil du ha et glass?", "Skaal!!", "Ingen fester uten vin!", "Robin! Ha litt vin!!")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Guy" unique_id=200338943]
 shape = SubResource("10")
@@ -183,8 +199,9 @@ script = ExtResource("3")
 StartDelay = 5.5
 CharacterName = "Dag"
 Portrait = ExtResource("5_sx37x")
-WaterSpeedMult = 1.2
+WaterSpeedMult = 1.05
 WaterEntryLine = "Swimming time!"
+WaterEntryVideo = "res://games/viljar_bike_escape/assets/video/swimming_time.ogv"
 AltFrame = ExtResource("12")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Dag" unique_id=200338945]
@@ -259,6 +276,46 @@ rotation = -1.5708
 scale = Vector2(0.75, 0.75)
 texture = ExtResource("20")
 
+[node name="Vegard" type="CharacterBody2D" parent="Chasers" unique_id=900338940]
+position = Vector2(-1500, 1600)
+script = ExtResource("3")
+StartDelay = 7.0
+CharacterName = "Vegard"
+Portrait = ExtResource("5_sx37x")
+AltFrame = ExtResource("12")
+Lines = PackedStringArray("Ingen slipper unna risen min!", "Mer ris til alle!", "Carbs win races!", "Robin, du kan ikke stikke!", "Ris er energi!")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Vegard" unique_id=900338941]
+shape = SubResource("15")
+
+[node name="Sprite2D" type="Sprite2D" parent="Chasers/Vegard" unique_id=900338942]
+rotation = -1.5708
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("11")
+
+[node name="Stian" type="CharacterBody2D" parent="Chasers" unique_id=312948790]
+position = Vector2(-900, 2400)
+script = ExtResource("3")
+Speed = 260.0
+TurnSpeed = 5.0
+StartDelay = 10.0
+CharacterName = "Stian"
+Portrait = ExtResource("5_sx37x")
+HasOrbit = true
+OrbitRadius = 200.0
+OrbitSpeed = 1.4
+HasFigmaShot = true
+AltFrame = ExtResource("10")
+Lines = PackedStringArray("Auto layout this!", "Not pixel perfect!", "Your kerning is off!", "Have you tried components?", "This needs more padding!")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Stian" unique_id=312948791]
+shape = SubResource("13")
+
+[node name="Sprite2D" type="Sprite2D" parent="Chasers/Stian" unique_id=312948792]
+rotation = -1.5708
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("9")
+
 [node name="EnergyDrink1" type="Node2D" parent="." unique_id=500338940]
 position = Vector2(-808, 1476)
 script = ExtResource("17")
@@ -274,6 +331,71 @@ position = Vector2(-868, 1076)
 script = ExtResource("17")
 CanTexture = ExtResource("22")
 
+[node name="EnergyDrink4" type="Node2D" parent="." unique_id=500338943]
+position = Vector2(-1200, 3200)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink5" type="Node2D" parent="." unique_id=500338944]
+position = Vector2(-900, 2900)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink6" type="Node2D" parent="." unique_id=500338945]
+position = Vector2(-600, 2300)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink7" type="Node2D" parent="." unique_id=500338946]
+position = Vector2(-400, 1900)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink8" type="Node2D" parent="." unique_id=500338947]
+position = Vector2(-1100, 1300)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink9" type="Node2D" parent="." unique_id=500338948]
+position = Vector2(-1500, 800)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink10" type="Node2D" parent="." unique_id=500338949]
+position = Vector2(-700, 500)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink11" type="Node2D" parent="." unique_id=500338950]
+position = Vector2(-1000, -200)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink12" type="Node2D" parent="." unique_id=500338951]
+position = Vector2(-1300, -1200)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink13" type="Node2D" parent="." unique_id=500338952]
+position = Vector2(-900, -1700)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink14" type="Node2D" parent="." unique_id=500338953]
+position = Vector2(-1800, 2000)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink15" type="Node2D" parent="." unique_id=500338954]
+position = Vector2(-400, 3000)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
+[node name="EnergyDrink16" type="Node2D" parent="." unique_id=500338955]
+position = Vector2(-1600, 3400)
+script = ExtResource("17")
+CanTexture = ExtResource("22")
+
 [node name="HUD" type="CanvasLayer" parent="." unique_id=675922133]
 
 [node name="ThrowButton" type="Button" parent="HUD" unique_id=312948767]
@@ -281,9 +403,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 10.0
-offset_top = -110.0
+offset_top = -240.0
 offset_right = 150.0
-offset_bottom = -10.0
+offset_bottom = -140.0
 grow_vertical = 2
 text = "[1] THROW
 (Are)"
@@ -293,9 +415,9 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 10.0
-offset_top = 10.0
+offset_top = -120.0
 offset_right = 150.0
-offset_bottom = 110.0
+offset_bottom = -20.0
 grow_vertical = 2
 text = "[2] BUGSLIDE
 (Yuval)"
@@ -305,12 +427,47 @@ anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
 offset_left = 10.0
-offset_top = 130.0
 offset_right = 150.0
-offset_bottom = 230.0
+offset_bottom = 100.0
 grow_vertical = 2
 text = "[3] NICO
 (5s...)"
+
+[node name="RiceButton" type="Button" parent="HUD" unique_id=312948769]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = 120.0
+offset_right = 150.0
+offset_bottom = 220.0
+grow_vertical = 2
+text = "[4] RICE
+(Vegard)"
+
+[node name="WineButton" type="Button" parent="HUD" unique_id=312948770]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = 240.0
+offset_right = 150.0
+offset_bottom = 340.0
+grow_vertical = 2
+text = "[5] WINE
+(Guy)"
+
+[node name="GolfButton" type="Button" parent="HUD" unique_id=312948771]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = 360.0
+offset_right = 150.0
+offset_bottom = 460.0
+grow_vertical = 2
+text = "[6] GOLF
+⛳ drop!"
 
 [node name="TimerLabel" type="Label" parent="HUD" unique_id=450158777]
 offset_right = 160.0
@@ -335,9 +492,9 @@ layout_mode = 3
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 10.0
+offset_left = 160.0
 offset_top = -140.0
-offset_right = 390.0
+offset_right = 540.0
 offset_bottom = -10.0
 grow_vertical = 0
 script = ExtResource("5")
@@ -405,13 +562,14 @@ offset_bottom = 370.0
 text = "Back to Menu"
 
 [node name="HomePath" type="Path2D" parent="." unique_id=900000001]
-visible = false
 curve = SubResource("Curve2D_home")
 
 [node name="BybaneRoute1" type="Path2D" parent="." unique_id=900000002]
+visible = false
 curve = SubResource("Curve2D_bybane1")
 metadata/_edit_lock_ = true
 
 [node name="BybaneRoute2" type="Path2D" parent="." unique_id=900000003]
+visible = false
 curve = SubResource("Curve2D_bybane2")
 metadata/_edit_lock_ = true

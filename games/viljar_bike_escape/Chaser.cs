@@ -2,7 +2,7 @@ using Godot;
 
 public partial class Chaser : CharacterBody2D
 {
-	[Export] public float     Speed         = 170f;
+	[Export] public float     Speed         = 195f;
 	[Export] public float     TurnSpeed     = 3.5f; // radians per second
 	[Export] public float     StartDelay    = 3f;
 	[Export] public string    CharacterName = "Chaser";
@@ -12,8 +12,10 @@ public partial class Chaser : CharacterBody2D
 	[Export] public bool      HasBugslide      = false;
 	[Export] public bool      HasThrow         = false;
 	[Export] public bool      HasEnergyDrink   = false;
+	[Export] public bool      HasRice          = false;
 	[Export] public float     WaterSpeedMult   = 0.45f; // override per chaser
 	[Export] public string    WaterEntryLine   = "";    // said once on entering water
+	[Export] public string    WaterEntryVideo  = "";    // video played once on entering water
 	[Export] public bool      IsBybane          = false;
 	[Export] public int       BybaneFrameOffset = 0;   // tune if frames point the wrong way
 	[Export] public Path2D    BybanePath        = null; // rail route — leave null to fall back to chasing Robin
@@ -76,6 +78,90 @@ public partial class Chaser : CharacterBody2D
 		_game?.ShowDialogue(CharacterName, Portrait, "DATABRUS!!!");
 		ShowSpeechBubble("DATABRUS!!!");
 	}
+
+	// Golf ball spin
+	private const float SpinDuration    = 1.6f;          // seconds for 2 full rotations
+	private const float SpinRate        = Mathf.Tau * 2f / SpinDuration; // rad/s
+	private float       _spinTimer      = 0f;
+	public  bool        IsSpinning      => _spinTimer > 0f;
+	public void ApplyGolfballSpin()
+	{
+		_spinTimer = SpinDuration;
+		ShowSpeechBubble("⛳ !!");
+	}
+
+	// GI spike (from Vegard's rice)
+	private const float GiSpikeMult = 1.2f;
+	private float       _giSpikeTimer      = 0f;
+	private float       _giSpikeTotalDuration = 0f;
+	public  bool        IsGiSpiked         => _giSpikeTimer > 0f;
+	public void ApplyGiSpike(float duration)
+	{
+		_giSpikeTimer         = duration;
+		_giSpikeTotalDuration = duration;
+	}
+
+	// Wine — Guy shares wine with everyone nearby (AoE buff: faster but wobbly)
+	private const float WineDuration    = 9f;
+	private const float WineCooldown    = 15f;
+	private const float WineAoeRadius   = 350f;
+	private const float WineAoeDuration = 0.7f;   // expanding circle animation
+	private const float DrunkSpeedMult     = 1.3f;
+	private const float DrunkPhaseDuration = 3f;     // seconds before picking new cone angle
+	private const float DrunkConeHalf      = Mathf.Pi / 18f; // ±10° cone toward Robin
+	private float       _drunkPhaseTimer   = 0f;
+	private float       _drunkFixedAngle   = 0f;     // committed angle for current phase
+
+	// Per-chaser drunk state (set by ApplyDrunk, affects any chaser)
+	private float _wineDrunkTimer = 0f;
+	public  bool  IsDrunk         => _wineDrunkTimer > 0f;
+	public void ApplyDrunk(float duration)
+	{
+		_wineDrunkTimer  = duration;
+		_drunkPhaseTimer = 0f; // force a fresh pick immediately
+	}
+
+	// Guy's button cooldown (only relevant on HasWine chaser)
+	private float _wineCooldownTimer = 0f;
+	private float _wineAoeTimer      = 0f;
+	public  bool  WineReady             => _wineCooldownTimer <= 0f;
+	public  float WineCooldownRemaining => _wineCooldownTimer;
+	public  float WineDrunkRemaining    => _wineDrunkTimer;
+
+	public void ActivateWine()
+	{
+		if (!WineReady) return;
+		_wineCooldownTimer = WineCooldown;
+		_wineAoeTimer      = WineAoeDuration;
+		ShowSpeechBubble("Skaal, alle saman!!");
+		_game?.ShowDialogue(CharacterName, Portrait, "Skaal, alle saman!!");
+
+		// Share wine with all chasers in radius
+		foreach (Node sibling in GetParent().GetChildren())
+		{
+			if (sibling is not Chaser other) continue;
+			if (GlobalPosition.DistanceTo(other.GlobalPosition) <= WineAoeRadius)
+				other.ApplyDrunk(WineDuration);
+		}
+	}
+
+	// Orbit (Stian)
+	[Export] public bool  HasOrbit    = false;
+	[Export] public float OrbitRadius = 220f;
+	[Export] public float OrbitSpeed  = 1.3f;   // rad/s
+	private float _orbitAngle = 0f;
+
+	// Figma shot (Stian)
+	[Export] public bool  HasFigmaShot     = false;
+	private const  float FigmaShotCooldown = 2.5f;
+	private float        _figmaShotTimer   = 0f;
+
+	// Rice throw (Vegard)
+	private const float RiceCooldown = 4f;
+	private float       _riceTimer   = 0f;
+	public  bool        HasStarted => _delay <= 0f;
+	public  bool        RiceReady  => _riceTimer <= 0f;
+	public  float       RiceCooldownRemaining => _riceTimer;
 
 	// Water colour
 	private static readonly Color WaterColor     = new Color(0.667f, 0.827f, 0.875f);
@@ -175,7 +261,7 @@ public partial class Chaser : CharacterBody2D
 		dir.ListDirEnd();
 
 		if (files.Count == 0) return null;
-		return ResourceLoader.Load<Texture2D>(files[(int)GD.RandRange(0, files.Count)]);
+		return ResourceLoader.Load<Texture2D>(files[(int)GD.RandRange(0, files.Count - 1)]);
 	}
 
 	public void ActivateBugslide()
@@ -203,6 +289,61 @@ public partial class Chaser : CharacterBody2D
 		disc.Init((_robin.GlobalPosition - GlobalPosition).Normalized(), _robin);
 	}
 
+	public void ActivateRiceThrow()
+	{
+		if (_riceTimer > 0f) return;
+		_riceTimer = RiceCooldown;
+		ShowSpeechBubble("Smaker du risen!?");
+		_game?.ShowDialogue(CharacterName, Portrait, "Smaker du risen!?");
+
+		var target = FindNearestChaser();
+		if (target == null) return;
+
+		var rice = new Rice();
+		GetParent().GetParent().AddChild(rice);
+		rice.GlobalPosition = GlobalPosition;
+		rice.Init((target.GlobalPosition - GlobalPosition).Normalized(), this, target);
+	}
+
+	private void ShootFigmaIcon()
+	{
+		if (_robin == null) return;
+		string[] lines = { "Auto layout this!", "Not pixel perfect!", "Check your alignment, Robin!" };
+		string line = lines[GD.RandRange(0, lines.Length - 1)];
+		ShowSpeechBubble(line);
+
+		var icon = new FigmaIcon();
+		GetParent().GetParent().AddChild(icon);
+		icon.GlobalPosition = GlobalPosition;
+		icon.Init(_robin);
+	}
+
+	public void OnRiceHit(Chaser target)
+	{
+		string[] giLines = {
+			"You've got a GI - Spike!",
+			"Feel that blood sugar rush!",
+			"Rice power activated!",
+		};
+		string line = giLines[GD.RandRange(0, giLines.Length - 1)];
+		_game?.ShowDialogue(CharacterName, Portrait, line);
+		ShowSpeechBubble(line);
+	}
+
+	private Chaser FindNearestChaser()
+	{
+		Chaser nearest  = null;
+		float  bestDist = float.MaxValue;
+		foreach (Node sibling in GetParent().GetChildren())
+		{
+			if (sibling == this || sibling is not Chaser other) continue;
+			if (other.State == ChaseState.InCar || other.State == ChaseState.WaitingAtHome) continue;
+			float d = GlobalPosition.DistanceTo(other.GlobalPosition);
+			if (d < bestDist) { bestDist = d; nearest = other; }
+		}
+		return nearest;
+	}
+
 	public override void _Process(double delta)
 	{
 		QueueRedraw();
@@ -211,10 +352,31 @@ public partial class Chaser : CharacterBody2D
 		UpdateSpriteScale();
 		UpdateRunAnimation(delta);
 
-		if (_throwTimer  > 0f) _throwTimer  -= (float)delta;
-		if (_slowTimer   > 0f) _slowTimer   -= (float)delta;
-		if (_energyTimer > 0f) _energyTimer -= (float)delta;
-		if (_bubbleTimer > 0f) _bubbleTimer -= (float)delta;
+		if (_spinTimer        > 0f) _spinTimer        -= (float)delta;
+		if (_throwTimer       > 0f) _throwTimer       -= (float)delta;
+		if (_slowTimer        > 0f) _slowTimer        -= (float)delta;
+		if (_energyTimer      > 0f) _energyTimer      -= (float)delta;
+		if (_giSpikeTimer     > 0f) _giSpikeTimer     -= (float)delta;
+		if (_wineDrunkTimer   > 0f) _wineDrunkTimer   -= (float)delta;
+		if (_wineCooldownTimer > 0f) _wineCooldownTimer -= (float)delta;
+		if (_wineAoeTimer     > 0f) _wineAoeTimer     -= (float)delta;
+		if (_bubbleTimer      > 0f) _bubbleTimer      -= (float)delta;
+
+		// Drunk: every 3s pick a new angle within ±30° cone toward Robin and commit to it
+		if (_wineDrunkTimer > 0f && _robin != null)
+		{
+			_drunkPhaseTimer -= (float)delta;
+			if (_drunkPhaseTimer <= 0f)
+			{
+				float toRobin    = (_robin.GlobalPosition - GlobalPosition).Angle();
+				_drunkFixedAngle = toRobin + (float)GD.RandRange(-DrunkConeHalf, DrunkConeHalf);
+				_drunkPhaseTimer = DrunkPhaseDuration;
+			}
+		}
+		else
+		{
+			_drunkPhaseTimer = 0f;
+		}
 
 		if (_homeWaitTimer > 0f)
 		{
@@ -230,6 +392,19 @@ public partial class Chaser : CharacterBody2D
 		{
 			TriggerDialogue();
 			_dialogueTimer = (float)GD.RandRange(CooldownMin, CooldownMax);
+		}
+
+		if (_riceTimer > 0f) _riceTimer -= (float)delta;
+
+		if (HasFigmaShot && _robin != null)
+		{
+			if (_figmaShotTimer > 0f)
+				_figmaShotTimer -= (float)delta;
+			else
+			{
+				ShootFigmaIcon();
+				_figmaShotTimer = FigmaShotCooldown;
+			}
 		}
 	}
 
@@ -255,6 +430,14 @@ public partial class Chaser : CharacterBody2D
 			return;
 		}
 
+		if (_spinTimer > 0f)
+		{
+			Rotation  += SpinRate * (float)delta;
+			Velocity   = Vector2.Zero;
+			MoveAndSlide();
+			return;
+		}
+
 		_delay -= (float)delta;
 		if (_delay > 0f) return;
 
@@ -271,9 +454,20 @@ public partial class Chaser : CharacterBody2D
 		}
 		else if (!IsTent && !IsBybane)
 		{
-			// Normal arc-steer toward Robin (tents and bybane don't rotate)
-			float targetAngle = (_robin.GlobalPosition - GlobalPosition).Angle() + Mathf.Pi / 2f;
-			float diff        = Mathf.Wrap(targetAngle - Rotation, -Mathf.Pi, Mathf.Pi);
+			float targetAngle;
+			if (_wineDrunkTimer > 0f)
+				targetAngle = _drunkFixedAngle + Mathf.Pi / 2f;
+			else if (HasOrbit)
+			{
+				_orbitAngle += OrbitSpeed * (float)delta;
+				var orbitTarget = _robin.GlobalPosition
+					+ new Vector2(Mathf.Cos(_orbitAngle), Mathf.Sin(_orbitAngle)) * OrbitRadius;
+				targetAngle = (orbitTarget - GlobalPosition).Angle() + Mathf.Pi / 2f;
+			}
+			else
+				targetAngle = (_robin.GlobalPosition - GlobalPosition).Angle() + Mathf.Pi / 2f;
+
+			float diff = Mathf.Wrap(targetAngle - Rotation, -Mathf.Pi, Mathf.Pi);
 			Rotation += Mathf.Clamp(diff, -TurnSpeed * (float)delta, TurnSpeed * (float)delta);
 		}
 		// bybane: no rotation, direction handled at velocity assignment below
@@ -291,8 +485,10 @@ public partial class Chaser : CharacterBody2D
 		}
 
 		float effectiveSpeed = _bsState == BugslideState.Slide ? Speed * BugslideSpeedMult : Speed;
-		if (_slowTimer   > 0f) effectiveSpeed *= SlowMult;
-		if (_energyTimer > 0f) effectiveSpeed *= EnergyDrinkSpeedMult;
+		if (_slowTimer       > 0f) effectiveSpeed *= SlowMult;
+		if (_energyTimer     > 0f) effectiveSpeed *= EnergyDrinkSpeedMult;
+		if (_giSpikeTimer    > 0f) effectiveSpeed *= GiSpikeMult;
+		if (_wineDrunkTimer  > 0f) effectiveSpeed *= DrunkSpeedMult;
 		// During slide: travel in _slideAngle direction (not car facing)
 		var moveDir = _bsState == BugslideState.Slide
 			? Vector2.Up.Rotated(_slideAngle)
@@ -318,6 +514,8 @@ public partial class Chaser : CharacterBody2D
 				{
 					_game?.ShowDialogue(CharacterName, Portrait, WaterEntryLine);
 					ShowSpeechBubble(WaterEntryLine);
+					if (WaterEntryVideo != "")
+						_game?.PlayVideo(WaterEntryVideo);
 				}
 			}
 			_wasOnWater = onWater;
@@ -457,8 +655,80 @@ public partial class Chaser : CharacterBody2D
 			DrawArc(Vector2.Zero, 24f, 0f, Mathf.Tau, 32, new Color(0.1f, 1f, 0.3f, 0.45f + 0.4f * pulse), 3f);
 		}
 
+		if (_giSpikeTimer > 0f)
+		{
+			float pulse = 0.5f + 0.5f * Mathf.Sin(_giSpikeTimer * 12f);
+			DrawArc(Vector2.Zero, 26f, 0f, Mathf.Tau, 32, new Color(1f, 0.6f, 0.1f, 0.45f + 0.4f * pulse), 3f);
+			DrawGiSpikeChars();
+		}
+
+		if (_wineDrunkTimer > 0f)
+		{
+			float pulse = 0.5f + 0.5f * Mathf.Sin(_wineDrunkTimer * 7f);
+			DrawArc(Vector2.Zero, 22f, 0f, Mathf.Tau, 32, new Color(0.6f, 0.05f, 0.15f, 0.4f + 0.3f * pulse), 3f);
+			DrawWineGlass();
+		}
+
+		if (_wineAoeTimer > 0f)
+		{
+			float t      = 1f - _wineAoeTimer / WineAoeDuration;
+			float radius = t * WineAoeRadius;
+			float alpha  = (1f - t) * 0.55f;
+			DrawArc(Vector2.Zero, radius, 0f, Mathf.Tau, 48, new Color(0.7f, 0.05f, 0.1f, alpha), 4f);
+		}
+
 		DrawNameLabel();
 		DrawSpeechBubble();
+	}
+
+	private void DrawGiSpikeChars()
+	{
+		var   font    = ThemeDB.FallbackFont;
+		var   chars   = new[] { "米", "氣", "↑", "血糖!", "能量" };
+		float elapsed = _giSpikeTotalDuration - _giSpikeTimer; // 0 → total
+
+		for (int i = 0; i < 3; i++)
+		{
+			float phase  = (elapsed * 1.2f + i * 0.7f) % 2.2f; // each char cycles over ~2s
+			float yOff   = -55f - phase * 20f;                   // floats upward
+			float xOff   = (i - 1) * 20f;
+			float alpha  = Mathf.Clamp(1.4f - phase / 2.2f * 1.4f, 0f, 1f);
+
+			string ch    = chars[(i + (int)(elapsed * 1.5f)) % chars.Length];
+			var localPos = new Vector2(xOff, yOff).Rotated(-Rotation);
+			DrawSetTransform(localPos, -Rotation, Vector2.One);
+			DrawString(font, new Vector2(-9f, 0f), ch, HorizontalAlignment.Left, -1, 14,
+				new Color(1f, 0.85f, 0.1f, alpha));
+			DrawSetTransform(Vector2.Zero, 0f, Vector2.One);
+		}
+	}
+
+	private void DrawWineGlass()
+	{
+		// Small wine glass drawn above and to the right, counter-rotated
+		var localPos = new Vector2(18f, -44f).Rotated(-Rotation);
+		DrawSetTransform(localPos, -Rotation, Vector2.One);
+
+		var wine   = new Color(0.55f, 0.04f, 0.12f, 0.95f);
+		var glass  = new Color(0.88f, 0.92f, 0.96f, 0.75f);
+		var border = new Color(0.25f, 0.1f, 0.15f, 0.9f);
+
+		// Bowl (trapezoid, wider at top)
+		DrawColoredPolygon(new Vector2[] {
+			new Vector2(-7f, -9f), new Vector2(7f, -9f),
+			new Vector2(4f,  3f),  new Vector2(-4f, 3f),
+		}, glass);
+		// Wine fill (bottom half of bowl)
+		DrawColoredPolygon(new Vector2[] {
+			new Vector2(-5f, -1f), new Vector2(5f, -1f),
+			new Vector2(4f,  3f),  new Vector2(-4f, 3f),
+		}, wine);
+		// Stem
+		DrawLine(new Vector2(0f, 3f), new Vector2(0f, 10f), border, 1.5f);
+		// Base
+		DrawLine(new Vector2(-5f, 10f), new Vector2(5f, 10f), border, 2f);
+
+		DrawSetTransform(Vector2.Zero, 0f, Vector2.One);
 	}
 
 	private int GetBybaneFrameIndex()

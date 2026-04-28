@@ -15,12 +15,18 @@ public partial class Robin : CharacterBody2D
 
 	public bool IsOnWater { get; private set; } = false;
 
-	private const float HitSlowDuration = 2.5f;
-	private const float HitSlowMult     = 0.35f;
-	private float       _hitSlowTimer   = 0f;
+	private const float HitSlowDuration  = 2.5f;
+	private const float HitSlowMult      = 0.35f;
+	private float       _hitSlowTimer    = 0f;
 
-	public void ApplyDiscHit() => _hitSlowTimer = HitSlowDuration;
-	public bool IsHit => _hitSlowTimer > 0f;
+	private const float FigmaSlowDuration = 3f;
+	private const float FigmaSlowMult     = 0.45f;
+	private float       _figmaSlowTimer   = 0f;
+
+	public void ApplyDiscHit()   => _hitSlowTimer   = HitSlowDuration;
+	public void ApplyFigmaSlow() => _figmaSlowTimer = FigmaSlowDuration;
+	public bool IsHit            => _hitSlowTimer   > 0f;
+	public bool IsFigmaSlowed    => _figmaSlowTimer > 0f;
 
 	private Image     _mapImage;
 	private int       _mapW;
@@ -77,10 +83,12 @@ public partial class Robin : CharacterBody2D
 		if (_mapImage != null)
 			IsOnWater = SampleIsWater();
 
-		if (_hitSlowTimer > 0f) _hitSlowTimer -= (float)delta;
+		if (_hitSlowTimer   > 0f) _hitSlowTimer   -= (float)delta;
+		if (_figmaSlowTimer > 0f) _figmaSlowTimer -= (float)delta;
 
 		float speed = IsOnWater ? CanoeSpeed : BikeSpeed;
-		if (_hitSlowTimer > 0f) speed *= HitSlowMult;
+		if (_hitSlowTimer   > 0f) speed *= HitSlowMult;
+		if (_figmaSlowTimer > 0f) speed *= FigmaSlowMult;
 
 		// Steering: left/right rotate, up moves forward
 		float turn = Input.GetAxis("ui_left", "ui_right");
