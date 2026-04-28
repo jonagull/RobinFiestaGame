@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cgolfclub0001"]
+
+[ext_resource type="Script" path="res://games/jonathan_platformer/tools/GolfClub.gd" id="1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pickup"]
+size = Vector2(48, 36)
+
+[node name="GolfClub" type="Node2D"]
+script = ExtResource("1")
+
+[node name="PickupArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PickupArea"]
+shape = SubResource("RectangleShape2D_pickup")
+
+[node name="Grip" type="Polygon2D" parent="."]
+color = Color(0.15, 0.1, 0.08, 1)
+polygon = PackedVector2Array(-4, 0, 4, 0, 4, 14, -4, 14)
+
+[node name="Shaft" type="Polygon2D" parent="."]
+color = Color(0.72, 0.72, 0.76, 1)
+polygon = PackedVector2Array(-2, 0, 2, 0, 2, -70, -2, -70)
+
+[node name="Head" type="Polygon2D" parent="."]
+color = Color(0.5, 0.5, 0.58, 1)
+polygon = PackedVector2Array(-3, -72, 14, -72, 14, -60, -3, -60)

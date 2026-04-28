@@ -1,0 +1,17 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://games/jonathan_platformer/tools/PressurePlate.gd" id="1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(72, 8)
+
+[node name="PressurePlate" type="Area2D"]
+script = ExtResource("1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_1")
+
+[node name="Visual" type="Polygon2D" parent="."]
+color = Color(0.55, 0.4, 0.12, 1)
+polygon = PackedVector2Array(-32, 0, 32, 0, 36, -8, -36, -8)

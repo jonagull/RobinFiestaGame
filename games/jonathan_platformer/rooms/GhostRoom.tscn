@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://du5xqtcqmwlx8"]
+
+[ext_resource type="Script" uid="uid://bfy4825rvd38o" path="res://games/jonathan_platformer/rooms/GhostRoom.gd" id="1_xx7p0"]
+
+[node name="GhostRoom" type="Node2D" unique_id=849926054]
+script = ExtResource("1_xx7p0")

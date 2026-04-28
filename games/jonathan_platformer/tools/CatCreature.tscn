@@ -1,0 +1,6 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://games/jonathan_platformer/tools/CatCreature.gd" id="1"]
+
+[node name="CatCreature" type="Node2D"]
+script = ExtResource("1")

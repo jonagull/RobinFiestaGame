@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dihqfkqxq8f5h"]
+
+[ext_resource type="Script" uid="uid://c87n154pk62a7" path="res://games/jonathan_platformer/tools/LeverPlatform.gd" id="1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_plat"]
+size = Vector2(160, 16)
+
+[node name="LeverPlatform" type="AnimatableBody2D" unique_id=1278198237]
+position = Vector2(171, 4)
+script = ExtResource("1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=396479084]
+shape = SubResource("RectangleShape2D_plat")
+
+[node name="Visual" type="Polygon2D" parent="." unique_id=1534201147]
+color = Color(0.55, 0.3, 0.15, 1)
+polygon = PackedVector2Array(-80, -8, 80, -8, 80, 8, -80, 8)

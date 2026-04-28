@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://ddnnpadw4hnw3"]
+
+[ext_resource type="Script" uid="uid://bntk62u1ebrb6" path="res://games/jonathan_platformer/tools/Spikes.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://bn127qmcc3t3b" path="res://games/jonathan_platformer/assets/2daea9f37ca2c48.png" id="2_c8pr0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(177, 80)
+
+[node name="Spikes" type="Area2D" unique_id=367012051]
+script = ExtResource("1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1615867309]
+position = Vector2(-2.5, -40)
+shape = SubResource("RectangleShape2D_1")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=565763213]
+position = Vector2(-6, -99)
+scale = Vector2(0.16451393, 0.16451393)
+texture = ExtResource("2_c8pr0")
