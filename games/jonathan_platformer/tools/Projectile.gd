@@ -50,7 +50,7 @@ func _ready() -> void:
 
 	var bold_font := SystemFont.new()
 	bold_font.font_names = ["Arial", "Helvetica", "sans-serif"]
-	bold_font.bold = true
+	bold_font.font_weight = 700
 
 	var label := Label.new()
 	label.text = QUESTIONS.pick_random()

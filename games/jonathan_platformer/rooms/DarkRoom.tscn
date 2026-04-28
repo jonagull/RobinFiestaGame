@@ -14,17 +14,17 @@
 [ext_resource type="Script" uid="uid://db1h77x4amc4i" path="res://games/jonathan_platformer/tools/TorchBar.gd" id="12_tb"]
 [ext_resource type="Texture2D" uid="uid://drvsxfcr0ebsl" path="res://games/jonathan_platformer/assets/tileStuff/Tileset.png" id="13_3cxyc"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/CatCreature.tscn" id="18_ruxe7"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Checkpoint.tscn" id="20_a6oln"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/DoorLever.tscn" id="20_dl"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/BigDoor.tscn" id="21_bd"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/BigBrazier.tscn" id="22_bb"]
+[ext_resource type="PackedScene" uid="uid://eu6hbdx63qun" path="res://games/jonathan_platformer/tools/Checkpoint.tscn" id="20_a6oln"]
+[ext_resource type="PackedScene" uid="uid://cwcxavmto7575" path="res://games/jonathan_platformer/tools/DoorLever.tscn" id="20_dl"]
+[ext_resource type="PackedScene" uid="uid://dsiknp5qfk441" path="res://games/jonathan_platformer/tools/BigDoor.tscn" id="21_bd"]
+[ext_resource type="PackedScene" uid="uid://dsiiqcd7sc441" path="res://games/jonathan_platformer/tools/BigBrazier.tscn" id="22_bb"]
 [ext_resource type="PackedScene" uid="uid://ddnnpadw4hnw3" path="res://games/jonathan_platformer/tools/Spikes.tscn" id="22_m5x7r"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/ChainFlame.tscn" id="23_cf"]
+[ext_resource type="PackedScene" uid="uid://vwt1e1qgraea" path="res://games/jonathan_platformer/tools/ChainFlame.tscn" id="23_cf"]
 [ext_resource type="PackedScene" uid="uid://srui22pdkx8a" path="res://games/jonathan_platformer/tools/MovingPlatform.tscn" id="23_ia0xm"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfClub.tscn" id="24_gc"]
+[ext_resource type="PackedScene" uid="uid://cgolfclub0001" path="res://games/jonathan_platformer/tools/GolfClub.tscn" id="24_gc"]
 [ext_resource type="PackedScene" uid="uid://d34bbsqco1u73" path="res://games/jonathan_platformer/tools/Ladder.tscn" id="24_ia0xm"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/BossAltar.tscn" id="25_ba"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Sign.tscn" id="25_yiubh"]
+[ext_resource type="PackedScene" uid="uid://cbossaltar001" path="res://games/jonathan_platformer/tools/BossAltar.tscn" id="25_ba"]
+[ext_resource type="PackedScene" uid="uid://bmqfyuxu1s6hf" path="res://games/jonathan_platformer/tools/Sign.tscn" id="25_yiubh"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Trampoline.tscn" id="26_33vbl"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfCapShrine.tscn" id="27_x1adf"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/ShieldPillar.tscn" id="28_ie7ua"]
@@ -807,6 +807,22 @@ position = Vector2(463, 572)
 [node name="ChainFlame7" parent="ChainFlames" unique_id=200000015 instance=ExtResource("23_cf")]
 position = Vector2(-618, 648)
 
+[node name="ChainFlame11" parent="ChainFlames" unique_id=134299041 instance=ExtResource("23_cf")]
+position = Vector2(-1881, 340.9999)
+rotation = 0.67860174
+
+[node name="ChainFlame17" parent="ChainFlames" unique_id=2049640341 instance=ExtResource("23_cf")]
+position = Vector2(-1881, 143.99988)
+rotation = 0.67860174
+
+[node name="ChainFlame18" parent="ChainFlames" unique_id=505895213 instance=ExtResource("23_cf")]
+position = Vector2(-1881, -52.99997)
+rotation = 0.67860174
+
+[node name="ChainFlame19" parent="ChainFlames" unique_id=278914414 instance=ExtResource("23_cf")]
+position = Vector2(-1881, -253)
+rotation = 0.67860174
+
 [node name="ChainFlame8" parent="ChainFlames" unique_id=200000016 instance=ExtResource("23_cf")]
 position = Vector2(356, 536)
 
@@ -878,7 +894,48 @@ position = Vector2(7338, -655)
 position = Vector2(4, -18)
 
 [node name="ChainFlame11" parent="MovingPlatform3" unique_id=801328871 instance=ExtResource("23_cf")]
-position = Vector2(-60, -40)
+position = Vector2(-75, -27)
+rotation = -0.723021
+
+[node name="ChainFlame12" parent="MovingPlatform3" unique_id=2058786397 instance=ExtResource("23_cf")]
+position = Vector2(77, -27)
+rotation = 0.71045595
+
+[node name="MovingPlatform4" parent="." unique_id=1350126037 instance=ExtResource("23_ia0xm")]
+position = Vector2(5888, -430)
+distance = 200.0
+
+[node name="Trampoline2" parent="MovingPlatform4" unique_id=1500194943 instance=ExtResource("26_33vbl")]
+position = Vector2(4, -18)
+
+[node name="Trampoline3" parent="MovingPlatform4" unique_id=615752258 instance=ExtResource("26_33vbl")]
+position = Vector2(4, -18)
+
+[node name="ChainFlame11" parent="MovingPlatform4" unique_id=306839467 instance=ExtResource("23_cf")]
+position = Vector2(-75, -27)
+rotation = -0.723021
+
+[node name="ChainFlame12" parent="MovingPlatform4" unique_id=465825272 instance=ExtResource("23_cf")]
+position = Vector2(77, -27)
+rotation = 0.71045595
+
+[node name="MovingPlatform5" parent="." unique_id=1837506434 instance=ExtResource("23_ia0xm")]
+position = Vector2(5229, -954)
+distance = 200.0
+
+[node name="Trampoline2" parent="MovingPlatform5" unique_id=522765727 instance=ExtResource("26_33vbl")]
+position = Vector2(4, -18)
+
+[node name="Trampoline3" parent="MovingPlatform5" unique_id=529423441 instance=ExtResource("26_33vbl")]
+position = Vector2(4, -18)
+
+[node name="ChainFlame11" parent="MovingPlatform5" unique_id=1266927189 instance=ExtResource("23_cf")]
+position = Vector2(-75, -27)
+rotation = -0.723021
+
+[node name="ChainFlame12" parent="MovingPlatform5" unique_id=1150788668 instance=ExtResource("23_cf")]
+position = Vector2(77, -27)
+rotation = 0.71045595
 
 [node name="MovingPlatform2" parent="." unique_id=1877113054 instance=ExtResource("23_ia0xm")]
 position = Vector2(7505, -146)
