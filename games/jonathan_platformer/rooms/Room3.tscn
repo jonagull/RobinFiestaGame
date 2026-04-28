@@ -1399,11 +1399,11 @@ position = Vector2(953, 333)
 [node name="GolfCapShrine" parent="." unique_id=1637933554 instance=ExtResource("20_pe0lc")]
 position = Vector2(1600, -11544)
 
-[node name="GolfClub" parent="GolfCapShrine" unique_id=323249050 instance=ExtResource("21_k4j43")]
-position = Vector2(-268, 5)
+[node name="GolfClub" parent="." unique_id=323249050 instance=ExtResource("21_k4j43")]
+position = Vector2(1332, -11539)
 
-[node name="GolfBallShrine" parent="GolfCapShrine/GolfClub" unique_id=2086080307 instance=ExtResource("5_shrine")]
-position = Vector2(-319, -17)
+[node name="GolfBallShrine2" parent="." unique_id=2086080307 instance=ExtResource("5_shrine")]
+position = Vector2(1013, -11556)
 
 [editable path="Enemies/Group1/Enemy"]
 [editable path="Enemies/Group1/Enemy2"]

@@ -39,7 +39,7 @@ func _build_cap_visual() -> void:
 
 	# Dome
 	_cap_dome = Polygon2D.new()
-	_cap_dome.color = Color(0.9, 0.75, 0.15)
+	_cap_dome.color = Color(0.15, 0.45, 0.9)
 	_cap_dome.polygon = PackedVector2Array([
 		Vector2(-11, 0), Vector2(11, 0),
 		Vector2(9, -10), Vector2(-9, -10)
@@ -48,7 +48,7 @@ func _build_cap_visual() -> void:
 
 	# Brim
 	_cap_brim = Polygon2D.new()
-	_cap_brim.color = Color(0.75, 0.6, 0.1)
+	_cap_brim.color = Color(0.1, 0.32, 0.7)
 	_cap_brim.polygon = PackedVector2Array([
 		Vector2(-10, 0), Vector2(16, 0),
 		Vector2(16, 4),  Vector2(-10, 4)

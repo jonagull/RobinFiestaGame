@@ -37,6 +37,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("next_slot"):
 		GameData.selected_slot = (GameData.selected_slot + 1) % 3
 		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("slot_1"):
+		GameData.selected_slot = 0
+		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("slot_2"):
 		GameData.selected_slot = 1
 		get_viewport().set_input_as_handled()
@@ -120,7 +123,7 @@ func _add_ball_icon(slot: Panel) -> Label:
 
 func _add_cap_icon(slot: Panel) -> Label:
 	var dome := Polygon2D.new()
-	dome.color   = Color(0.9, 0.75, 0.15)
+	dome.color   = Color(0.15, 0.45, 0.9)
 	dome.polygon = PackedVector2Array([
 		Vector2(-9, -4), Vector2(9, -4),
 		Vector2(7, -11), Vector2(-7, -11)
@@ -129,7 +132,7 @@ func _add_cap_icon(slot: Panel) -> Label:
 	slot.add_child(dome)
 
 	var brim := Polygon2D.new()
-	brim.color   = Color(0.75, 0.6, 0.1)
+	brim.color   = Color(0.1, 0.32, 0.7)
 	brim.polygon = PackedVector2Array([
 		Vector2(-9, -4), Vector2(13, -4),
 		Vector2(13, -1), Vector2(-9, -1)

@@ -48,9 +48,14 @@ func _ready() -> void:
 	add_child(border)
 	move_child(border, 0)
 
+	var bold_font := SystemFont.new()
+	bold_font.font_names = ["Arial", "Helvetica", "sans-serif"]
+	bold_font.bold = true
+
 	var label := Label.new()
 	label.text = QUESTIONS.pick_random()
 	label.add_theme_font_size_override("font_size", 9)
+	label.add_theme_font_override("font", bold_font)
 	label.add_theme_color_override("font_color", Color(0.92, 0.88, 1.0))
 	label.position = Vector2(-24, -42)
 	add_child(label)

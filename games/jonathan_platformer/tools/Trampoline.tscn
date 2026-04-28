@@ -22,17 +22,17 @@ position = Vector2(0, -12)
 shape = SubResource("RectangleShape2D_zone")
 
 [node name="LegLeft" type="Polygon2D" parent="."]
-color = Color(0.3, 0.3, 0.3, 1)
+color = Color(0.08, 0.08, 0.08, 1)
 polygon = PackedVector2Array(-52, 0, -44, 0, -38, 20, -58, 20)
 
 [node name="LegRight" type="Polygon2D" parent="."]
-color = Color(0.3, 0.3, 0.3, 1)
+color = Color(0.08, 0.08, 0.08, 1)
 polygon = PackedVector2Array(44, 0, 52, 0, 58, 20, 38, 20)
 
 [node name="Frame" type="Polygon2D" parent="."]
-color = Color(0.55, 0.55, 0.55, 1)
+color = Color(0.15, 0.15, 0.15, 1)
 polygon = PackedVector2Array(-60, -4, 60, -4, 60, 4, -60, 4)
 
 [node name="Mat" type="Polygon2D" parent="."]
-color = Color(0.2, 0.75, 0.4, 1)
+color = Color(0.12, 0.12, 0.12, 1)
 polygon = PackedVector2Array(-52, -8, 52, -8, 52, 0, -52, 0)

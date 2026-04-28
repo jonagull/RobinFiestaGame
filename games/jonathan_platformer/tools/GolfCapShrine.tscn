@@ -14,11 +14,11 @@ shape = SubResource("RectangleShape2D_1")
 [node name="CapVisual" type="Node2D" parent="."]
 
 [node name="Dome" type="Polygon2D" parent="CapVisual"]
-color = Color(0.9, 0.75, 0.15, 1)
+color = Color(0.15, 0.45, 0.9, 1)
 polygon = PackedVector2Array(-14, -8, 14, -8, 12, -20, -12, -20)
 
 [node name="Brim" type="Polygon2D" parent="CapVisual"]
-color = Color(0.75, 0.6, 0.1, 1)
+color = Color(0.1, 0.32, 0.7, 1)
 polygon = PackedVector2Array(-14, -8, 20, -8, 20, -4, -14, -4)
 
 [node name="Pedestal" type="Polygon2D" parent="."]
