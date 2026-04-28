@@ -27,6 +27,7 @@
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Sign.tscn" id="25_yiubh"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Trampoline.tscn" id="26_33vbl"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfCapShrine.tscn" id="27_x1adf"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/ShieldPillar.tscn" id="28_ie7ua"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(3000, 40)
@@ -779,6 +780,12 @@ position = Vector2(579, 604)
 [node name="ChainFlame9" parent="ChainFlames" unique_id=122891402 instance=ExtResource("23_cf")]
 position = Vector2(939, 455)
 
+[node name="ChainFlame10" parent="ChainFlames" unique_id=740911142 instance=ExtResource("23_cf")]
+position = Vector2(1349, 148)
+
+[node name="ChainFlame11" parent="ChainFlames" unique_id=801328871 instance=ExtResource("23_cf")]
+position = Vector2(1230, -96)
+
 [node name="ChainFlame2" parent="ChainFlames" unique_id=200000010 instance=ExtResource("23_cf")]
 position = Vector2(-204, 600)
 
@@ -918,4 +925,7 @@ sign_text = "Danger!!! Migrations ahead"
 position = Vector2(5201, -59)
 
 [node name="GolfCapShrine" parent="." unique_id=2039299882 instance=ExtResource("27_x1adf")]
-position = Vector2(4787.062, -80.10742)
+position = Vector2(4787, -80)
+
+[node name="ShieldPillar" parent="." unique_id=1371757996 instance=ExtResource("28_ie7ua")]
+position = Vector2(5677, -57)

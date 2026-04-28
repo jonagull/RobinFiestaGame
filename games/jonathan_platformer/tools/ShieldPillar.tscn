@@ -1,0 +1,37 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://games/jonathan_platformer/tools/ShieldPillar.gd" id="1"]
+
+[node name="ShieldPillar" type="Node2D"]
+script = ExtResource("1")
+
+[node name="Base" type="Polygon2D" parent="."]
+color = Color(0.22, 0.18, 0.28, 1)
+polygon = PackedVector2Array(-14, 0, 14, 0, 10, -8, -10, -8)
+
+[node name="Column" type="Polygon2D" parent="."]
+color = Color(0.18, 0.14, 0.24, 1)
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, -64, -8, -64)
+
+[node name="Cap" type="Polygon2D" parent="."]
+color = Color(0.22, 0.18, 0.28, 1)
+polygon = PackedVector2Array(-10, -64, 10, -64, 8, -72, -8, -72)
+
+[node name="Crystal" type="Polygon2D" parent="."]
+color = Color(0.65, 0.2, 1.0, 1)
+polygon = PackedVector2Array(-5, -72, 5, -72, 3, -92, -3, -92)
+
+[node name="CrystalGlow" type="Polygon2D" parent="."]
+color = Color(0.8, 0.4, 1.0, 0.35)
+polygon = PackedVector2Array(-8, -70, 8, -70, 5, -96, -5, -96)
+
+[node name="Glow" type="PointLight2D" parent="."]
+position = Vector2(0, -86)
+color = Color(0.6, 0.1, 1.0, 1)
+energy = 0.0
+texture_scale = 0.8
+
+[node name="Beam" type="Line2D" parent="."]
+points = PackedVector2Array(0, -86, 0, -86)
+width = 3.0
+default_color = Color(0.7, 0.2, 1.0, 0.7)

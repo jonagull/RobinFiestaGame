@@ -23,6 +23,13 @@ var _hp      := 10
 var _stunned := false
 var _shoot_t := 0.0
 
+var _shield_active    := false
+var _hits_vulnerable  := 0
+var _pillars: Array   = []
+var _active_pillars   := 0
+var _shield_mesh: Polygon2D = null
+var _shield_t         := 0.0
+
 const PROJECTILE = preload("res://games/jonathan_platformer/tools/Projectile.tscn")
 
 var _breath_t := 0.0
@@ -85,6 +92,14 @@ func _process(delta: float) -> void:
 		if _shoot_t <= 0.0:
 			_shoot_t = shoot_interval
 			_fire()
+	if _shield_mesh != null:
+		_shield_t += delta * 2.2
+		_shield_mesh.modulate = Color(
+			0.7 + sin(_shield_t) * 0.15,
+			0.1,
+			1.0,
+			0.35 + sin(_shield_t * 1.4) * 0.1
+		)
 
 func _on_wake() -> void:
 	_awake = true
@@ -92,6 +107,15 @@ func _on_wake() -> void:
 	var tw := create_tween()
 	tw.tween_property(_aura, "energy", 0.55, 0.08)
 	tw.tween_property(_aura, "energy", 0.06, 0.9)
+	# Find and activate all pillars
+	await get_tree().process_frame
+	_pillars = get_tree().get_nodes_in_group("shield_pillar")
+	_active_pillars = _pillars.size()
+	for p in _pillars:
+		p.pillar_broken.connect(_on_pillar_broken)
+		p.activate(self)
+	if _pillars.size() > 0:
+		_raise_shield()
 
 func _animate() -> void:
 	_body.scale = Vector2(1.0 + sin(_breath_t) * 0.022, 1.0 - sin(_breath_t) * 0.014)
@@ -247,7 +271,14 @@ func _animate_preview(gl: PointLight2D, gr: PointLight2D, el: Polygon2D, er: Pol
 func take_hit(from_pos: Vector2) -> void:
 	if _hp <= 0 or _stunned:
 		return
+	if _shield_active:
+		# Shield flash — deflect hit
+		var tw := create_tween()
+		tw.tween_property(_shield_mesh, "modulate:a", 0.9, 0.05)
+		tw.tween_property(_shield_mesh, "modulate:a", 0.35, 0.15)
+		return
 	_hp -= 1
+	_hits_vulnerable += 1
 	_stunned = true
 	_velocity = (global_position - from_pos).normalized() * 340.0
 	modulate = Color(1.0, 0.28, 0.28)
@@ -258,15 +289,62 @@ func take_hit(from_pos: Vector2) -> void:
 	if _hp <= 0:
 		_die()
 		return
-	get_tree().create_timer(0.6).timeout.connect(func() -> void:
-		if is_instance_valid(self):
-			_stunned = false
-	)
+	if _hits_vulnerable >= 2:
+		# Idle then raise shield again
+		get_tree().create_timer(2.0).timeout.connect(func() -> void:
+			if is_instance_valid(self):
+				_stunned = false
+				_regen_shield()
+		)
+	else:
+		get_tree().create_timer(0.6).timeout.connect(func() -> void:
+			if is_instance_valid(self):
+				_stunned = false
+		)
 
 func _die() -> void:
 	var tween := create_tween()
 	tween.tween_property(self, "modulate:a", 0.0, 0.9)
 	tween.tween_callback(queue_free)
+
+# ── Shield ────────────────────────────────────────────────────────────────────
+
+func _raise_shield() -> void:
+	_shield_active = true
+	if _shield_mesh != null:
+		_shield_mesh.visible = true
+
+func _drop_shield() -> void:
+	_shield_active = false
+	_hits_vulnerable = 0
+	if _shield_mesh != null:
+		var tw := create_tween()
+		tw.tween_property(_shield_mesh, "modulate:a", 0.0, 0.4)
+		tw.tween_callback(func() -> void:
+			if is_instance_valid(_shield_mesh):
+				_shield_mesh.visible = false
+				_shield_mesh.modulate.a = 0.35
+		)
+
+func _on_pillar_broken() -> void:
+	_active_pillars -= 1
+	if _active_pillars <= 0:
+		_drop_shield()
+
+func _regen_shield() -> void:
+	# Pick a random pillar, reactivate it
+	_pillars.shuffle()
+	var picked: Node2D = null
+	for p in _pillars:
+		if is_instance_valid(p) and not p._active:
+			picked = p
+			break
+	if picked == null:
+		return  # all still active somehow
+	picked.add_to_group("hittable")
+	picked.activate(self)
+	_active_pillars = 1
+	_raise_shield()
 
 # ── Shooting ──────────────────────────────────────────────────────────────────
 
@@ -350,6 +428,12 @@ func _build() -> void:
 
 	_glow_l = _eye_light(Vector2(-27, -68), tex)
 	_glow_r = _eye_light(Vector2( 27, -68), tex)
+
+	_shield_mesh = Polygon2D.new()
+	_shield_mesh.color   = Color(0.7, 0.1, 1.0, 0.35)
+	_shield_mesh.polygon = _oval(0, -30, 105, 95)
+	_shield_mesh.visible = false
+	add_child(_shield_mesh)
 
 	var tr := Node2D.new()
 	tr.position = Vector2(72, 5)
