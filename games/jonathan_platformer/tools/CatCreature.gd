@@ -328,6 +328,8 @@ func _drop_shield() -> void:
 
 func _on_pillar_broken() -> void:
 	_active_pillars -= 1
+	# Each broken pillar makes the cat shoot faster (min 0.7s)
+	shoot_interval = maxf(0.7, shoot_interval - 0.6)
 	if _active_pillars <= 0:
 		_drop_shield()
 
