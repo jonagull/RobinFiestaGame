@@ -11,6 +11,8 @@ const TORCH_SLOW    := 18.0
 const KILL_R        := 58.0
 @export var wake_delay: float = 5.5
 @export var auto_wake: bool   = true
+@export var shoot_interval: float = 2.5
+@export var projectile_speed: float = 260.0
 
 var _awake    := false
 var _wake_t   := 0.0
@@ -19,6 +21,9 @@ var _velocity := Vector2.ZERO
 
 var _hp      := 10
 var _stunned := false
+var _shoot_t := 0.0
+
+const PROJECTILE = preload("res://games/jonathan_platformer/tools/Projectile.tscn")
 
 var _breath_t := 0.0
 var _tail_t   := 0.0
@@ -76,6 +81,10 @@ func _process(delta: float) -> void:
 	_animate()
 	if _awake and not _stunned:
 		_chase(delta)
+		_shoot_t -= delta
+		if _shoot_t <= 0.0:
+			_shoot_t = shoot_interval
+			_fire()
 
 func _on_wake() -> void:
 	_awake = true
@@ -259,6 +268,17 @@ func _die() -> void:
 	tween.tween_property(self, "modulate:a", 0.0, 0.9)
 	tween.tween_callback(queue_free)
 
+# ── Shooting ──────────────────────────────────────────────────────────────────
+
+func _fire() -> void:
+	if _player == null:
+		return
+	var dir := (_player.global_position - global_position).normalized()
+	var p := PROJECTILE.instantiate()
+	get_parent().add_child(p)
+	p.global_position = global_position + Vector2(0, -40)
+	p.velocity = dir * projectile_speed
+
 # ── Build ─────────────────────────────────────────────────────────────────────
 
 func _build() -> void:
@@ -281,6 +301,13 @@ func _build() -> void:
 	belly.color = Color(0.16, 0.11, 0.20)
 	belly.polygon = _oval(0, 14, 42, 28)
 	add_child(belly)
+
+	var name_label := Label.new()
+	name_label.text = "Bakke"
+	name_label.add_theme_font_size_override("font_size", 13)
+	name_label.add_theme_color_override("font_color", Color(0.75, 0.6, 0.85))
+	name_label.position = Vector2(-20, 4)
+	add_child(name_label)
 
 	var head := Polygon2D.new()
 	head.color = Color(0.10, 0.07, 0.13)

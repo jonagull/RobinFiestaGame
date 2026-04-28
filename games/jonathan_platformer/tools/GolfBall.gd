@@ -24,6 +24,8 @@ func _ready() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if state != State.HELD:
 		return
+	if GameData.selected_slot != 0:
+		return
 	if event.is_action_pressed(throw_action):
 		_throw()
 

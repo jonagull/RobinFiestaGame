@@ -22,6 +22,10 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if not _held or _player == null:
 		return
+	var selected := GameData.selected_slot == 2
+	visible = selected
+	if not selected:
+		return
 	var facing: float = -1.0 if _player.get("flip_h") else 1.0
 	global_position = _player.global_position + Vector2(facing * 20.0, -28.0)
 	scale.x = facing
@@ -67,3 +71,5 @@ func _on_pickup(body: Node2D) -> void:
 	_held = true
 	_player = body
 	_pickup_shape.set_deferred("disabled", true)
+	GameData.has_golf_club = true
+	GameData.selected_slot = 2

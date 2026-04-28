@@ -15,10 +15,12 @@
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Trampoline.tscn" id="11_uafaw"]
 [ext_resource type="PackedScene" uid="uid://dihqfkqxq8f5h" path="res://games/jonathan_platformer/tools/LeverPlatform.tscn" id="12_leverplat"]
 [ext_resource type="PackedScene" uid="uid://dagrhqmhoomro" path="res://games/jonathan_platformer/tools/Enemy.tscn" id="15_oj6mg"]
-[ext_resource type="PackedScene" uid="uid://eu6hbdx63qun" path="res://games/jonathan_platformer/tools/Checkpoint.tscn" id="16_1bpw8"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Checkpoint.tscn" id="16_1bpw8"]
 [ext_resource type="PackedScene" uid="uid://d34bbsqco1u73" path="res://games/jonathan_platformer/tools/Ladder.tscn" id="17_es7by"]
-[ext_resource type="PackedScene" uid="uid://bmqfyuxu1s6hf" path="res://games/jonathan_platformer/tools/Sign.tscn" id="18_upx7f"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Sign.tscn" id="18_upx7f"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/RoomExit.tscn" id="19_re"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfCapShrine.tscn" id="20_pe0lc"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfClub.tscn" id="21_k4j43"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_deathzone"]
 size = Vector2(4000, 100)
@@ -594,7 +596,7 @@ script = ExtResource("2_cvsnc")
 tag = "from_room3"
 
 [node name="Player" parent="." unique_id=1297805757 instance=ExtResource("3_krnco")]
-position = Vector2(2911, 806)
+position = Vector2(1201, -11535)
 
 [node name="Node2D" type="Node2D" parent="." unique_id=40960406]
 scale = Vector2(0.9990834, 1)
@@ -918,7 +920,7 @@ climb_speed = 400.0
 
 [node name="Sign" parent="." unique_id=225173414 instance=ExtResource("18_upx7f")]
 position = Vector2(-962, -2543)
-sign_text = "#Dev_Chores ahead!q"
+sign_text = "#Dev_Chores ahead!"
 
 [node name="ExitToDarkRoom" parent="." unique_id=1989966202 instance=ExtResource("19_re")]
 position = Vector2(3146, 816)
@@ -1393,6 +1395,15 @@ scale = Vector2(0.41071424, 0.41071424)
 
 [node name="Checkpoint" parent="." unique_id=14012651 instance=ExtResource("16_1bpw8")]
 position = Vector2(953, 333)
+
+[node name="GolfCapShrine" parent="." unique_id=1637933554 instance=ExtResource("20_pe0lc")]
+position = Vector2(1600, -11544)
+
+[node name="GolfClub" parent="GolfCapShrine" unique_id=323249050 instance=ExtResource("21_k4j43")]
+position = Vector2(-268, 5)
+
+[node name="GolfBallShrine" parent="GolfCapShrine/GolfClub" unique_id=2086080307 instance=ExtResource("5_shrine")]
+position = Vector2(-319, -17)
 
 [editable path="Enemies/Group1/Enemy"]
 [editable path="Enemies/Group1/Enemy2"]

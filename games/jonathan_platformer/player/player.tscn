@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3]
+[gd_scene load_steps=18 format=3]
 
 [ext_resource type="Script" path="res://games/jonathan_platformer/player/player.gd" id="1"]
 [ext_resource type="Script" path="res://games/jonathan_platformer/tools/Noclip.gd" id="noclip"]
+[ext_resource type="Script" path="res://games/jonathan_platformer/tools/GlidingCap.gd" id="glidingcap"]
 [ext_resource type="Script" path="res://games/jonathan_platformer/player/PlayerLight.gd" id="playerlight"]
 [ext_resource type="Script" path="res://games/jonathan_platformer/state_machine/state_machine.gd" id="2"]
 [ext_resource type="Script" path="res://games/jonathan_platformer/player/states/air_entry_state.gd" id="3"]
@@ -168,6 +169,9 @@ one_shot = true
 
 [node name="Noclip" type="Node" parent="."]
 script = ExtResource("noclip")
+
+[node name="GlidingCap" type="Node" parent="."]
+script = ExtResource("glidingcap")
 
 [node name="PlayerLight" type="PointLight2D" parent="."]
 script = ExtResource("playerlight")
