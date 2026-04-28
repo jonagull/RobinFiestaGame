@@ -2,6 +2,12 @@ extends Node2D
 
 signal pillar_broken
 
+const ADVISOR_LINES := [
+	"One shield down! Keep breaking the pillars!",
+	"Almost there — just one more pillar!",
+	"His shields are down — quick, get him now!",
+]
+
 const HIT_COOLDOWN := 0.35
 
 var _hp        := 3
@@ -9,7 +15,6 @@ var _active    := false
 var _cat: Node2D = null
 var _cooldown  := 0.0
 var _pulse_t   := 0.0
-
 @onready var _beam:    Line2D     = $Beam
 @onready var _glow:    PointLight2D = $Glow
 @onready var _crystal: Polygon2D  = $Crystal
@@ -82,3 +87,12 @@ func _break() -> void:
 		modulate     = Color.WHITE
 	)
 	pillar_broken.emit()
+	var adv := get_tree().get_first_node_in_group("boss_advisor")
+	if adv:
+		# Count how many pillars have already broken to pick the right line
+		var broken := 0
+		for p in get_tree().get_nodes_in_group("shield_pillar"):
+			if not p._active and p != self:
+				broken += 1
+		var idx := clampi(broken, 0, ADVISOR_LINES.size() - 1)
+		adv.say(ADVISOR_LINES[idx])

@@ -55,6 +55,9 @@ func _activate() -> void:
 	tween.parallel().tween_property(_gem, "color", Color(0.15, 0.05, 0.25), 1.2)
 	for cat in get_tree().get_nodes_in_group(cat_group):
 		cat.pre_wake()
+	var adv := get_tree().get_first_node_in_group("boss_advisor")
+	if adv:
+		adv.say("The migration monster is raising his shields! Dodge his stuff and break the pillars!")
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.name == "Player" and not _used:
