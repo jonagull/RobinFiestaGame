@@ -2,6 +2,9 @@
 
 [ext_resource type="Script" path="res://games/jonathan_platformer/tools/ChainFlame.gd" id="1"]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_refuel"]
+radius = 55.0
+
 [node name="ChainFlame" type="Node2D"]
 script = ExtResource("1")
 
@@ -24,3 +27,17 @@ polygon = PackedVector2Array(-5, -16, 0, -34, 5, -16)
 
 [node name="Light" type="PointLight2D" parent="."]
 position = Vector2(0, -20)
+
+[node name="RefuelArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RefuelArea"]
+position = Vector2(0, -10)
+shape = SubResource("CircleShape2D_refuel")
+
+[node name="PromptLabel" type="Label" parent="."]
+visible = false
+offset_left = -36.0
+offset_top = -52.0
+offset_right = -36.0
+offset_bottom = -52.0
+text = "[E] relight"
