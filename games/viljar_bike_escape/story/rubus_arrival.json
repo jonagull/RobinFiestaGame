@@ -1,7 +1,13 @@
 [
-  { "speaker": "Robin", "text": "Made it. Now what was so urgent?" },
-  { "speaker": "Guy",   "text": "Great timing. Also — Nico called. Sounded important." },
-  { "speaker": "Robin", "text": "I literally just got here." },
-  { "speaker": "Nico",  "text": "Robin! Tidsbanken. Now. I'll explain when you arrive. Trust me." },
-  { "speaker": "Robin", "text": "...Fine." }
+  { "speaker": "Guy",   "text": "Robin! You made it." },
+  { "speaker": "Trygve","text": "I'll pull the car around." },
+  { "speaker": "Robin", "text": "Is there taco?" },
+  { "speaker": "Dag",   "text": "It's Wednesday, Robin." },
+  { "speaker": "Robin", "text": "Then why am I here." },
+  { "speaker": "Guy",   "text": "The migrations. Finish them before end of day." },
+  { "speaker": "Robin", "text": "Fine. But I'm biking home." },
+  { "speaker": "Trygve","text": "We'll make sure of that." },
+  { "speaker": "",      "text": "Several hours later..." },
+  { "speaker": "Robin", "text": "Okay. I'm going home." },
+  { "speaker": "Guy",   "text": "STOP HIM. The migrations aren't done!" }
 ]

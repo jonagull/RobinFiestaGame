@@ -1,0 +1,12 @@
+[
+  { "speaker": "",         "text": "Later that evening..." },
+  { "speaker": "Tiril",    "text": "You're finally home! How was work?" },
+  { "speaker": "Robin",    "text": "There were migrations." },
+  { "speaker": "Tiril",    "text": "...Oh." },
+  { "speaker": "Tiril",    "text": "Are there people outside?" },
+  { "speaker": "Robin",    "text": "Yeah, but I think they'll go home soon." },
+  { "speaker": "Robin",    "text": "Anyway — I'm thinking golf tomorrow morning." },
+  { "speaker": "Tiril",    "text": "Of course you are." },
+  { "speaker": "",         "text": "Next day..." },
+  { "speaker": "Jonathan", "text": "Movement at Robin's house. Everyone be ready." }
+]

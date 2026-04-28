@@ -201,7 +201,6 @@ CharacterName = "Dag"
 Portrait = ExtResource("5_sx37x")
 WaterSpeedMult = 1.05
 WaterEntryLine = "Swimming time!"
-WaterEntryVideo = "res://games/viljar_bike_escape/assets/video/swimming_time.ogv"
 AltFrame = ExtResource("12")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Chasers/Dag" unique_id=200338945]
@@ -301,10 +300,6 @@ TurnSpeed = 5.0
 StartDelay = 10.0
 CharacterName = "Stian"
 Portrait = ExtResource("5_sx37x")
-HasOrbit = true
-OrbitRadius = 200.0
-OrbitSpeed = 1.4
-HasFigmaShot = true
 AltFrame = ExtResource("10")
 Lines = PackedStringArray("Auto layout this!", "Not pixel perfect!", "Your kerning is off!", "Have you tried components?", "This needs more padding!")
 

@@ -47,7 +47,7 @@ public partial class BikeEscape : Node2D
 	private float _elapsed           = 0f;
 	private float _golfCooldownTimer = 0f;
 	private bool  _gameOver        = false;
-	private int   _storyStage      = 0;   // 0=intro, 1=heading to Tidsbanken, 2=golf, 3=Tiril
+	private int   _storyStage      = 0;   // 0=intro, 1=heading home, 2=heading to golf, 3=heading to Tiril
 	private bool  _transitioning   = false;
 	private bool  _debugImmune     = false;
 	private float _nicoUnlockTimer = NicoUnlockDelay;
@@ -187,6 +187,10 @@ public partial class BikeEscape : Node2D
 		_gameOverPanel.Visible = false;
 		QueueRedraw();
 
+		// Chasers stay frozen until Robin leaves the office
+		foreach (Node child in _chasers.GetChildren())
+			child.SetPhysicsProcess(false);
+
 		var storyScene = GD.Load<PackedScene>("res://games/viljar_bike_escape/StoryDialogue.tscn");
 		_storyDialogue = storyScene.Instantiate<StoryDialogue>();
 		GetNode<CanvasLayer>("HUD").AddChild(_storyDialogue);
@@ -203,10 +207,10 @@ public partial class BikeEscape : Node2D
 
 		var (path, nextGoal) = _storyStage switch
 		{
-			1 => ("res://games/viljar_bike_escape/story/rubus_arrival.json",       _tidsbankenMarker?.GlobalPosition ?? Vector2.Zero),
-			2 => ("res://games/viljar_bike_escape/story/tidsbanken_arrival.json",  _golfCourseMarker?.GlobalPosition ?? Vector2.Zero),
-			3 => ("res://games/viljar_bike_escape/story/golf_arrival.json",        _tirilMarker?.GlobalPosition      ?? Vector2.Zero),
-			4 => ("res://games/viljar_bike_escape/story/tiril_arrival.json",       Vector2.Zero),
+			1 => ("res://games/viljar_bike_escape/story/rubus_arrival.json", HomePosition),
+			2 => ("res://games/viljar_bike_escape/story/home_arrival.json",  _golfCourseMarker?.GlobalPosition ?? Vector2.Zero),
+			3 => ("res://games/viljar_bike_escape/story/golf_arrival.json",  _tirilMarker?.GlobalPosition      ?? Vector2.Zero),
+			4 => ("res://games/viljar_bike_escape/story/tiril_arrival.json", Vector2.Zero),
 			_ => (null, Vector2.Zero)
 		};
 
@@ -226,6 +230,10 @@ public partial class BikeEscape : Node2D
 	private void OnDialogueFinished()
 	{
 		_transitioning = false;
+		// Release the chasers once Robin leaves the office
+		if (_storyStage == 1)
+			foreach (Node child in _chasers.GetChildren())
+				child.SetPhysicsProcess(true);
 		GetTree().Paused = false;
 	}
 
