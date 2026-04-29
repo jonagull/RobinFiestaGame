@@ -679,7 +679,7 @@ script = ExtResource("2_sp")
 tag = "from_room3_dark"
 
 [node name="Player" parent="." unique_id=1430747893 instance=ExtResource("5_pl")]
-position = Vector2(276, 927)
+position = Vector2(6518, -223)
 
 [node name="GolfBall" parent="." unique_id=1741090641 instance=ExtResource("6_gb")]
 

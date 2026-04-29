@@ -137,7 +137,7 @@ visible = false
 shape = SubResource("RectangleShape2D_wall_right")
 
 [node name="Platform1" type="StaticBody2D" parent="Level" unique_id=898223402]
-position = Vector2(400, 900)
+position = Vector2(462, 946)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Platform1" unique_id=41218916]
 shape = SubResource("RectangleShape2D_plat_a")
@@ -147,7 +147,7 @@ color = Color(0.2, 0.35, 0.45, 1)
 polygon = PackedVector2Array(-100, -10, 100, -10, 100, 10, -100, 10)
 
 [node name="Platform2" type="StaticBody2D" parent="Level" unique_id=2125516484]
-position = Vector2(750, 760)
+position = Vector2(652, 881)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Level/Platform2" unique_id=1983893945]
 shape = SubResource("RectangleShape2D_plat_b")
@@ -188,14 +188,20 @@ position = Vector2(60, 1050)
 target_scene = "res://games/jonathan_platformer/Platformer.tscn"
 spawn_tag = "from_room2"
 
+[node name="ExitToTrygve" parent="Level" unique_id=810000001 instance=ExtResource("4")]
+position = Vector2(2929, 1030)
+target_scene = "res://games/jonathan_platformer/rooms/trygve.tscn"
+
 [node name="Spikes2" parent="Level" unique_id=174971162 instance=ExtResource("5")]
 position = Vector2(1042, 1041)
+scale = Vector2(0.44763786, 0.44763786)
 
 [node name="Spikes1" parent="Level" unique_id=1220234088 instance=ExtResource("5")]
 position = Vector2(960, 1041)
+scale = Vector2(0.44763786, 0.44763786)
 
 [node name="MovingPlatform1" parent="Level" unique_id=1392405729 instance=ExtResource("6")]
-position = Vector2(960, 750)
+position = Vector2(852, 828)
 distance = 200.0
 direction = Vector2(0, -1)
 speed = 70.0

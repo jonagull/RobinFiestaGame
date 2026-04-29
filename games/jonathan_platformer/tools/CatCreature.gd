@@ -36,6 +36,9 @@ var _stun_ended     := false
 var _is_final_phase := false
 
 const PROJECTILE = preload("res://games/jonathan_platformer/tools/Projectile.tscn")
+const BOSS_MUSIC = preload("res://games/jonathan_platformer/assets/music/Victorious.mp3")
+
+var _music: AudioStreamPlayer = null
 
 var _breath_t := 0.0
 var _tail_t   := 0.0
@@ -108,6 +111,11 @@ func _process(delta: float) -> void:
 
 func _on_wake() -> void:
 	_awake = true
+	_music = AudioStreamPlayer.new()
+	_music.stream = BOSS_MUSIC
+	_music.volume_db = 0.0
+	add_child(_music)
+	_music.play()
 	_kill_area.monitoring = true
 	var tw := create_tween()
 	tw.tween_property(_aura, "energy", 0.55, 0.08)
@@ -330,6 +338,8 @@ func take_hit(from_pos: Vector2) -> void:
 	)
 
 func _die() -> void:
+	if _music and is_instance_valid(_music):
+		_music.stop()
 	remove_from_group("hittable")
 	_stunned = true
 	_shield_stunned = true

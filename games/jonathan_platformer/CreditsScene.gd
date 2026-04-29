@@ -61,7 +61,7 @@ func _build_credits(vp: Vector2) -> void:
 	# Optional header image with caption
 	if header_image != null:
 		var caption := Label.new()
-		caption.text = "Nico and Robin live happily ever after at:"
+		caption.text = "Nico and Robin lived happily ever after at:"
 		caption.add_theme_font_size_override("font_size", 20)
 		caption.add_theme_color_override("font_color", Color(0.88, 0.84, 0.96))
 		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
