@@ -21,6 +21,7 @@
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/RoomExit.tscn" id="19_re"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfCapShrine.tscn" id="20_pe0lc"]
 [ext_resource type="PackedScene" uid="uid://cgolfclub0001" path="res://games/jonathan_platformer/tools/GolfClub.tscn" id="21_k4j43"]
+[ext_resource type="PackedScene" uid="uid://cxqdggejmikb0" path="res://games/jonathan_platformer/NPC.tscn" id="22_hjjgc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_deathzone"]
 size = Vector2(4000, 100)
@@ -1446,6 +1447,10 @@ position = Vector2(1013, -11556)
 
 [node name="GolfCapShrine2" parent="." unique_id=1525178258 instance=ExtResource("20_pe0lc")]
 position = Vector2(-2962, -4103)
+
+[node name="NPC" parent="." unique_id=1331104214 instance=ExtResource("22_hjjgc")]
+position = Vector2(2993, 809)
+scale = Vector2(0.68122363, 0.68122363)
 
 [editable path="Enemies/Group1/Enemy"]
 [editable path="Enemies/Group1/Enemy2"]

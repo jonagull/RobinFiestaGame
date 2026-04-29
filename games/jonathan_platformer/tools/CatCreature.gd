@@ -19,16 +19,21 @@ var _wake_t   := 0.0
 var _player: Node2D = null
 var _velocity := Vector2.ZERO
 
-var _hp      := 10
-var _stunned := false
-var _shoot_t := 0.0
+var _hp             := 10
+var _stunned        := false
+var _shield_stunned := false
+var _shoot_t        := 0.0
 
 var _shield_active    := false
-var _hits_vulnerable  := 0
+var _shield_phase     := 0
 var _pillars: Array   = []
 var _active_pillars   := 0
 var _shield_mesh: Polygon2D = null
 var _shield_t         := 0.0
+
+var _stun_hits      := 0
+var _stun_ended     := false
+var _is_final_phase := false
 
 const PROJECTILE = preload("res://games/jonathan_platformer/tools/Projectile.tscn")
 
@@ -86,7 +91,7 @@ func _process(delta: float) -> void:
 	_tail_t += delta * tail_mult
 	_eye_t  += delta * 1.7
 	_animate()
-	if _awake and not _stunned:
+	if _awake and not _stunned and not _shield_stunned:
 		_chase(delta)
 		_shoot_t -= delta
 		if _shoot_t <= 0.0:
@@ -107,14 +112,29 @@ func _on_wake() -> void:
 	var tw := create_tween()
 	tw.tween_property(_aura, "energy", 0.55, 0.08)
 	tw.tween_property(_aura, "energy", 0.06, 0.9)
-	# Find and activate all pillars
 	await get_tree().process_frame
 	_pillars = get_tree().get_nodes_in_group("shield_pillar")
-	_active_pillars = _pillars.size()
+	_shield_phase = 0
 	for p in _pillars:
-		p.pillar_broken.connect(_on_pillar_broken)
-		p.activate(self)
-	if _pillars.size() > 0:
+		if not p.pillar_broken.is_connected(_on_pillar_broken):
+			p.pillar_broken.connect(_on_pillar_broken)
+	_activate_phase()
+
+func _pillars_this_phase() -> int:
+	return mini(_shield_phase + 2, _pillars.size())
+
+func _activate_phase() -> void:
+	var count := _pillars_this_phase()
+	if count == 0:
+		return
+	_active_pillars = 0
+	var activated := 0
+	for p in _pillars:
+		if is_instance_valid(p) and not p._active and activated < count:
+			p.activate(self)
+			activated += 1
+			_active_pillars += 1
+	if _active_pillars > 0:
 		_raise_shield()
 
 func _animate() -> void:
@@ -271,14 +291,13 @@ func _animate_preview(gl: PointLight2D, gr: PointLight2D, el: Polygon2D, er: Pol
 func take_hit(from_pos: Vector2) -> void:
 	if _hp <= 0 or _stunned:
 		return
+	# _shield_stunned does NOT block hits — that's the whole point of the window
 	if _shield_active:
-		# Shield flash — deflect hit
 		var tw := create_tween()
 		tw.tween_property(_shield_mesh, "modulate:a", 0.9, 0.05)
 		tw.tween_property(_shield_mesh, "modulate:a", 0.35, 0.15)
 		return
 	_hp -= 1
-	_hits_vulnerable += 1
 	_stunned = true
 	_velocity = (global_position - from_pos).normalized() * 340.0
 	modulate = Color(1.0, 0.28, 0.28)
@@ -289,23 +308,116 @@ func take_hit(from_pos: Vector2) -> void:
 	if _hp <= 0:
 		_die()
 		return
-	if _hits_vulnerable >= 2:
-		# Idle then raise shield again
-		get_tree().create_timer(2.0).timeout.connect(func() -> void:
-			if is_instance_valid(self):
-				_stunned = false
-				_regen_shield()
-		)
-	else:
-		get_tree().create_timer(0.6).timeout.connect(func() -> void:
-			if is_instance_valid(self):
-				_stunned = false
-		)
+	# In non-final phases, 2 hits ends the stun window early
+	if _shield_stunned and not _is_final_phase:
+		_stun_hits += 1
+		if _stun_hits == 2:
+			get_tree().create_timer(1.0).timeout.connect(func() -> void:
+				if is_instance_valid(self) and not _stun_ended:
+					_end_stun_early()
+			)
+	get_tree().create_timer(0.6).timeout.connect(func() -> void:
+		if is_instance_valid(self):
+			_stunned = false
+	)
 
 func _die() -> void:
-	var tween := create_tween()
-	tween.tween_property(self, "modulate:a", 0.0, 0.9)
-	tween.tween_callback(queue_free)
+	remove_from_group("hittable")
+	_stunned = true
+	_shield_stunned = true
+	_kill_area.monitoring = false
+	_velocity = Vector2.ZERO
+	var saved_parent := get_parent()
+	var saved_pos    := global_position
+	_spawn_death_explosion(saved_parent)
+	# Fade out cat, then spawn NPC once it's gone
+	var tw := create_tween()
+	tw.tween_interval(1.5)
+	tw.tween_property(self, "modulate:a", 0.0, 0.7)
+	tw.tween_callback(func() -> void:
+		_spawn_npc(saved_parent, saved_pos)
+		queue_free()
+	)
+
+func _spawn_death_explosion(parent: Node) -> void:
+	var pos := global_position + Vector2(0, -50)
+	var tex := _radial_tex()
+	var vp_size := get_viewport().get_visible_rect().size
+
+	# White screen flash — tween owned by flash_canvas so it survives cat being freed
+	var flash_canvas := CanvasLayer.new()
+	flash_canvas.layer = 60
+	parent.add_child(flash_canvas)
+	var flash := ColorRect.new()
+	flash.color = Color(1, 1, 1, 0.88)
+	flash.size = vp_size
+	flash_canvas.add_child(flash)
+	var ftw := flash_canvas.create_tween()
+	ftw.tween_property(flash, "color:a", 0.0, 0.55)
+	ftw.tween_callback(flash_canvas.queue_free)
+
+	# "YOU WIN!" banner — all tweens owned by win_canvas
+	var win_canvas := CanvasLayer.new()
+	win_canvas.layer = 61
+	parent.add_child(win_canvas)
+	var win_lbl := Label.new()
+	win_lbl.text = "YOU WIN!"
+	win_lbl.add_theme_font_size_override("font_size", 80)
+	win_lbl.add_theme_color_override("font_color", Color(1.0, 0.90, 0.22))
+	win_lbl.modulate.a = 0.0
+	win_lbl.position = Vector2(vp_size.x * 0.5 - 190, vp_size.y * 0.5 - 50)
+	win_canvas.add_child(win_lbl)
+	var wtw := win_canvas.create_tween()
+	wtw.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	wtw.tween_property(win_lbl, "modulate:a", 1.0, 0.45).set_delay(0.2)
+	get_tree().create_timer(5.0).timeout.connect(func() -> void:
+		if not is_instance_valid(win_canvas): return
+		var fw := win_canvas.create_tween()
+		fw.tween_property(win_lbl, "modulate:a", 0.0, 1.0)
+		fw.tween_callback(win_canvas.queue_free)
+	)
+
+	# Expanding light rings — each tween owned by its ring node
+	var ring_colors := [Color(1.0, 0.9, 0.2), Color(1.0, 0.4, 0.1), Color(0.5, 0.2, 1.0), Color(0.2, 0.9, 1.0)]
+	for i in 4:
+		var ring := PointLight2D.new()
+		ring.global_position = pos
+		ring.color = ring_colors[i]
+		ring.energy = 3.5
+		ring.texture = tex
+		ring.texture_scale = 0.5
+		parent.add_child(ring)
+		var delay := i * 0.16
+		var rtw := ring.create_tween().set_parallel(true)
+		rtw.tween_property(ring, "texture_scale", 9.0, 1.2).set_delay(delay)
+		rtw.tween_property(ring, "energy", 0.0, 1.0).set_delay(delay + 0.2)
+		rtw.tween_callback(ring.queue_free).set_delay(delay + 1.6)
+
+	# Polygon shards flying outward — each tween owned by its shard node
+	var shard_colors := [Color(1.0, 0.88, 0.2), Color(0.7, 0.2, 1.0), Color(1.0, 0.5, 0.1), Color(0.3, 0.9, 1.0)]
+	for i in 22:
+		var shard := Polygon2D.new()
+		var angle := TAU * i / 22.0 + randf_range(-0.12, 0.12)
+		var sz := randf_range(5.0, 16.0)
+		shard.polygon = PackedVector2Array([Vector2(-sz*0.4, 0), Vector2(sz*0.4, 0), Vector2(0, -sz*1.6)])
+		shard.color = shard_colors[i % 4]
+		shard.global_position = pos
+		shard.rotation = angle
+		parent.add_child(shard)
+		var speed := randf_range(230.0, 540.0)
+		var dir := Vector2(cos(angle), sin(angle))
+		var stw := shard.create_tween().set_parallel(true)
+		stw.tween_property(shard, "global_position", shard.global_position + dir * speed, 1.4)
+		stw.tween_property(shard, "modulate:a", 0.0, 1.0).set_delay(0.35)
+		stw.tween_property(shard, "rotation", shard.rotation + randf_range(-TAU, TAU), 1.4)
+		stw.tween_callback(shard.queue_free).set_delay(1.5)
+
+func _spawn_npc(parent: Node, pos: Vector2) -> void:
+	var npc_scene := load("res://games/jonathan_platformer/tools/VictoryNPC.tscn")
+	if npc_scene:
+		var npc: Node2D = npc_scene.instantiate()
+		npc.global_position = pos + Vector2(0, 0)
+		parent.add_child(npc)
 
 # ── Shield ────────────────────────────────────────────────────────────────────
 
@@ -316,7 +428,6 @@ func _raise_shield() -> void:
 
 func _drop_shield() -> void:
 	_shield_active = false
-	_hits_vulnerable = 0
 	if _shield_mesh != null:
 		var tw := create_tween()
 		tw.tween_property(_shield_mesh, "modulate:a", 0.0, 0.4)
@@ -328,25 +439,66 @@ func _drop_shield() -> void:
 
 func _on_pillar_broken() -> void:
 	_active_pillars -= 1
-	# Each broken pillar makes the cat shoot faster (min 0.7s)
-	shoot_interval = maxf(0.7, shoot_interval - 0.6)
-	if _active_pillars <= 0:
+	shoot_interval = maxf(0.7, shoot_interval - 0.25)
+	if _active_pillars == 0:
 		_drop_shield()
+		_enter_stun()
+	elif _active_pillars > 1:
+		var adv := get_tree().get_first_node_in_group("boss_advisor")
+		if adv:
+			adv.say("Keep going! Break all the pillars!")
 
-func _regen_shield() -> void:
-	# Pick a random pillar, reactivate it
-	_pillars.shuffle()
-	var picked: Node2D = null
-	for p in _pillars:
-		if is_instance_valid(p) and not p._active:
-			picked = p
-			break
-	if picked == null:
-		return  # all still active somehow
-	picked.add_to_group("hittable")
-	picked.activate(self)
-	_active_pillars = 1
-	_raise_shield()
+func _enter_stun() -> void:
+	if _shield_stunned:
+		return
+	_shield_stunned  = true
+	_stun_hits       = 0
+	_stun_ended      = false
+	_is_final_phase  = _pillars_this_phase() >= _pillars.size()
+	_velocity        = Vector2.ZERO
+	var adv := get_tree().get_first_node_in_group("boss_advisor")
+	if adv:
+		adv.say("His shields are down — get him now!")
+	# Cat staggers: tilt, close eyes, and fall to the ground
+	var fall_target := global_position + Vector2(0, 190)
+	var tw := create_tween().set_parallel(true)
+	tw.tween_property(self, "rotation_degrees", 28.0, 0.35)
+	tw.tween_property(_eye_l, "scale:y", 0.08, 0.3)
+	tw.tween_property(_eye_r, "scale:y", 0.08, 0.3)
+	tw.tween_property(self, "global_position", fall_target, 0.55).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_IN)
+	_shield_phase += 1
+	get_tree().create_timer(30.0).timeout.connect(func() -> void:
+		if not is_instance_valid(self) or _stun_ended:
+			return
+		_do_stun_recovery()
+	)
+
+func _end_stun_early() -> void:
+	if _stun_ended or not _shield_stunned:
+		return
+	_stun_ended = true
+	_do_stun_recovery()
+
+func _do_stun_recovery() -> void:
+	if not is_instance_valid(self):
+		return
+	var rise_target := global_position - Vector2(0, 190)
+	var tw2 := create_tween().set_parallel(true)
+	tw2.tween_property(self, "rotation_degrees", 0.0, 0.5)
+	tw2.tween_property(_eye_l, "scale:y", 1.0, 0.4)
+	tw2.tween_property(_eye_r, "scale:y", 1.0, 0.4)
+	tw2.tween_property(self, "global_position", rise_target, 0.6).set_trans(Tween.TRANS_QUART).set_ease(Tween.EASE_OUT)
+	get_tree().create_timer(0.7).timeout.connect(func() -> void:
+		if not is_instance_valid(self):
+			return
+		_shield_stunned = false
+		_stunned        = false
+		if _pillars_this_phase() > 0:
+			_activate_phase()
+			var adv2 := get_tree().get_first_node_in_group("boss_advisor")
+			if adv2:
+				adv2.say("He's shielding up again! Break the pillars!")
+	)
 
 # ── Shooting ──────────────────────────────────────────────────────────────────
 

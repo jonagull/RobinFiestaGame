@@ -28,14 +28,40 @@ func _ready() -> void:
 	_slots.append(slot2)
 	_hints.append(_add_club_icon(slot2))
 
+	_remap_dpad()
+
 	await get_tree().process_frame
 	var found := get_tree().get_nodes_in_group("golf_ball")
 	if found.size() > 0:
 		_golf_ball = found[0]
 
+func _remap_dpad() -> void:
+	# Move d-pad left/right from movement to inventory cycling.
+	# Button index 13 = d-pad left, 14 = d-pad right (standard SDL mapping).
+	# Keyboard (A/D, arrow keys) and joystick axis bindings are left untouched.
+	for ev in InputMap.action_get_events("left"):
+		if ev is InputEventJoypadButton and ev.button_index == 13:
+			InputMap.action_erase_event("left", ev)
+	for ev in InputMap.action_get_events("right"):
+		if ev is InputEventJoypadButton and ev.button_index == 14:
+			InputMap.action_erase_event("right", ev)
+	if not InputMap.has_action("prev_slot"):
+		InputMap.add_action("prev_slot")
+	var ev_prev := InputEventJoypadButton.new()
+	ev_prev.device = -1
+	ev_prev.button_index = 13
+	InputMap.action_add_event("prev_slot", ev_prev)
+	var ev_next := InputEventJoypadButton.new()
+	ev_next.device = -1
+	ev_next.button_index = 14
+	InputMap.action_add_event("next_slot", ev_next)
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("next_slot"):
 		GameData.selected_slot = (GameData.selected_slot + 1) % 3
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("prev_slot"):
+		GameData.selected_slot = (GameData.selected_slot - 1 + 3) % 3
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("slot_1"):
 		GameData.selected_slot = 0

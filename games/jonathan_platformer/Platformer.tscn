@@ -4,21 +4,17 @@
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/player/player.tscn" id="2"]
 [ext_resource type="Script" uid="uid://dwgvnu8pcqrxk" path="res://games/jonathan_platformer/FlyingHunter.gd" id="3"]
 [ext_resource type="Script" uid="uid://dis2kp8td41ql" path="res://games/jonathan_platformer/TutorialHints.gd" id="4"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Drawbridge.tscn" id="5"]
-[ext_resource type="Script" uid="uid://dw3nu156pv0dq" path="res://games/jonathan_platformer/NPC.gd" id="6"]
 [ext_resource type="Script" uid="uid://dv4owqcsunhj7" path="res://games/jonathan_platformer/DialogueBox.gd" id="7"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/SpawnPoint.tscn" id="8"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/CarryBox.tscn" id="8_bv4dq"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/RoomExit.tscn" id="9"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/LivesManager.tscn" id="10"]
 [ext_resource type="Script" uid="uid://dnljeci7ek8oj" path="res://games/jonathan_platformer/tools/Trapdoor.gd" id="12_wppi4"]
 [ext_resource type="Script" uid="uid://cy38eqchoohlt" path="res://games/jonathan_platformer/tools/InventoryBar.gd" id="13_inv"]
 [ext_resource type="Script" uid="uid://dx6tca3k0fvdk" path="res://games/jonathan_platformer/tools/DeathCounter.gd" id="14_dc"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/NPC.tscn" id="15_npc"]
+[ext_resource type="PackedScene" uid="uid://cxqdggejmikb0" path="res://games/jonathan_platformer/NPC.tscn" id="15_npc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hunter"]
 size = Vector2(40, 40)
-
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(2000, 40)
@@ -202,9 +198,10 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
-offset_top = -120.0
+offset_top = -224.0
 offset_right = 320.0
-offset_bottom = -16.0
+offset_bottom = -120.0
+grow_vertical = 0
 script = ExtResource("4")
 
 [node name="MoveHint" type="Label" parent="UI/TutorialHints" unique_id=222222222]
@@ -237,17 +234,10 @@ shape = SubResource("RectangleShape2D_hunter")
 color = Color(0.85, 0.1, 0.1, 1)
 polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
 
-[node name="NPC" parent="Level" instance=ExtResource("15_npc")]
-position = Vector2(450, 815)
-
-[node name="Drawbridge" parent="Level" unique_id=555555551 instance=ExtResource("5")]
-process_mode = 4
-visible = false
-position = Vector2(700, 1050)
-stay_down = true
-
-[node name="CarryBox" parent="Level" unique_id=1101218815 instance=ExtResource("8_bv4dq")]
-position = Vector2(1083, 831)
+[node name="NPC" parent="Level" unique_id=821890718 instance=ExtResource("15_npc")]
+position = Vector2(1101, 1019)
+flip_sprite = true
+lines = Array[String](["Nico: Hey! Big day today, are you ready? ", "Nico: I'll meet you up there."])
 
 [node name="SpawnPoint_FromRoom2" parent="Level" unique_id=410798494 instance=ExtResource("8")]
 position = Vector2(1860, 1020)
@@ -442,9 +432,10 @@ shape = SubResource("RectangleShape2D_platform")
 color = Color(0.45, 0.3, 0.18, 1)
 polygon = PackedVector2Array(-150, -10, 150, -10, 150, 10, -150, 10)
 
-[node name="NPC2" parent="Node2D" instance=ExtResource("15_npc")]
-position = Vector2(3365, -139)
-lines = Array[String](["Stranger: I am trying to warn you here, but if you won't listen.", "Go ahead."])
+[node name="NPC2" parent="Node2D" unique_id=1807388204 instance=ExtResource("15_npc")]
+position = Vector2(3294, -118)
+flip_sprite = true
+lines = Array[String](["Nico: Super psyched you are taking over for me Robin!", "Nico: Jump down there and let's get started!"])
 opens_on_finish = NodePath("../Trapdoor")
 
 [node name="Platform7" type="StaticBody2D" parent="Node2D" unique_id=759244056]

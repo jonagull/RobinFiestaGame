@@ -87,6 +87,16 @@ func _slide_open() -> void:
 	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(self, "position:y", position.y + SLIDE_Y, 1.4)
 
+func boss_lock() -> void:
+	if not _open:
+		return
+	_open = false
+	_prompt.visible = false
+	_shape_node.set_deferred("disabled", false)
+	var tween := create_tween()
+	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(self, "position:y", position.y - SLIDE_Y, 1.4)
+
 func _on_body_entered(body: Node2D) -> void:
 	if body.name == "Player" and not _open:
 		_player_nearby = true

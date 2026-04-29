@@ -1,26 +1,32 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cxqdggejmikb0"]
 
-[ext_resource type="Script" path="res://games/jonathan_platformer/NPC.gd" id="1"]
+[ext_resource type="Script" uid="uid://dw3nu156pv0dq" path="res://games/jonathan_platformer/NPC.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://ctpkr284ar3ul" path="res://games/jonathan_platformer/assets/asdnico.png" id="2_hopl3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
 size = Vector2(120, 100)
 
-[node name="NPC" type="Area2D"]
+[node name="NPC" type="Area2D" unique_id=221778313]
 script = ExtResource("1")
 
-[node name="Visual" type="Polygon2D" parent="."]
+[node name="Visual" type="Polygon2D" parent="." unique_id=551960780]
+visible = false
 color = Color(0.35, 0.55, 0.85, 1)
 polygon = PackedVector2Array(-14, -52, 14, -52, 14, 0, -14, 0)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=439342094]
 position = Vector2(0, -26)
 shape = SubResource("RectangleShape2D_1")
 
-[node name="PromptLabel" type="Label" parent="."]
-visible = false
-offset_left = -28.0
-offset_top = -80.0
+[node name="PromptLabel" type="Label" parent="." unique_id=1405529713]
+offset_left = -55.0
+offset_top = -83.0
 offset_right = -28.0
-offset_bottom = -80.0
+offset_bottom = -52.0
 theme_override_font_sizes/font_size = 22
 text = "[E]"
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1033214893]
+position = Vector2(1, -22.000002)
+scale = Vector2(0.09315191, 0.09315191)
+texture = ExtResource("2_hopl3")

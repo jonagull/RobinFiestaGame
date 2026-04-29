@@ -711,19 +711,22 @@ position = Vector2(2208, -2178)
 
 [node name="Brazier17" parent="Braziers" unique_id=1922481214 instance=ExtResource("11_br")]
 position = Vector2(2482, -1778)
+lit = false
 
 [node name="Brazier16" parent="Braziers" unique_id=15658397 instance=ExtResource("11_br")]
 position = Vector2(3008, -2303)
+lit = false
 
 [node name="Brazier18" parent="Braziers" unique_id=1554471270 instance=ExtResource("11_br")]
 position = Vector2(3536, -1890)
+lit = false
 
 [node name="Brazier6" parent="Braziers" unique_id=98542501 instance=ExtResource("11_br")]
 position = Vector2(3393, -193)
 lit = false
 
 [node name="Brazier7" parent="Braziers" unique_id=647836276 instance=ExtResource("11_br")]
-position = Vector2(3946, -49)
+position = Vector2(3996, -49)
 
 [node name="Brazier8" parent="Braziers" unique_id=160331875 instance=ExtResource("11_br")]
 position = Vector2(1658, -493)
@@ -761,7 +764,7 @@ position = Vector2(-4083, 747)
 position = Vector2(-4266, 1642)
 
 [node name="DoorLever4" parent="Levers" unique_id=200000005 instance=ExtResource("20_dl")]
-position = Vector2(453, 1904)
+position = Vector2(518, 1906)
 
 [node name="BigDoor" parent="." unique_id=200000006 instance=ExtResource("21_bd")]
 position = Vector2(4499, -55)

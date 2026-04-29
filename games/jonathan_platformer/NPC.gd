@@ -1,5 +1,7 @@
 extends Area2D
 
+@export var flip_sprite: bool = false
+
 # Format each line as "Speaker: Text" — the speaker name is shown separately.
 @export var lines: Array[String] = [
 	"Stranger: Stop. Don't go any further.",
@@ -18,20 +20,26 @@ extends Area2D
 var _player_nearby := false
 var _in_dialogue := false
 
-@onready var prompt_label: Label   = $PromptLabel
-@onready var dialogue_box: Control = get_node("../../UI/DialogueBox")
+@onready var prompt_label: Label = $PromptLabel
+
+func _get_dialogue_box() -> Control:
+	return get_tree().current_scene.get_node_or_null("UI/DialogueBox")
 
 func _ready() -> void:
+	$Sprite2D.flip_h = flip_sprite
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
-	dialogue_box.finished.connect(_on_dialogue_finished)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not _player_nearby or _in_dialogue:
 		return
 	if event.is_action_pressed("interact"):
+		var dialogue_box := _get_dialogue_box()
+		if dialogue_box == null:
+			return
 		_in_dialogue = true
 		prompt_label.visible = false
+		dialogue_box.finished.connect(_on_dialogue_finished, CONNECT_ONE_SHOT)
 		dialogue_box.start(lines)
 		get_viewport().set_input_as_handled()
 

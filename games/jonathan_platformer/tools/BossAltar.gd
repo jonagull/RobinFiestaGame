@@ -53,11 +53,21 @@ func _activate() -> void:
 	tween.tween_property(_glow, "energy", 4.0, 0.1)
 	tween.tween_property(_glow, "energy", 0.0, 1.2)
 	tween.parallel().tween_property(_gem, "color", Color(0.15, 0.05, 0.25), 1.2)
+	for door in get_tree().get_nodes_in_group("big_door"):
+		door.boss_lock()
 	for cat in get_tree().get_nodes_in_group(cat_group):
 		cat.pre_wake()
-	var adv := get_tree().get_first_node_in_group("boss_advisor")
-	if adv:
-		adv.say("The migration monster is raising his shields! Dodge his stuff and break the pillars!")
+	# Staged dialog: first reaction, then tactical hint as the cat fully wakes
+	get_tree().create_timer(1.5).timeout.connect(func() -> void:
+		var adv := get_tree().get_first_node_in_group("boss_advisor")
+		if adv:
+			adv.say("Oh no... the migration monster!")
+	)
+	get_tree().create_timer(6.0).timeout.connect(func() -> void:
+		var adv := get_tree().get_first_node_in_group("boss_advisor")
+		if adv:
+			adv.say("He's shielding up! Break the pillars!")
+	)
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.name == "Player" and not _used:
