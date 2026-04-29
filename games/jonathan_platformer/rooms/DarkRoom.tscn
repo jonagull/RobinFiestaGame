@@ -26,7 +26,6 @@
 [ext_resource type="PackedScene" uid="uid://cblice61cbxyj" path="res://games/jonathan_platformer/tools/BossAltar.tscn" id="25_ba"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Sign.tscn" id="25_yiubh"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Trampoline.tscn" id="26_33vbl"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfCapShrine.tscn" id="27_x1adf"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/ShieldPillar.tscn" id="28_ie7ua"]
 [ext_resource type="Script" uid="uid://dbemq1lbejqq8" path="res://games/jonathan_platformer/tools/BossAdvisor.gd" id="29_adv"]
 [ext_resource type="PackedScene" uid="uid://crg53rn4oivau" path="res://games/jonathan_platformer/NPC.tscn" id="30_87hiu"]
@@ -702,9 +701,6 @@ spawn_tag = "from_dark_room"
 [node name="TorchPickup" parent="." unique_id=300617904 instance=ExtResource("10_tp")]
 position = Vector2(350, 920)
 
-[node name="TorchPickup2" parent="." unique_id=158331288 instance=ExtResource("10_tp")]
-position = Vector2(4673, -77)
-
 [node name="DeathZone" type="Area2D" parent="." unique_id=1822059412]
 position = Vector2(1000, 1060)
 script = ExtResource("9_dz")
@@ -946,7 +942,7 @@ auto_wake = false
 position = Vector2(6591, -213)
 
 [node name="GolfClub" parent="." unique_id=200000017 instance=ExtResource("24_gc")]
-position = Vector2(4970, -70)
+position = Vector2(5082, -69)
 
 [node name="Checkpoint" parent="." unique_id=4274074 instance=ExtResource("20_a6oln")]
 position = Vector2(4732, -78)
@@ -1265,9 +1261,6 @@ bounce_force = 1500.0
 position = Vector2(5691, -59)
 bounce_force = 1500.0
 
-[node name="GolfCapShrine" parent="." unique_id=2039299882 instance=ExtResource("27_x1adf")]
-position = Vector2(4787, -80)
-
 [node name="ShieldPillar" parent="." unique_id=1371757996 instance=ExtResource("28_ie7ua")]
 position = Vector2(5458, -485)
 
@@ -1287,8 +1280,8 @@ position = Vector2(4830, -1241)
 script = ExtResource("29_adv")
 
 [node name="NPC" parent="." unique_id=221778313 instance=ExtResource("30_87hiu")]
-position = Vector2(458, 927)
-scale = Vector2(0.6546153, 0.6546153)
+position = Vector2(479, 921.00006)
+scale = Vector2(0.8281919, 0.8281919)
 flip_sprite = true
 lines = Array[String](["Nico: Step ahead sir, for the CTO role is dark and full of terrors"])
 
@@ -1296,3 +1289,8 @@ lines = Array[String](["Nico: Step ahead sir, for the CTO role is dark and full 
 position = Vector2(4231, -78)
 flip_sprite = true
 lines = Array[String](["Nico: Did you find all 4 levers?", "Nico: You final task awaits"])
+
+[node name="NPC3" parent="." unique_id=1054243090 instance=ExtResource("30_87hiu")]
+position = Vector2(4984, -77)
+flip_sprite = true
+lines = Array[String](["Nico: Now take this club", "Nico: And beat the shit out of those migrations!q"])

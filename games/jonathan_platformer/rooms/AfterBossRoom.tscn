@@ -1,10 +1,10 @@
 [gd_scene format=3 uid="uid://bw52f0qrthwic"]
 
 [ext_resource type="Script" uid="uid://cpxt7ljo63ofo" path="res://games/jonathan_platformer/rooms/AfterBossRoom.gd" id="1"]
-[ext_resource type="Script" uid="uid://dv4owqcsunhj7" path="res://games/jonathan_platformer/DialogueBox.gd" id="5_db"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/NPC.tscn" id="2_i0mti"]
+[ext_resource type="PackedScene" uid="uid://crg53rn4oivau" path="res://games/jonathan_platformer/NPC.tscn" id="2_i0mti"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/player/player.tscn" id="3_pl"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/CreditsOrb.tscn" id="4_co"]
+[ext_resource type="PackedScene" uid="uid://bkce66550kulk" path="res://games/jonathan_platformer/tools/CreditsOrb.tscn" id="4_co"]
+[ext_resource type="Script" uid="uid://dv4owqcsunhj7" path="res://games/jonathan_platformer/DialogueBox.gd" id="5_db"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pb2tq"]
 size = Vector2(300, 20)
@@ -27,7 +27,8 @@ position = Vector2(21, -80)
 
 [node name="NPC" parent="." unique_id=221778313 instance=ExtResource("2_i0mti")]
 position = Vector2(117, -44)
-lines = Array[String](["Nico: aah yes"])
+flip_sprite = true
+lines = Array[String](["Nico: You did it.", "Nico: I knew you would", "Nico: But I think it's time for both of us to go home now", "Nico: It was fun as long as it lasted right?"])
 opens_on_finish = NodePath("../CreditsOrb")
 
 [node name="CreditsOrb" parent="." unique_id=390000001 instance=ExtResource("4_co")]

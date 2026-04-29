@@ -190,11 +190,9 @@ spawn_tag = "from_room2"
 
 [node name="Spikes2" parent="Level" unique_id=174971162 instance=ExtResource("5")]
 position = Vector2(1042, 1041)
-width = 82.0
 
 [node name="Spikes1" parent="Level" unique_id=1220234088 instance=ExtResource("5")]
 position = Vector2(960, 1041)
-width = 82.0
 
 [node name="MovingPlatform1" parent="Level" unique_id=1392405729 instance=ExtResource("6")]
 position = Vector2(960, 750)

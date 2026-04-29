@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://credits_scene_01"]
+[gd_scene format=3 uid="uid://cslio8777gui7"]
 
-[ext_resource type="Script" path="res://games/jonathan_platformer/CreditsScene.gd" id="1"]
+[ext_resource type="Script" uid="uid://dssc8hfffjwei" path="res://games/jonathan_platformer/CreditsScene.gd" id="1"]
 
-[node name="CreditsScene" type="Node2D"]
+[node name="CreditsScene" type="Node2D" unique_id=831642003]
 script = ExtResource("1")
