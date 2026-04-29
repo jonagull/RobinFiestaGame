@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cvicnpc001"]
+
+[ext_resource type="Script" path="res://games/jonathan_platformer/tools/VictoryNPC.gd" id="1"]
+
+[node name="VictoryNPC" type="Area2D"]
+script = ExtResource("1")

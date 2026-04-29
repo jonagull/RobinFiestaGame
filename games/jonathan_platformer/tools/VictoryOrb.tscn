@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cvorb000001"]
+
+[ext_resource type="Script" path="res://games/jonathan_platformer/tools/VictoryOrb.gd" id="1"]
+
+[node name="VictoryOrb" type="Area2D"]
+script = ExtResource("1")

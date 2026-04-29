@@ -288,6 +288,14 @@ func _animate_preview(gl: PointLight2D, gr: PointLight2D, el: Polygon2D, er: Pol
 
 # ── Damage ────────────────────────────────────────────────────────────────────
 
+func _unhandled_input(event: InputEvent) -> void:
+	if Engine.is_editor_hint():
+		return
+	if event is InputEventKey and event.pressed and event.keycode == KEY_F9:
+		if _awake and _hp > 0:
+			_hp = 1
+			take_hit(global_position + Vector2(1, 0))
+
 func take_hit(from_pos: Vector2) -> void:
 	if _hp <= 0 or _stunned:
 		return
@@ -335,7 +343,7 @@ func _die() -> void:
 	tw.tween_interval(1.5)
 	tw.tween_property(self, "modulate:a", 0.0, 0.7)
 	tw.tween_callback(func() -> void:
-		_spawn_npc(saved_parent, saved_pos)
+		_spawn_orb(saved_parent, saved_pos)
 		queue_free()
 	)
 
@@ -412,12 +420,19 @@ func _spawn_death_explosion(parent: Node) -> void:
 		stw.tween_property(shard, "rotation", shard.rotation + randf_range(-TAU, TAU), 1.4)
 		stw.tween_callback(shard.queue_free).set_delay(1.5)
 
-func _spawn_npc(parent: Node, pos: Vector2) -> void:
-	var npc_scene := load("res://games/jonathan_platformer/tools/VictoryNPC.tscn")
-	if npc_scene:
-		var npc: Node2D = npc_scene.instantiate()
-		npc.global_position = pos + Vector2(0, 0)
-		parent.add_child(npc)
+func _spawn_orb(parent: Node, fallback_pos: Vector2) -> void:
+	# Place orb at altar position and hide the altar; fall back to cat death position
+	var orb_pos := fallback_pos
+	var altar := get_tree().get_first_node_in_group("boss_altar")
+	if altar and is_instance_valid(altar):
+		orb_pos = altar.global_position
+		altar.visible = false
+
+	var scene := load("res://games/jonathan_platformer/tools/VictoryOrb.tscn")
+	if scene:
+		var orb: Node2D = scene.instantiate()
+		orb.global_position = orb_pos
+		parent.add_child(orb)
 
 # ── Shield ────────────────────────────────────────────────────────────────────
 

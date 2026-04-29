@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://ccredits001"]
+
+[ext_resource type="Script" path="res://games/jonathan_platformer/rooms/Credits.gd" id="1"]
+
+[node name="Credits" type="CanvasLayer"]
+script = ExtResource("1")

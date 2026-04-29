@@ -1,0 +1,19 @@
+[gd_scene format=3 uid="uid://cngg62xhkmvu0"]
+
+[ext_resource type="Script" uid="uid://cpxt7ljo63ofo" path="res://games/jonathan_platformer/rooms/AfterBossRoom.gd" id="1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pb2tq"]
+size = Vector2(300, 20)
+
+[node name="AfterBossRoom" type="Node2D" unique_id=6592069]
+script = ExtResource("1")
+
+[node name="Platform5" type="StaticBody2D" parent="." unique_id=2093502536]
+position = Vector2(21, -10)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Platform5" unique_id=1208645565]
+shape = SubResource("RectangleShape2D_pb2tq")
+
+[node name="Visual" type="Polygon2D" parent="Platform5" unique_id=204550231]
+color = Color(0.45, 0.3, 0.18, 1)
+polygon = PackedVector2Array(-150, -10, 150, -10, 150, 10, -150, 10)

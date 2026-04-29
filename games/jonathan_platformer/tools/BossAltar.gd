@@ -11,6 +11,7 @@ var _pulse_t   := 0.0
 @onready var _gem:    Polygon2D    = $Gem
 
 func _ready() -> void:
+	add_to_group("boss_altar")
 	body_entered.connect(_on_body_entered)
 	body_exited.connect(_on_body_exited)
 	_prompt.visible = false
