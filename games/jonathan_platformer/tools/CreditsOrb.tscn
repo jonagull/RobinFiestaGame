@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bkce66550kulk"]
+
+[ext_resource type="Script" uid="uid://cw0ccswt8adg0" path="res://games/jonathan_platformer/tools/CreditsOrb.gd" id="1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 40.0
+
+[node name="CreditsOrb" type="Area2D" unique_id=203550287]
+script = ExtResource("1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1095268924]
+shape = SubResource("CircleShape2D_1")

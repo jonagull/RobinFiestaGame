@@ -15,13 +15,14 @@
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Trampoline.tscn" id="11_uafaw"]
 [ext_resource type="PackedScene" uid="uid://dihqfkqxq8f5h" path="res://games/jonathan_platformer/tools/LeverPlatform.tscn" id="12_leverplat"]
 [ext_resource type="PackedScene" uid="uid://dagrhqmhoomro" path="res://games/jonathan_platformer/tools/Enemy.tscn" id="15_oj6mg"]
-[ext_resource type="PackedScene" uid="uid://eu6hbdx63qun" path="res://games/jonathan_platformer/tools/Checkpoint.tscn" id="16_1bpw8"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Checkpoint.tscn" id="16_1bpw8"]
 [ext_resource type="PackedScene" uid="uid://d34bbsqco1u73" path="res://games/jonathan_platformer/tools/Ladder.tscn" id="17_es7by"]
-[ext_resource type="PackedScene" uid="uid://bmqfyuxu1s6hf" path="res://games/jonathan_platformer/tools/Sign.tscn" id="18_upx7f"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Sign.tscn" id="18_upx7f"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/RoomExit.tscn" id="19_re"]
+[ext_resource type="Script" uid="uid://dv4owqcsunhj7" path="res://games/jonathan_platformer/DialogueBox.gd" id="20_db"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfCapShrine.tscn" id="20_pe0lc"]
-[ext_resource type="PackedScene" uid="uid://cgolfclub0001" path="res://games/jonathan_platformer/tools/GolfClub.tscn" id="21_k4j43"]
-[ext_resource type="PackedScene" uid="uid://cxqdggejmikb0" path="res://games/jonathan_platformer/NPC.tscn" id="22_hjjgc"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfClub.tscn" id="21_k4j43"]
+[ext_resource type="PackedScene" uid="uid://crg53rn4oivau" path="res://games/jonathan_platformer/NPC.tscn" id="22_hjjgc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_deathzone"]
 size = Vector2(4000, 100)
@@ -513,6 +514,62 @@ offset_bottom = 40.0
 text = "Back to Menu"
 metadata/_edit_use_anchors_ = true
 
+[node name="DialogueBox" type="Control" parent="UI" unique_id=600000001]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("20_db")
+
+[node name="TopBar" type="ColorRect" parent="UI/DialogueBox" unique_id=600000002]
+layout_mode = 0
+anchor_right = 1.0
+offset_bottom = 80.0
+color = Color(0, 0, 0, 1)
+
+[node name="BottomPanel" type="ColorRect" parent="UI/DialogueBox" unique_id=600000003]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -200.0
+color = Color(0.06, 0.06, 0.08, 0.96)
+
+[node name="SpeakerName" type="Label" parent="UI/DialogueBox/BottomPanel" unique_id=600000004]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 14.0
+offset_right = 700.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 20
+
+[node name="DialogueText" type="Label" parent="UI/DialogueBox/BottomPanel" unique_id=600000005]
+layout_mode = 0
+anchor_right = 1.0
+offset_left = 48.0
+offset_top = 54.0
+offset_right = -48.0
+offset_bottom = -44.0
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="ContinueHint" type="Label" parent="UI/DialogueBox/BottomPanel" unique_id=600000006]
+visible = false
+layout_mode = 0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -38.0
+offset_right = -16.0
+offset_bottom = -10.0
+theme_override_font_sizes/font_size = 15
+text = "[E] Continue"
+
 [node name="LivesManager" parent="UI" unique_id=888446299 instance=ExtResource("1_3kop6")]
 anchors_preset = 2
 anchor_top = 1.0
@@ -592,12 +649,12 @@ offset_bottom = -52.0
 script = ExtResource("2_wab52")
 
 [node name="spawn" type="Marker2D" parent="." unique_id=903321390]
-position = Vector2(-341, 320)
+position = Vector2(888, 729)
 script = ExtResource("2_cvsnc")
 tag = "from_room3"
 
 [node name="Player" parent="." unique_id=1297805757 instance=ExtResource("3_krnco")]
-position = Vector2(1201, -11535)
+position = Vector2(946, 812)
 
 [node name="Node2D" type="Node2D" parent="." unique_id=40960406]
 scale = Vector2(0.9990834, 1)
@@ -606,7 +663,7 @@ scale = Vector2(0.9990834, 1)
 position = Vector2(-8497, -12528)
 
 [node name="GolfBallShrine" parent="." unique_id=779451762 instance=ExtResource("5_shrine")]
-position = Vector2(-3170, -14165)
+position = Vector2(-2624, -14165)
 
 [node name="DeathZone" type="Area2D" parent="." unique_id=2050379241]
 position = Vector2(963, 1204)
@@ -921,7 +978,7 @@ climb_speed = 400.0
 
 [node name="Sign" parent="." unique_id=225173414 instance=ExtResource("18_upx7f")]
 position = Vector2(-962, -2543)
-sign_text = "#Dev_Chores ahead!"
+sign_text = "#dev_Chores ahead!"
 
 [node name="ExitToDarkRoom" parent="." unique_id=1989966202 instance=ExtResource("19_re")]
 position = Vector2(3146, 816)
@@ -1130,7 +1187,7 @@ position = Vector2(-323, 2)
 position = Vector2(-5, -7)
 
 [node name="Trampoline" parent="TopSection" unique_id=1868964450 instance=ExtResource("11_uafaw")]
-position = Vector2(-1694, -10535)
+position = Vector2(-1694, -10530)
 bounce_force = 100000.0
 
 [node name="Spikes" parent="TopSection" unique_id=1199305357 instance=ExtResource("10_2vd4h")]
@@ -1451,6 +1508,34 @@ position = Vector2(-2962, -4103)
 [node name="NPC" parent="." unique_id=1331104214 instance=ExtResource("22_hjjgc")]
 position = Vector2(2993, 809)
 scale = Vector2(0.68122363, 0.68122363)
+flip_sprite = true
+lines = Array[String](["Nico: Having fun yet?"])
+
+[node name="NPC4" parent="." unique_id=646216718 instance=ExtResource("22_hjjgc")]
+position = Vector2(-1469, -10532)
+scale = Vector2(0.53321695, 0.53321695)
+lines = Array[String](["Nico: Almost there!", "Nico: Have you gotten qany new hobbies lately?"])
+
+[node name="NPC3" parent="." unique_id=1737865828 instance=ExtResource("22_hjjgc")]
+position = Vector2(-2792, -4035)
+scale = Vector2(0.53321695, 0.53321695)
+lines = Array[String](["Nico: One step closer, put on this hat and CTO role will be yours at the top"])
+
+[node name="NPC2" parent="." unique_id=221778313 instance=ExtResource("22_hjjgc")]
+position = Vector2(-2036, -99)
+scale = Vector2(0.53321695, 0.53321695)
+flip_sprite = true
+lines = Array[String](["Nico: Now becoming CTO Robin, is all about climbing the corporate ladder"])
+
+[node name="NPC5" parent="." unique_id=1996159423 instance=ExtResource("22_hjjgc")]
+position = Vector2(-2466.9998, -14153)
+scale = Vector2(0.6965667, 0.6965667)
+lines = Array[String](["Nico: There you are!", "Nico: Grab the golf ball and you shall become CTO"])
+
+[node name="NPC6" parent="." unique_id=1930954697 instance=ExtResource("22_hjjgc")]
+position = Vector2(792, 807)
+scale = Vector2(0.8495411, 0.807915)
+lines = Array[String](["Nico: Don't you be moping around now, get going!"])
 
 [editable path="Enemies/Group1/Enemy"]
 [editable path="Enemies/Group1/Enemy2"]

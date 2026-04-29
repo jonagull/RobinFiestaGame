@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://dpr2s3b70uivs" path="res://games/nmf_migrations/Game.cs" id="1"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/player/player.tscn" id="2"]
-[ext_resource type="Script" uid="uid://dwgvnu8pcqrxk" path="res://games/jonathan_platformer/FlyingHunter.gd" id="3"]
 [ext_resource type="Script" uid="uid://dis2kp8td41ql" path="res://games/jonathan_platformer/TutorialHints.gd" id="4"]
 [ext_resource type="Script" uid="uid://dv4owqcsunhj7" path="res://games/jonathan_platformer/DialogueBox.gd" id="7"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/SpawnPoint.tscn" id="8"]
@@ -11,10 +10,7 @@
 [ext_resource type="Script" uid="uid://dnljeci7ek8oj" path="res://games/jonathan_platformer/tools/Trapdoor.gd" id="12_wppi4"]
 [ext_resource type="Script" uid="uid://cy38eqchoohlt" path="res://games/jonathan_platformer/tools/InventoryBar.gd" id="13_inv"]
 [ext_resource type="Script" uid="uid://dx6tca3k0fvdk" path="res://games/jonathan_platformer/tools/DeathCounter.gd" id="14_dc"]
-[ext_resource type="PackedScene" uid="uid://cxqdggejmikb0" path="res://games/jonathan_platformer/NPC.tscn" id="15_npc"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hunter"]
-size = Vector2(40, 40)
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/NPC.tscn" id="15_npc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(2000, 40)
@@ -220,19 +216,6 @@ theme_override_font_sizes/font_size = 18
 text = "Shift  —  Dash"
 
 [node name="Level" type="Node2D" parent="." unique_id=1994252508]
-
-[node name="FlyingHunter" type="Area2D" parent="Level" unique_id=111111111]
-process_mode = 4
-visible = false
-position = Vector2(960, 80)
-script = ExtResource("3")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Level/FlyingHunter" unique_id=111111112]
-shape = SubResource("RectangleShape2D_hunter")
-
-[node name="Visual" type="Polygon2D" parent="Level/FlyingHunter" unique_id=111111113]
-color = Color(0.85, 0.1, 0.1, 1)
-polygon = PackedVector2Array(-20, -20, 20, -20, 20, 20, -20, 20)
 
 [node name="NPC" parent="Level" unique_id=821890718 instance=ExtResource("15_npc")]
 position = Vector2(1101, 1019)

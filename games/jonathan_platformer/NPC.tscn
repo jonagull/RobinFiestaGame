@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cxqdggejmikb0"]
+[gd_scene format=3 uid="uid://crg53rn4oivau"]
 
 [ext_resource type="Script" uid="uid://dw3nu156pv0dq" path="res://games/jonathan_platformer/NPC.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://ctpkr284ar3ul" path="res://games/jonathan_platformer/assets/asdnico.png" id="2_hopl3"]

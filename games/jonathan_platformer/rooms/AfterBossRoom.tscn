@@ -1,6 +1,10 @@
-[gd_scene format=3 uid="uid://cngg62xhkmvu0"]
+[gd_scene format=3 uid="uid://bw52f0qrthwic"]
 
 [ext_resource type="Script" uid="uid://cpxt7ljo63ofo" path="res://games/jonathan_platformer/rooms/AfterBossRoom.gd" id="1"]
+[ext_resource type="Script" uid="uid://dv4owqcsunhj7" path="res://games/jonathan_platformer/DialogueBox.gd" id="5_db"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/NPC.tscn" id="2_i0mti"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/player/player.tscn" id="3_pl"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/CreditsOrb.tscn" id="4_co"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pb2tq"]
 size = Vector2(300, 20)
@@ -17,3 +21,72 @@ shape = SubResource("RectangleShape2D_pb2tq")
 [node name="Visual" type="Polygon2D" parent="Platform5" unique_id=204550231]
 color = Color(0.45, 0.3, 0.18, 1)
 polygon = PackedVector2Array(-150, -10, 150, -10, 150, 10, -150, 10)
+
+[node name="Player" parent="." unique_id=380000001 instance=ExtResource("3_pl")]
+position = Vector2(21, -80)
+
+[node name="NPC" parent="." unique_id=221778313 instance=ExtResource("2_i0mti")]
+position = Vector2(117, -44)
+lines = Array[String](["Nico: aah yes"])
+opens_on_finish = NodePath("../CreditsOrb")
+
+[node name="CreditsOrb" parent="." unique_id=390000001 instance=ExtResource("4_co")]
+position = Vector2(-80, -44)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=500000001]
+
+[node name="DialogueBox" type="Control" parent="UI" unique_id=500000002]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_db")
+
+[node name="TopBar" type="ColorRect" parent="UI/DialogueBox" unique_id=500000003]
+layout_mode = 0
+anchor_right = 1.0
+offset_bottom = 80.0
+color = Color(0, 0, 0, 1)
+
+[node name="BottomPanel" type="ColorRect" parent="UI/DialogueBox" unique_id=500000004]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -200.0
+color = Color(0.06, 0.06, 0.08, 0.96)
+
+[node name="SpeakerName" type="Label" parent="UI/DialogueBox/BottomPanel" unique_id=500000005]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 14.0
+offset_right = 700.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 20
+
+[node name="DialogueText" type="Label" parent="UI/DialogueBox/BottomPanel" unique_id=500000006]
+layout_mode = 0
+anchor_right = 1.0
+offset_left = 48.0
+offset_top = 54.0
+offset_right = -48.0
+offset_bottom = -44.0
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="ContinueHint" type="Label" parent="UI/DialogueBox/BottomPanel" unique_id=500000007]
+visible = false
+layout_mode = 0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -38.0
+offset_right = -16.0
+offset_bottom = -10.0
+theme_override_font_sizes/font_size = 15
+text = "[E] Continue"

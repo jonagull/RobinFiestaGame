@@ -21,7 +21,7 @@ func _on_body_entered(body: Node2D) -> void:
 		return
 	_used = true
 	GameData.spawn_tag = spawn_tag
-	get_tree().change_scene_to_file(target_scene)
+	get_tree().change_scene_to_file.call_deferred(target_scene)
 
 func _set_width(v: float)  -> void: width  = v; _rebuild()
 func _set_height(v: float) -> void: height = v; _rebuild()

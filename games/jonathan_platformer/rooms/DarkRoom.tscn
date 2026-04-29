@@ -14,21 +14,23 @@
 [ext_resource type="Script" uid="uid://db1h77x4amc4i" path="res://games/jonathan_platformer/tools/TorchBar.gd" id="12_tb"]
 [ext_resource type="Texture2D" uid="uid://drvsxfcr0ebsl" path="res://games/jonathan_platformer/assets/tileStuff/Tileset.png" id="13_3cxyc"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/CatCreature.tscn" id="18_ruxe7"]
-[ext_resource type="PackedScene" uid="uid://eu6hbdx63qun" path="res://games/jonathan_platformer/tools/Checkpoint.tscn" id="20_a6oln"]
-[ext_resource type="PackedScene" uid="uid://cwcxavmto7575" path="res://games/jonathan_platformer/tools/DoorLever.tscn" id="20_dl"]
-[ext_resource type="PackedScene" uid="uid://dsiknp5qfk441" path="res://games/jonathan_platformer/tools/BigDoor.tscn" id="21_bd"]
-[ext_resource type="PackedScene" uid="uid://dsiiqcd7sc441" path="res://games/jonathan_platformer/tools/BigBrazier.tscn" id="22_bb"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Checkpoint.tscn" id="20_a6oln"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/DoorLever.tscn" id="20_dl"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/BigDoor.tscn" id="21_bd"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/BigBrazier.tscn" id="22_bb"]
 [ext_resource type="PackedScene" uid="uid://ddnnpadw4hnw3" path="res://games/jonathan_platformer/tools/Spikes.tscn" id="22_m5x7r"]
-[ext_resource type="PackedScene" uid="uid://vwt1e1qgraea" path="res://games/jonathan_platformer/tools/ChainFlame.tscn" id="23_cf"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/ChainFlame.tscn" id="23_cf"]
 [ext_resource type="PackedScene" uid="uid://srui22pdkx8a" path="res://games/jonathan_platformer/tools/MovingPlatform.tscn" id="23_ia0xm"]
-[ext_resource type="PackedScene" uid="uid://cgolfclub0001" path="res://games/jonathan_platformer/tools/GolfClub.tscn" id="24_gc"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfClub.tscn" id="24_gc"]
 [ext_resource type="PackedScene" uid="uid://d34bbsqco1u73" path="res://games/jonathan_platformer/tools/Ladder.tscn" id="24_ia0xm"]
-[ext_resource type="PackedScene" uid="uid://cbossaltar001" path="res://games/jonathan_platformer/tools/BossAltar.tscn" id="25_ba"]
-[ext_resource type="PackedScene" uid="uid://bmqfyuxu1s6hf" path="res://games/jonathan_platformer/tools/Sign.tscn" id="25_yiubh"]
+[ext_resource type="PackedScene" uid="uid://cblice61cbxyj" path="res://games/jonathan_platformer/tools/BossAltar.tscn" id="25_ba"]
+[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Sign.tscn" id="25_yiubh"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Trampoline.tscn" id="26_33vbl"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfCapShrine.tscn" id="27_x1adf"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/ShieldPillar.tscn" id="28_ie7ua"]
 [ext_resource type="Script" uid="uid://dbemq1lbejqq8" path="res://games/jonathan_platformer/tools/BossAdvisor.gd" id="29_adv"]
+[ext_resource type="PackedScene" uid="uid://crg53rn4oivau" path="res://games/jonathan_platformer/NPC.tscn" id="30_87hiu"]
+[ext_resource type="Script" uid="uid://dv4owqcsunhj7" path="res://games/jonathan_platformer/DialogueBox.gd" id="31_db"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(3000, 40)
@@ -507,6 +509,62 @@ color = Color(0, 0, 0, 1)
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=1081873243]
 
+[node name="DialogueBox" type="Control" parent="UI" unique_id=700000001]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("31_db")
+
+[node name="TopBar" type="ColorRect" parent="UI/DialogueBox" unique_id=700000002]
+layout_mode = 0
+anchor_right = 1.0
+offset_bottom = 80.0
+color = Color(0, 0, 0, 1)
+
+[node name="BottomPanel" type="ColorRect" parent="UI/DialogueBox" unique_id=700000003]
+layout_mode = 0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -200.0
+color = Color(0.06, 0.06, 0.08, 0.96)
+
+[node name="SpeakerName" type="Label" parent="UI/DialogueBox/BottomPanel" unique_id=700000004]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 14.0
+offset_right = 700.0
+offset_bottom = 50.0
+theme_override_font_sizes/font_size = 20
+
+[node name="DialogueText" type="Label" parent="UI/DialogueBox/BottomPanel" unique_id=700000005]
+layout_mode = 0
+anchor_right = 1.0
+offset_left = 48.0
+offset_top = 54.0
+offset_right = -48.0
+offset_bottom = -44.0
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 3
+
+[node name="ContinueHint" type="Label" parent="UI/DialogueBox/BottomPanel" unique_id=700000006]
+visible = false
+layout_mode = 0
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -240.0
+offset_top = -38.0
+offset_right = -16.0
+offset_bottom = -10.0
+theme_override_font_sizes/font_size = 15
+text = "[E] Continue"
+
 [node name="BackButton" type="Button" parent="UI" unique_id=125769851]
 offset_left = 8.0
 offset_top = 8.0
@@ -622,7 +680,7 @@ script = ExtResource("2_sp")
 tag = "from_room3_dark"
 
 [node name="Player" parent="." unique_id=1430747893 instance=ExtResource("5_pl")]
-position = Vector2(5018, -100)
+position = Vector2(276, 927)
 
 [node name="GolfBall" parent="." unique_id=1741090641 instance=ExtResource("6_gb")]
 
@@ -1196,7 +1254,7 @@ position = Vector2(7547, -700)
 climb_speed = 300.0
 
 [node name="Sign" parent="." unique_id=1293669568 instance=ExtResource("25_yiubh")]
-position = Vector2(4323, -79)
+position = Vector2(4585, -79)
 sign_text = "Danger!!! Migrations ahead"
 
 [node name="Trampoline" parent="." unique_id=615058638 instance=ExtResource("26_33vbl")]
@@ -1227,3 +1285,14 @@ position = Vector2(4830, -1241)
 
 [node name="BossAdvisor" type="CanvasLayer" parent="." unique_id=300000002]
 script = ExtResource("29_adv")
+
+[node name="NPC" parent="." unique_id=221778313 instance=ExtResource("30_87hiu")]
+position = Vector2(458, 927)
+scale = Vector2(0.6546153, 0.6546153)
+flip_sprite = true
+lines = Array[String](["Nico: Step ahead sir, for the CTO role is dark and full of terrors"])
+
+[node name="NPC2" parent="." unique_id=818596286 instance=ExtResource("30_87hiu")]
+position = Vector2(4231, -78)
+flip_sprite = true
+lines = Array[String](["Nico: Did you find all 4 levers?", "Nico: You final task awaits"])
