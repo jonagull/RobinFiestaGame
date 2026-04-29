@@ -73,6 +73,10 @@ stretch_height_scale = 1.2
 position = Vector2(0, -32)
 mesh = SubResource("BoxMesh_1")
 
+[node name="Hair" type="Polygon2D" parent="Shape"]
+color = Color(0.94, 0.78, 0.22, 1)
+polygon = PackedVector2Array(-24, -64, 24, -64, 24, -54, -24, -54)
+
 [node name="LeftEye" type="MeshInstance2D" parent="Shape"]
 self_modulate = Color(0, 0, 0, 1)
 position = Vector2(19, -44)
