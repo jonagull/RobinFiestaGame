@@ -5,7 +5,7 @@ extends Node2D
 
 @export var lines: Array[String] = [
 	"",
-	"Thanks for the hirirng me boss!",
+	"Thanks for the hiring me boss!",
 	"",
 	"",
 	"Good luck at Tidsbanken",
@@ -58,16 +58,26 @@ func _build_credits(vp: Vector2) -> void:
 	var cursor_y := 0.0
 	var center_x := vp.x / 2.0
 
-	# Optional header image
+	# Optional header image with caption
 	if header_image != null:
+		var caption := Label.new()
+		caption.text = "Nico and Robin live happily ever after at:"
+		caption.add_theme_font_size_override("font_size", 20)
+		caption.add_theme_color_override("font_color", Color(0.88, 0.84, 0.96))
+		caption.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		caption.custom_minimum_size = Vector2(vp.x, 0)
+		caption.position = Vector2(0, cursor_y)
+		_container.add_child(caption)
+		cursor_y += 40.0
+
 		var img := TextureRect.new()
 		img.texture = header_image
 		img.expand_mode = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
 		img.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		img.custom_minimum_size = Vector2(320, 240)
-		img.position = Vector2(center_x - 160, cursor_y)
+		img.custom_minimum_size = Vector2(200, 150)
+		img.position = Vector2(center_x - 100, cursor_y)
 		_container.add_child(img)
-		cursor_y += 280.0
+		cursor_y += 180.0
 
 	# Text lines
 	for line in lines:

@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://cslio8777gui7"]
 
 [ext_resource type="Script" uid="uid://dssc8hfffjwei" path="res://games/jonathan_platformer/CreditsScene.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://8kdbgisx3rwg" path="res://games/jonathan_platformer/assets/tidsbanken.png" id="2_img"]
 
 [node name="CreditsScene" type="Node2D" unique_id=831642003]
 script = ExtResource("1")
+header_image = ExtResource("2_img")
