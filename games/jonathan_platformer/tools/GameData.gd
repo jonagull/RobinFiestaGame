@@ -13,6 +13,7 @@ static var checkpoint_position: Vector2 = Vector2.ZERO
 static var deaths: int = 0
 
 ## Collectible items
+static var has_golf_ball: bool = false
 static var has_golf_cap: bool = false
 static var has_golf_club: bool = false
 

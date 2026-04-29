@@ -20,6 +20,8 @@ func _ready() -> void:
 	await get_tree().process_frame
 	_player = _find_player(get_tree().current_scene)
 	$PlayerZone.body_entered.connect(_on_player_entered)
+	if GameData.has_golf_ball:
+		state = State.HELD
 
 func _unhandled_input(event: InputEvent) -> void:
 	if state != State.HELD:
@@ -62,6 +64,7 @@ func _on_screen_exited() -> void:
 
 func unlock() -> void:
 	state = State.HELD
+	GameData.has_golf_ball = true
 
 func _pickup() -> void:
 	state    = State.HELD

@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://dnljeci7ek8oj" path="res://games/jonathan_platformer/tools/Trapdoor.gd" id="12_wppi4"]
 [ext_resource type="Script" uid="uid://cy38eqchoohlt" path="res://games/jonathan_platformer/tools/InventoryBar.gd" id="13_inv"]
 [ext_resource type="Script" uid="uid://dx6tca3k0fvdk" path="res://games/jonathan_platformer/tools/DeathCounter.gd" id="14_dc"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/NPC.tscn" id="15_npc"]
+[ext_resource type="PackedScene" uid="uid://crg53rn4oivau" path="res://games/jonathan_platformer/NPC.tscn" id="15_npc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_floor"]
 size = Vector2(2000, 40)

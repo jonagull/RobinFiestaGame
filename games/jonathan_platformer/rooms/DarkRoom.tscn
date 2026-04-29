@@ -1295,3 +1295,6 @@ lines = Array[String](["Nico: Did you find all 4 levers?", "Nico: You final task
 position = Vector2(4984, -77)
 flip_sprite = true
 lines = Array[String](["Nico: Now take this club", "Nico: And beat the shit out of those migrations!q"])
+
+[node name="GolfBall2" parent="." unique_id=1707099994 instance=ExtResource("6_gb")]
+position = Vector2(669.1228, 1991.641)
