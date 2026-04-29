@@ -111,6 +111,9 @@ func _process(delta: float) -> void:
 
 func _on_wake() -> void:
 	_awake = true
+	# Stop any ambient music playing in the scene
+	for ap in get_tree().get_nodes_in_group("ambient_music"):
+		ap.stop()
 	_music = AudioStreamPlayer.new()
 	_music.stream = BOSS_MUSIC
 	_music.volume_db = 0.0

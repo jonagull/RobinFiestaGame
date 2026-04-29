@@ -24,7 +24,7 @@
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/GolfClub.tscn" id="24_gc"]
 [ext_resource type="PackedScene" uid="uid://d34bbsqco1u73" path="res://games/jonathan_platformer/tools/Ladder.tscn" id="24_ia0xm"]
 [ext_resource type="PackedScene" uid="uid://cblice61cbxyj" path="res://games/jonathan_platformer/tools/BossAltar.tscn" id="25_ba"]
-[ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Sign.tscn" id="25_yiubh"]
+[ext_resource type="PackedScene" uid="uid://bmqfyuxu1s6hf" path="res://games/jonathan_platformer/tools/Sign.tscn" id="25_yiubh"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/Trampoline.tscn" id="26_33vbl"]
 [ext_resource type="PackedScene" path="res://games/jonathan_platformer/tools/ShieldPillar.tscn" id="28_ie7ua"]
 [ext_resource type="Script" uid="uid://dbemq1lbejqq8" path="res://games/jonathan_platformer/tools/BossAdvisor.gd" id="29_adv"]
@@ -679,7 +679,7 @@ script = ExtResource("2_sp")
 tag = "from_room3_dark"
 
 [node name="Player" parent="." unique_id=1430747893 instance=ExtResource("5_pl")]
-position = Vector2(6518, -223)
+position = Vector2(272, 911)
 
 [node name="GolfBall" parent="." unique_id=1741090641 instance=ExtResource("6_gb")]
 
@@ -759,6 +759,7 @@ lit = false
 
 [node name="Brazier11" parent="Braziers" unique_id=816242886 instance=ExtResource("11_br")]
 position = Vector2(4677, -1011)
+lit = false
 
 [node name="Brazier14" parent="Braziers" unique_id=1452288716 instance=ExtResource("11_br")]
 position = Vector2(2208, -2178)
